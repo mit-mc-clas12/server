@@ -34,7 +34,7 @@ def htcondor_submit(args,GcardID,file_extension):
   runscript_file = file_struct.runscript_file_obj.file_base + file_extension + file_struct.runscript_file_obj.file_end
   clas12condor_file = file_struct.condor_file_obj.file_base + file_extension + file_struct.condor_file_obj.file_end
 
-  condorfile = 'submission_files/'+'condor_files/' + clas12condor_file
+  condorfile = 'submission_files/generated_files/condor_files/' + clas12condor_file
 
   subprocess.call(['chmod','+x',file_struct.runscript_file_obj.file_path + runscript_file])
   subprocess.call(['chmod','+x',"condor_wrapper"])
