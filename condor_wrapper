@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "$@"
+
+# Get the local directory
+LOCAL_DIR=$(condor_config_val LOCAL_DIR)
+echo "LISTING LOCAL_DIR"
+echo $LOCAL_DIR
+ls -l $LOCAL_DIR
+
+# Get the Condor ClassAds
+echo "Condor Job ClassAds"
+cat $PWD/.job.ad
+
+# Which singularity image is specified
+SingularityImage=$(sed -n 's/SingularityImage = "\([^"]*\)"/\1/p' $PWD/.job.ad)
+
+# /tmp, /home, and some other paths are mounted on singularity by default
+exec singularity exec --home $PWD --bind $PWD:/tmp --bind /cvmfs $SingularityImage $LOCALDIR/"$@"
+

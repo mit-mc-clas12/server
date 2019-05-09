@@ -1,0 +1,11 @@
+**/out_dir*
+*.db
+*.log
+*.out
+*.err
+*.pyc
+*.gcard
+submission_files/generated_files/gcards/*.gcard
+submission_files/generated_files/condor_files/*.condor
+submission_files/generated_files/run_job_files/*.sh
+submission_files/generated_files/runscript_files/*.sh
