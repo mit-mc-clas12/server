@@ -91,7 +91,6 @@ def submission_script_maker(args):
   strn = "SELECT scard FROM Batches WHERE BatchID = {0};".format(BatchID)
   scard_text = utils.sql3_grab(strn)[0][0] #sql3_grab returns a list of tuples, we need the 0th element of the 0th element
   scard = scard_helper.scard_class(scard_text)
-
   scard.data['genExecutable'] = file_struct.genExecutable.get(scard.data.get('generator'))
   scard.data['genOutput'] = file_struct.genOutput.get(scard.data.get('generator'))
 
