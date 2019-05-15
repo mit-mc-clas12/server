@@ -28,4 +28,4 @@ dirname = os.path.dirname(__file__)
 if dirname == '': dirname = '.'
 
 print("\nGenerating submission files from database")
-submission_script_maker.submission_script_maker(args)
+submission_script_maker.process_jobs(args)

@@ -116,7 +116,7 @@ def submission_script_maker(args,BatchID):
       strn = "UPDATE Batches SET {0} = '{1}' WHERE BatchID = {2};".format('runstatus',submission_string,BatchID)
       utils.sql3_exec(strn)
 
-def grab_unprocessed_jobs(args):
+def process_jobs(args):
   strn = "SELECT BatchID FROM Batches WHERE runstatus = '{0}';".format("Not Submitted")
   batches_to_submit = utils.sql3_grab(strn)
   for Batch in batches_to_submit:
@@ -139,5 +139,4 @@ if __name__ == "__main__":
 
   file_struct.DEBUG = getattr(args,file_struct.debug_long)
 
-  #submission_script_maker(args)
-  grab_unprocessed_jobs(args)
+  process_jobs(args)
