@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
 #Could also do the following, but then python has to search the
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import  htcondor_submit
+import farm_submission_manager
 import utils, file_struct, scard_helper
 from script_generators.runscript_generators import startup,initialization,run_gemc,run_evio2hipo,run_cooking,file_mover
 from script_generators.clas12condor_generators import condor_startup, condor_1, condor_2
@@ -125,8 +125,8 @@ def submission_script_maker(args):
     script_factory(file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)
     print("\tSuccessfully generated submission files for Batch {0} with GcardID {1}\n".format(BatchID,GcardID))
     if args.submit:
-      print("\tSubmitting jobs to HTCondor \n")
-      htcondor_submit.htcondor_submit(args,GcardID,file_extension)
+      print("\tSubmitting jobs to {0} \n".format(scard.data['farm_name']))
+      farm_submission_manager.farm_submission_manager(args,GcardID,file_extension,scard)
 
 if __name__ == "__main__":
   argparser = argparse.ArgumentParser()

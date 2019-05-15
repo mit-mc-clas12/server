@@ -1,7 +1,6 @@
 #****************************************************************
 """
-# This is actually submits on a computer pool. Currently configured
-# To work on HTCondor, tested on a SubMIT node. Not working perfectly yet
+# This is actually submits a job on a computer pool running HTCondor
 """
 #****************************************************************
 
@@ -14,18 +13,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import submission_script_maker
 import file_struct, utils
-
-#This allows a user to specifiy which batch to use to generate files using a specific BatchID
-argparser = argparse.ArgumentParser()
-argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash,
-                      default = file_struct.debug_default,help = file_struct.debug_help)
-argparser.add_argument('-b','--BatchID', default='none', help = 'Enter the ID# of the batch you want to submit (e.g. -b 23)')
-argparser.add_argument('-s','--submit', help = 'Use this flag (no arguements) if you want to submit the job', action = 'store_true')
-args = argparser.parse_args()
-
-dirname = os.path.dirname(__file__)
-
-if dirname == '': dirname = '.'
 
 def htcondor_submit(args,GcardID,file_extension):
 
@@ -56,17 +43,3 @@ def htcondor_submit(args,GcardID,file_extension):
 
   strn = "UPDATE Submissions SET pool_node = '{0}' WHERE GcardID = '{1}';".format(node_number,GcardID)
   utils.sql3_exec(strn)
-
-
-
-if __name__ == "__main__":
-  argparser = argparse.ArgumentParser()
-  argparser.add_argument('-b','--BatchID', default='none', help = 'Enter the ID# of the batch you want to submit (e.g. -b 23)')
-  argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash,
-                      default = file_struct.debug_default,help = file_struct.debug_help)
-  argparser.add_argument('-s','--submit', help = 'Use this flag (no arguements) if you want to submit the job', action = 'store_true')
-  args = argparser.parse_args()
-
-  file_struct.DEBUG = getattr(args,file_struct.debug_long)
-
-  submission_script_maker(args)
