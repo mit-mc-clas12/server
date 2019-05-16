@@ -21,19 +21,20 @@ def htcondor_submit(args,GcardID,file_extension):
   runscript_file = file_struct.runscript_file_obj.file_base + file_extension + file_struct.runscript_file_obj.file_end
   clas12condor_file = file_struct.condor_file_obj.file_base + file_extension + file_struct.condor_file_obj.file_end
 
-  #condorfile = 'submission_files/generated_files/condor_files/' + clas12condor_file
   condorfile = file_struct.condor_file_obj.file_path + clas12condor_file
   subprocess.call(['chmod','+x',file_struct.runscript_file_obj.file_path + runscript_file])
   condorwrapper_location = os.path.dirname(os.path.abspath(__file__))+"/../condor_wrapper"
   subprocess.call(['chmod','+x',condorwrapper_location])
-  submission = Popen(['condor_submit',condorfile], stdout=PIPE).communicate()[0]
-  #The below is for testing purposes
-  #submission = """Submitting job(s)...
-  #3 job(s) submitted to cluster 7334290."""
+
+  if args.test:
+    submission = """THIS IS A FAKE SUBMISSION...
+    3 job(s) submitted to cluster 7334290."""
+  else:
+    submission = Popen(['condor_submit',condorfile], stdout=PIPE).communicate()[0]
+
   print(submission)
   words = submission.split()
   node_number = words[len(words)-1] #This might only work on SubMIT
-  print(node_number)
 
   strn = "UPDATE Submissions SET run_status = 'submitted to pool' WHERE GcardID = '{0}';".format(GcardID)
   utils.sql3_exec(strn)

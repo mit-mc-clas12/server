@@ -129,19 +129,28 @@ def process_jobs(args):
       BatchID = args.BatchID
       submission_script_maker(args,BatchID)
   else:
-    strn = "SELECT BatchID FROM Batches WHERE runstatus = '{0}';".format("Not Submitted")
-    batches_to_submit = utils.sql3_grab(strn)
-    for Batch in batches_to_submit:
-      BatchID = Batch[0]
-      utils.printer("Generating scripts for batch with BatchID = {0}".format(str(BatchID)))
-      submission_script_maker(args,BatchID)
-    if len(batches_to_submit) == 0:
-      print("There are no batches which do not have submission scripts generated yet")
+    if args.submit:
+      strn = "SELECT BatchID FROM Batches WHERE runstatus NOT LIKE '{0}';".format("Submitted to%")
+      batches_to_submit = utils.sql3_grab(strn)
+      if len(batches_to_submit) == 0:
+        print("There are no batches which have not yet been submitted to a farm")
+    else:
+      strn = "SELECT BatchID FROM Batches WHERE runstatus = '{0}';".format("Not Submitted")
+      batches_to_submit = utils.sql3_grab(strn)
+      if len(batches_to_submit) == 0:
+        print("There are no batches which do not yet have submission scripts generated")
+    if len(batches_to_submit) != 0:
+      for Batch in batches_to_submit:
+        BatchID = Batch[0]
+        utils.printer("Generating scripts for batch with BatchID = {0}".format(str(BatchID)))
+        submission_script_maker(args,BatchID)
+
 
 
 if __name__ == "__main__":
   argparser = argparse.ArgumentParser()
   argparser.add_argument('-b','--BatchID', default='none', help = 'Enter the ID# of the batch you want to submit (e.g. -b 23)')
+  argparser.add_argument('-t','--test', help = 'Use this flag (no arguements) if you are NOT on a farm node and want to test the submission flag (-s)', action = 'store_true')
   argparser.add_argument('-s','--submit', help = 'Use this flag (no arguements) if you want to submit the job', action = 'store_true')
   args = argparser.parse_args()
   argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash,

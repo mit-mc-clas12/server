@@ -21,6 +21,7 @@ argparser = argparse.ArgumentParser()
 argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash,
                       default = file_struct.debug_default,help = file_struct.debug_help)
 argparser.add_argument('-b','--BatchID', default='none', help = 'Enter the ID# of the batch you want to submit (e.g. -b 23)')
+argparser.add_argument('-t','--test', help = 'Use this flag (no arguements) if you are NOT on a farm node and want to test the submission flag (-s)', action = 'store_true')
 argparser.add_argument('-s','--submit', help = 'Use this flag (no arguements) if you want to submit the job', action = 'store_true')
 args = argparser.parse_args()
 
