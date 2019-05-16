@@ -117,15 +117,26 @@ def submission_script_maker(args,BatchID):
       utils.sql3_exec(strn)
 
 def process_jobs(args):
-  strn = "SELECT BatchID FROM Batches WHERE runstatus = '{0}';".format("Not Submitted")
-  batches_to_submit = utils.sql3_grab(strn)
-  for Batch in batches_to_submit:
-    BatchID = Batch[0]
-    utils.printer("Generating scripts for batch with BatchID = {0}".format(str(BatchID)))
-    submission_script_maker(args,BatchID)
-  if len(batches_to_submit) == 0:
-    print("There are no batches which do not have submission scripts generated yet")
-
+  if args.BatchID != 'none':
+    Batches = []
+    strn = "SELECT BatchID FROM Batches;"
+    Batches_array = utils.sql3_grab(strn)
+    for i in Batches_array: Batches.append(i[0])
+    if not int(args.BatchID) in Batches:
+      print("The selected batch (BatchID = {0}) does not exist, exiting".format(args.BatchID))
+      exit()
+    else:
+      BatchID = args.BatchID
+      submission_script_maker(args,BatchID)
+  else:
+    strn = "SELECT BatchID FROM Batches WHERE runstatus = '{0}';".format("Not Submitted")
+    batches_to_submit = utils.sql3_grab(strn)
+    for Batch in batches_to_submit:
+      BatchID = Batch[0]
+      utils.printer("Generating scripts for batch with BatchID = {0}".format(str(BatchID)))
+      submission_script_maker(args,BatchID)
+    if len(batches_to_submit) == 0:
+      print("There are no batches which do not have submission scripts generated yet")
 
 
 if __name__ == "__main__":
