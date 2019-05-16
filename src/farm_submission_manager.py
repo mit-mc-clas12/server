@@ -34,6 +34,8 @@ def update_users_statistics(scard,params):
   strn = "UPDATE Users SET Total_Events = '{0}' WHERE User = '{1}';".format(events_total,params['username'])
   utils.sql3_exec(strn)
 
+  strn = "UPDATE Users SET Most_Recent_Active_Date = '{0}' WHERE User = '{1}';".format(utils.gettime(),params['username'])
+  utils.sql3_exec(strn)
 
 """The below can be extended in a better way for more farms, e.g. create a dictionary"""
 def farm_submission_manager(args,GcardID,file_extension,scard,params):
