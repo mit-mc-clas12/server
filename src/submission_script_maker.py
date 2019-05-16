@@ -111,7 +111,7 @@ def submission_script_maker(args,BatchID):
 
     if args.submit:
       print("\tSubmitting jobs to {0} \n".format(scard.data['farm_name']))
-      farm_submission_manager.farm_submission_manager(args,GcardID,file_extension,scard)
+      farm_submission_manager.farm_submission_manager(args,GcardID,file_extension,scard,params)
       submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
       strn = "UPDATE Batches SET {0} = '{1}' WHERE BatchID = {2};".format('runstatus',submission_string,BatchID)
       utils.sql3_exec(strn)
