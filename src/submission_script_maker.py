@@ -42,6 +42,8 @@ def script_factory(script_obj,gen_funcs,func_names,scard,params,file_extension):
     subprocess.call(['rm',filename])
   for count, f in enumerate(gen_funcs):
     generated_text = getattr(f,func_names[count])(scard,username=params['username'],gcard_loc=params['gcard_loc'],
+                            GcardID = params['GcardID'],
+                            database_filename = params['database_filename'],
                             file_extension = file_extension,
                             runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base + file_extension + file_struct.runscript_file_obj.file_end,
                             runjob_filename=file_struct.run_job_obj.file_path+file_struct.run_job_obj.file_base + file_extension + file_struct.run_job_obj.file_end,)
@@ -92,9 +94,9 @@ def submission_script_maker(args,BatchID):
 
     file_extension = "_gcard_{0}_batch_{1}".format(GcardID,BatchID)
 
-    params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,
-              'gfile':'gfile','username':username[0][0],'gcard_loc':gcard_loc}
-
+    params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':file_struct.DB_path+file_struct.DB_name,
+              'username':username[0][0],'gcard_loc':gcard_loc}
+    #print("DB PATH IS: {0}".format(file_struct.DB_path+file_struct.DB_name))
     script_factory(file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
     script_factory(file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
     script_factory(file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)

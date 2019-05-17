@@ -16,5 +16,5 @@ def condor_2(scard,**kwargs):
 
   # QUEUE is the "start button" - it launches any jobs that have been
   # specified thus far. 1 means launch only 1 job
-  Queue {2}\n""".format(kwargs['runscript_filename'],scard.data['nevents'],scard.data['jobs'])
+  Queue {2}\n""".format(kwargs['database_filename'],scard.data['nevents'],scard.data['jobs'])
   return strn
