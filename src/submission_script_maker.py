@@ -76,12 +76,7 @@ def submission_script_maker(args,BatchID):
 
   for gcard in gcards:
     GcardID = gcard[0]
-    strn = "INSERT INTO Submissions(BatchID,GcardID) VALUES ({0},{1});".format(BatchID,GcardID)
-    utils.sql3_exec(strn)
-    strn = "UPDATE Submissions SET submission_pool = '{0}' WHERE GcardID = '{1}';".format(scard.data['farm_name'],GcardID)
-    utils.sql3_exec(strn)
-    strn = "UPDATE Submissions SET run_status = 'not yet in pool' WHERE GcardID = '{0}';".format(GcardID)
-    utils.sql3_exec(strn)
+
 
     if scard.data['gcards'] == file_struct.gcard_default:
       gcard_loc = scard.data['gcards']
@@ -106,14 +101,14 @@ def submission_script_maker(args,BatchID):
     print("\tSuccessfully generated submission files for Batch {0} with GcardID {1}\n".format(BatchID,GcardID))
 
     submission_string = 'Submission scripts generated'.format(scard.data['farm_name'])
-    strn = "UPDATE Batches SET {0} = '{1}' WHERE BatchID = {2};".format('runstatus',submission_string,BatchID)
+    strn = "UPDATE Submissions SET {0} = '{1}' WHERE BatchID = {2};".format('run_status',submission_string,BatchID)
     utils.sql3_exec(strn)
 
     if args.submit:
       print("\tSubmitting jobs to {0} \n".format(scard.data['farm_name']))
       farm_submission_manager.farm_submission_manager(args,GcardID,file_extension,scard,params)
       submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
-      strn = "UPDATE Batches SET {0} = '{1}' WHERE BatchID = {2};".format('runstatus',submission_string,BatchID)
+      strn = "UPDATE Submissions SET {0} = '{1}' WHERE BatchID = {2};".format('run_status',submission_string,BatchID)
       utils.sql3_exec(strn)
 
 def process_jobs(args):
@@ -130,12 +125,12 @@ def process_jobs(args):
       submission_script_maker(args,BatchID)
   else:
     if args.submit:
-      strn = "SELECT BatchID FROM Batches WHERE runstatus NOT LIKE '{0}';".format("Submitted to%")
+      strn = "SELECT BatchID FROM Submissions WHERE run_status NOT LIKE '{0}';".format("Submitted to%")
       batches_to_submit = utils.sql3_grab(strn)
       if len(batches_to_submit) == 0:
         print("There are no batches which have not yet been submitted to a farm")
     else:
-      strn = "SELECT BatchID FROM Batches WHERE runstatus = '{0}';".format("Not Submitted")
+      strn = "SELECT BatchID FROM Submissions WHERE run_status = '{0}';".format("Not Submitted")
       batches_to_submit = utils.sql3_grab(strn)
       if len(batches_to_submit) == 0:
         print("There are no batches which do not yet have submission scripts generated")
