@@ -10,7 +10,8 @@ request_memory = {1} GB
 
 # EXECUTABLE is the program your job will run It"s often useful
 # to create a shell script to "wrap" your actual work.
-Executable = {2}
+Executable = run.sh
+Arguments = {2}
 
 # Error and Output are the error and output channels from your job
 # Log is job"s status, success, and resource consumption.
@@ -26,5 +27,5 @@ Log    = log/job.$(Cluster).$(Process).log
 
 # default CLAS12 project
 +ProjectName = "{3}"
-""".format(scard.data['cores_req'],scard.data['mem_req'],kwargs['runjob_filename'],scard.data['project'])
+""".format(scard.data['cores_req'],scard.data['mem_req'],kwargs['GcardID'],scard.data['project'])
   return strn
