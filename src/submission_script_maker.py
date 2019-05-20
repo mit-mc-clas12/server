@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import farm_submission_manager
 import utils, file_struct, scard_helper
-from script_generators.runscript_generators import startup,initialization,run_gemc,run_evio2hipo,run_cooking,file_mover
+from script_generators.runscript_generators import runScriptHeader,runGenerator,runGemc,run_evio2hipo,run_cooking,file_mover
 from script_generators.clas12condor_generators import condor_startup, condor_1, condor_2
 from script_generators.run_job_generators import run_job1
 
@@ -60,8 +60,8 @@ def submission_script_maker(args,BatchID):
   gcards = grab_gcards(BatchID)
   username = grab_username(BatchID)
 
-  funcs_rs = (startup,initialization,run_gemc,run_evio2hipo,run_cooking,file_mover)
-  fname_rs = ('startup','initialization','run_gemc','run_evio2hipo','run_cooking','file_mover')
+  funcs_rs = ( runScriptHeader ,  runGenerator ,  runGemc , run_evio2hipo , run_cooking, file_mover)
+  fname_rs = ('runScriptHeader', 'runGenerator', 'runGemc','run_evio2hipo','run_cooking','file_mover')
 
   funcs_condor = (condor_startup,condor_1,condor_2)
   fname_condor = ('condor_startup','condor_1','condor_2')

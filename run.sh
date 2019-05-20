@@ -18,6 +18,6 @@ echo
 echo Now running $nodeScript
 
 chmod +x $nodeScript
-#./$nodeScript
+#./$nodeScript $gcardID
 echo
 echo $nodeScript run completed.
