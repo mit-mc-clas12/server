@@ -1,8 +1,5 @@
-#****************************************************************
-"""
-# Commentary for this file does not yet exist
-"""
-#****************************************************************
+# Run GEMC using the gcard, on LUND generated events.
+# Logs the gcard on screen.
 
 def runGemc(scard,**kwargs):
   strn = """
@@ -10,11 +7,12 @@ def runGemc(scard,**kwargs):
 # Run GEMC
 # --------
 
+# saving date for bookmarking purposes:
+set gemcData = `date`
+
 echo
 printf "Running {0} events with GEMC using gcard >{2}<."
 echo Content of gcard:
-echo
-cat {2}
 echo
 gemc -USE_GUI=0 -N={0} -INPUT_GEN_FILE="lund, {1}" {2}
 echo

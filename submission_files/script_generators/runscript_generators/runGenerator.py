@@ -6,6 +6,9 @@ def runGenerator(scard,**kwargs):
 # Run Generator
 # -------------
 
+# saving date for bookmarking purposes:
+set generatorDate = `date`
+
 echo
 printf "Running {1} events with generator >{0}< with options: {2}"
 echo
