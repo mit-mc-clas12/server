@@ -1,7 +1,7 @@
 #!/bin/bash
 
 submissionID=$1
-mkdir -p submissionID
+mkdir -p $submissionID
 
 nodeScript=nodeScript.sh
 
@@ -19,6 +19,6 @@ echo
 echo Now running $nodeScript
 
 chmod +x $nodeScript
-#./$nodeScript $submissionID
+./$nodeScript $submissionID
 echo
 echo $nodeScript run completed.

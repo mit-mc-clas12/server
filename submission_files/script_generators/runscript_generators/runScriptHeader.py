@@ -4,8 +4,7 @@
 
 def runScriptHeader(scard,**kwargs):
 
-	headerSTR = """
-#!/bin/csh
+	headerSTR = """#!/bin/csh
 
 # Run Script Header
 # -----------------
