@@ -15,7 +15,7 @@ set sjob       = 1
 set sjobExists = 1
 
 while ( $sjobExists == "1" )
-	if(`filetest -d $submissionID/simu_$sjob` == 0) then
+	if(`filetest -d out_$submissionID/simu_$sjob` == 0) then
 		set sjobExists = 0
 	else
 		@ sjob += 1

@@ -1,43 +1,34 @@
 # Condor Submission Script Header Maker
+# Header
+# Individual farms requirements
+#
+# farm_name possible choices:
+#
+# MIT_Tier2
+# OSG
 
-def condor_startup(scard, **kwargs):
+def condorHeader(scard, **kwargs):
   farm_name = scard.data.get('farm_name')
 
   strHeader = """# The SubMit Project: Condor Submission Script
+# --------------------------------------------
 
 Universe = vanilla
 
-# singularity image
-Requirements = HAS_SINGULARITY == TRUE
-+SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12simulations:production"
-+SingularityBindCVMFS = True
-
-
-"""
-
-
-
-
-  strn_osg = """# The UNIVERSE defines an execution environment. You will almost always use vanilla.
-Universe = vanilla\n
-# singularity image
-Requirements = HAS_SINGULARITY == TRUE
+# singularity image and CVMFS binding
 +SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12simulations:production"
 +SingularityBindCVMFS = True
 """
 
-  strn_submit = """# The UNIVERSE defines an execution environment. You will almost always use vanilla.
-Universe = vanilla\n
-+SINGULARITY_JOB = true
-+SINGULARITY_SHELL = csh\n
-# singularity image\n
+  # OSG Farm Requirements
+  requirementsStr = """
+# OSG Requirements
+Requirements = HAS_SINGULARITY == TRUE
+"""
+  # MIT Farm Requirements
+  if farm_name == 'MIT_Tier2':
+	  requirementsStr = """
 Requirements  = (GLIDEIN_Site == "MIT_CampusFactory" && BOSCOGroup == "bosco_lns")
-+SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12simulations:production"
-+SingularityBindCVMFS = True
 """
-  if farm_name == 'osg':
-    return strn_osg
-  elif farm_name == 'MIT_Tier2' or farm_name == 'ifarm':
-    return strn_submit
-  else:
-    return "farm could not be found, inspect scard"
+  
+  return strHeader + requirementsStr
