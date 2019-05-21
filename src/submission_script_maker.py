@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 import farm_submission_manager
 import utils, file_struct, scard_helper
 from script_generators.runscript_generators import runScriptHeader, runGenerator, runGemc, runEvio2hipo, runCooking, runScriptFooter
-from script_generators.clas12condor_generators import condor_startup, condor_1, condor_2
+from script_generators.clas12condor_generators import condorHeader, condor_1, condor_2
 from script_generators.run_job_generators import run_job1
 
 #Grabs all GCards from a corresponding Batch
@@ -66,8 +66,8 @@ def submission_script_maker(args,BatchID):
 
   # condor submission script
   # note: to be executed only for OSG and MIT farms
-  funcs_condor = (condor_startup,condor_1,condor_2)
-  fname_condor = ('condor_startup','condor_1','condor_2')
+  funcs_condor = ( condorHeader , condor_1 , condor_2)
+  fname_condor = ('condorHeader','condor_1','condor_2')
 
   # condor wrapper
   # note: to be executed only for OSG and MIT farms

@@ -1,12 +1,23 @@
-#****************************************************************
-"""
-# Commentary for this file does not yet exist
-"""
-#****************************************************************
+# Condor Submission Script Header Maker
 
-def condor_startup(scard,**kwargs):
-  #CHANGE THIS ONCE FUNCTION IS PROPERLY IMPLEMENTED
+def condor_startup(scard, **kwargs):
   farm_name = scard.data.get('farm_name')
+
+  strHeader = """# The SubMit Project: Condor Submission Script
+
+Universe = vanilla
+
+# singularity image
+Requirements = HAS_SINGULARITY == TRUE
++SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12simulations:production"
++SingularityBindCVMFS = True
+
+
+"""
+
+
+
+
   strn_osg = """# The UNIVERSE defines an execution environment. You will almost always use vanilla.
 Universe = vanilla\n
 # singularity image
