@@ -50,22 +50,27 @@ def script_factory(script_obj,gen_funcs,func_names,scard,params,file_extension):
     with open(filename,"a") as file: file.write(generated_text)
     script_text += generated_text
   str_script_db = script_text.replace('"',"'") #I can't figure out a way to write "" into a sqlite field without errors
-    #For now, we can replace " with ', which works ok, but IDK how it will run if the scripts were submitted to HTCondor
+  # For now, we can replace " with ', which works ok, but IDK how it will run if the scripts were submitted to HTCondor
   strn = 'UPDATE Submissions SET {0} = "{1}" WHERE GcardID = {2};'.format(script_obj.file_text_fieldname,str_script_db,params['GcardID'])
   utils.sql3_exec(strn)
 
 def submission_script_maker(args,BatchID):
   file_struct.DEBUG = getattr(args,file_struct.debug_long)
-  #Grabs batch and gcards as described in respective files
+  # Grabs batch and gcards as described in respective files
   gcards = grab_gcards(BatchID)
   username = grab_username(BatchID)
 
+  # script to be run inside the container
   funcs_rs = ( runScriptHeader ,  runGenerator ,  runGemc , runEvio2hipo , runCooking ,  runScriptFooter )
   fname_rs = ('runScriptHeader', 'runGenerator', 'runGemc','runEvio2hipo','runCooking', 'runScriptFooter')
 
+  # condor submission script
+  # note: to be executed only for OSG and MIT farms
   funcs_condor = (condor_startup,condor_1,condor_2)
   fname_condor = ('condor_startup','condor_1','condor_2')
 
+  # condor wrapper
+  # note: to be executed only for OSG and MIT farms
   funcs_runjob = (run_job1,)
   fname_runjob = ('run_job1',)
 
