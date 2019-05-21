@@ -13,9 +13,11 @@ set submissionID=$1
 
 set sjob       = 1
 set sjobExists = 1
+set outputDir  = ""
 
 while ( $sjobExists == "1" )
-	if(`filetest -d out_$submissionID/simu_$sjob` == 0) then
+	set outputDir  = "out_"$submissionID"/simu_"$sjob
+	if(`filetest -d $outputDir` == 0) then
 		set sjobExists = 0
 	else
 		@ sjob += 1
@@ -23,9 +25,9 @@ while ( $sjobExists == "1" )
 end
 
 echo
-echo Running directory: $submissionID/simu_$sjob
-mkdir -p $submissionID/simu_$sjob
-cd       $submissionID/simu_$sjob
+echo Running directory: $outputDir
+mkdir -p $outputDir
+cd       $outputDir
 
 # saving date for bookmarking purposes:
 set startDate = `date`
