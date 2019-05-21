@@ -18,7 +18,8 @@ while ( $sjobExists == "1" )
 	if(`filetest -d $submissionID/simu_$sjob` == 0) then
 		set sjobExists = 0
 	else
-	@ sjob += 1
+		@ sjob += 1
+	endif
 end
 
 echo
