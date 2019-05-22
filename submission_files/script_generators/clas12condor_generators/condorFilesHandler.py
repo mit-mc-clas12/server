@@ -27,7 +27,7 @@ transfer_input_files=CLAS12_OCRDB.db, condor_wrapper
 
   strnOutput = """
 # Output directory
-transfer_output_files   = out_{0}
+transfer_output_files = out_{0}
 
 # How to handle output
 should_transfer_files   = YES

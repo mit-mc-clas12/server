@@ -10,13 +10,13 @@ def runGenerator(scard,**kwargs):
 set generatorDate = `date`
 
 echo
-printf "Running {1} events with generator >{0}< with options: {2}\n"
+printf "Running {1} events with generator >{0}< with options: {2}"
 echo
 {0} --trig {1} --docker {2}
 echo
 printf "Events Generator Completed on: "; /bin/date
 echo
-printf "Directory Content After Generator:\n"
+echo "Directory Content After Generator:"
 ls -l
 echo
 

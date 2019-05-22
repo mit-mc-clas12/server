@@ -21,7 +21,7 @@ evio2hipo -r 11 -t {0} -s {1} -i out.ev -o gemc.hipo
 echo
 printf "evio2hipo Completed on: "; /bin/date
 echo
-printf "Directory Content After evio2hipo:"
+echo "Directory Content After evio2hipo:"
 ls -l
 echo
 

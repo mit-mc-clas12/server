@@ -11,13 +11,13 @@ def runGemc(scard,**kwargs):
 set gemcData = `date`
 
 echo
-printf "Running {0} events with GEMC using gcard >{2}<\n"
+printf "Running {0} events with GEMC using gcard >{2}<"
 echo Executable: `which gemc`
 gemc -USE_GUI=0 -N={0} -INPUT_GEN_FILE="lund, {1}" {2}
 echo
 printf "GEMC Completed on: "; /bin/date
 echo
-printf "Directory Content After GEMC:\n"
+echo "Directory Content After GEMC:"
 ls -l
 echo
 

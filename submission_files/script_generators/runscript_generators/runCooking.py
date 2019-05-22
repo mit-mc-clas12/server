@@ -17,11 +17,11 @@ echo
 printf "Running notsouseful-util with torus current scale: {0} and solenoid current scale: {1}"
 echo
 echo
-notsouseful-util -i gemc.hipo -o out_gemc.hipo -c 2
+notsouseful-util -i gemc.hipo -o recon.hipo -c 2
 echo
 printf "notsouseful-util Completed on: "; /bin/date
 echo
-printf "Directory Content After notsouseful-util:"
+echo "Directory Content After notsouseful-util:"
 ls -l
 echo
 
