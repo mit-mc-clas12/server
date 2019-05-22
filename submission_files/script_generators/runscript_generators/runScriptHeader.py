@@ -1,6 +1,6 @@
 # Job start up:
-# created first non existing sjob directory inside submissionID dir
-# prints out job information
+# - creates first non existing sjob directory inside submissionID dir
+# - screen logs job information
 
 def runScriptHeader(scard,**kwargs):
 
@@ -13,6 +13,9 @@ def runScriptHeader(scard,**kwargs):
 # -----------------
 
 set submissionID=$1
+
+# saving date for bookmarking purposes:
+set startDate = `date`
 
 set sjob       = 1
 set sjobExists = 1
@@ -31,9 +34,6 @@ echo
 echo Running directory: $outputDir
 mkdir -p $outputDir
 cd       $outputDir
-
-# saving date for bookmarking purposes:
-set startDate = `date`
 
 printf "Job submitted by: {0}"
 printf "Job Project: {1}"

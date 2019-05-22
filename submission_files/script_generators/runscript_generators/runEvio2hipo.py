@@ -1,8 +1,4 @@
-#****************************************************************
-"""
-# Commentary for this file does not yet exist
-"""
-#****************************************************************
+# Runs evio2hipo on the gemc output
 
 def runEvio2hipo(scard,**kwargs):
   strn = """

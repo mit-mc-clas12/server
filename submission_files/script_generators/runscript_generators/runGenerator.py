@@ -1,4 +1,4 @@
-# Running the chosen generator with options
+# Runs the chosen generator with options
 
 def runGenerator(scard,**kwargs):
   strn = """

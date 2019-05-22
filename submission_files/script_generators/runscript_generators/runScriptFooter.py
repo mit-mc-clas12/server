@@ -1,5 +1,5 @@
 # Job finish up:
-# Log statistic
+# Logs statistic, each prepended by "====" for better retrieval later
 
 def runScriptFooter(scard,**kwargs):
 
@@ -9,7 +9,14 @@ def runScriptFooter(scard,**kwargs):
 # Run Script Footer
 # -----------------
 
-echo ==== SubMit-Job === Start: $startDate
+set endDate = `date`
+
+echo ==== SubMit-Job === Job Start: $startDate
+echo ==== SubMit-Job === Generator Start: $generatorDate
+echo ==== SubMit-Job === GEMC Start: $gemcDate
+echo ==== SubMit-Job === evio2hipoDate Start: $evio2hipoDate
+echo ==== SubMit-Job === Reconstruction Start: $reconstructionDate
+echo ==== SubMit-Job === Job End: $endDate
 
 # End of Run Script Footer
 # ------------------------

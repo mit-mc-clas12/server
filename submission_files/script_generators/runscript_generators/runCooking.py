@@ -1,8 +1,4 @@
-#****************************************************************
-"""
-# Commentary for this file does not yet exist
-"""
-#****************************************************************
+# Runs reconstruction on gemc.hipo
 
 def runCooking(scard,**kwargs):
   strn = """

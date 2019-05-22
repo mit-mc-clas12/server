@@ -1,4 +1,4 @@
-# Run GEMC using the gcard, on LUND generated events.
+# Runs GEMC using the gcard, on LUND generated events.
 # Logs the gcard on screen.
 
 def runGemc(scard,**kwargs):
@@ -8,7 +8,7 @@ def runGemc(scard,**kwargs):
 # --------
 
 # saving date for bookmarking purposes:
-set gemcData = `date`
+set gemcDate = `date`
 
 echo
 printf "Running {0} events with GEMC using gcard >{2}<"
