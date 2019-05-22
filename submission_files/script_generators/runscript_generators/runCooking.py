@@ -1,4 +1,7 @@
 # Runs reconstruction on gemc.hipo
+#
+# Input:  gemc.hipo
+# Output: recon.hipo
 
 def runCooking(scard,**kwargs):
   strn = """

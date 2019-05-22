@@ -3,7 +3,7 @@
 
 def runScriptFooter(scard,**kwargs):
 
-	footerSTR = """
+	strn = """
 #!/bin/csh
 
 # Run Script Footer
@@ -23,4 +23,4 @@ echo ==== SubMit-Job === Job End: $endDate
 
 """
 
-	return footerSTR
+	return strn

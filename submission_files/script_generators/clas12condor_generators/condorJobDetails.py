@@ -10,9 +10,8 @@ def condorJobDetails(scard,**kwargs):
 request_cpus   = {0}
 request_memory = {1} GB
 
-# script to be executed on the node, and its arguments
+# script to be executed on the node. The arguments are defined in the FilesHandler
 Executable = run.sh
-Arguments  = {2}
 
 # Error and Output are the error and output channels from your job
 # Log is job"s status, success, and resource consumption.
@@ -21,7 +20,7 @@ Output = log/job.$(Cluster).$(Process).out
 Log    = log/job.$(Cluster).$(Process).log
 
 # CLAS12 project
-+ProjectName = "{3}"
-""".format(scard.data['cores_req'],scard.data['mem_req'],kwargs['GcardID'],scard.data['project'])
++ProjectName = "{2}"
+""".format(scard.data['cores_req'],scard.data['mem_req'],scard.data['project'])
   
   return strn

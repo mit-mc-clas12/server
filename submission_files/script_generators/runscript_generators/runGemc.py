@@ -1,5 +1,7 @@
 # Runs GEMC using the gcard, on LUND generated events.
-# Logs the gcard on screen.
+#
+# Input:  scard.data['genOutput']
+# Output: gemc.evio
 
 def runGemc(scard,**kwargs):
   strn = """
@@ -13,7 +15,8 @@ set gemcDate = `date`
 echo
 printf "Running {0} events with GEMC using gcard >{2}<"
 echo Executable: `which gemc`
-gemc -USE_GUI=0 -N={0} -INPUT_GEN_FILE="lund, {1}" {2}
+gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} -INPUT_GEN_FILE="lund, {1}" {2}
+cp {2} .
 echo
 printf "GEMC Completed on: "; /bin/date
 echo

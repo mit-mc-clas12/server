@@ -1,13 +1,16 @@
 # Job start up:
 # - creates first non existing sjob directory inside submissionID dir
 # - screen logs job information
+#
+# Arguments:
+# 1. submission ID
 
 def runScriptHeader(scard,**kwargs):
 
 	headerSTR = """#!/bin/csh
 
-# The SubMit Project: Container Executable Script
-# -----------------------------------------------
+# The SubMit Project: Container Script, downloaded from DB and executed by run.sh
+# -------------------------------------------------------------------------------
 
 # Run Script Header
 # -----------------
@@ -17,23 +20,7 @@ set submissionID=$1
 # saving date for bookmarking purposes:
 set startDate = `date`
 
-set sjob       = 1
-set sjobExists = 1
-set outputDir  = ""
-
-while ( $sjobExists == "1" )
-	set outputDir  = "out_"$submissionID"/simu_"$sjob
-	if(`filetest -d $outputDir` == 0) then
-		set sjobExists = 0
-	else
-		@ sjob += 1
-	endif
-end
-
-echo
-echo Running directory: $outputDir
-mkdir -p $outputDir
-cd       $outputDir
+echo Running directory: `pwd`
 
 printf "Job submitted by: {0}"
 printf "Job Project: {1}"

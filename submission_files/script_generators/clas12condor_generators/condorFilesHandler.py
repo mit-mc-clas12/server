@@ -24,21 +24,25 @@ transfer_input_files=CLAS12_OCRDB.db
 transfer_input_files=CLAS12_OCRDB.db, condor_wrapper
 """
 
-
+  # Handling the output
   strnOutput = """
-# Output directory
-transfer_output_files = out_{0}
 
 # How to handle output
 should_transfer_files   = YES
 when_to_transfer_output = ON_EXIT
-""".format(kwargs['GcardID'])
+"""
 
+  # Submitting jobs based on subjob (Step)
   strnQueue = """
+
+# Output directory is defined by the subjob if (or Step)
+transfer_output_files = out_{1}/simu_$(Step)
+Arguments  = {1} $(Step)
+
 # QUEUE is the "start button" - it launches any jobs that have been
 # specified thus far. 1 means launch only 1 job
-Queue {0}\n
+Queue {0}
 
-""".format(scard.data['jobs'])
+""".format(scard.data['jobs'], kwargs['GcardID'])
 
   return strnInput + strnOutput + strnQueue

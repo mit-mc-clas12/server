@@ -1,4 +1,7 @@
 # Runs evio2hipo on the gemc output
+#
+# Input:  gemc.evio
+# Output: gemc.hipo
 
 def runEvio2hipo(scard,**kwargs):
   strn = """
