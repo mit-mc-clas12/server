@@ -33,13 +33,8 @@ def grab_username(BatchID):
   return username
 
 #Generates a script by appending functions that output strings
-def script_factory(script_obj,gen_funcs,func_names,scard,params,file_extension):
+def script_factory(args,script_obj,gen_funcs,func_names,scard,params,file_extension):
   script_text = ""
-  filename = script_obj.file_path+script_obj.file_base+file_extension+script_obj.file_end
-  utils.printer("\tWriting submission file '{0}' based off of specifications of BatchID = {1}, GcardID = {2}".format(filename,
-      params['BatchID'],params['GcardID']))
-  if os.path.isfile(filename):
-    subprocess.call(['rm',filename])
   for count, f in enumerate(gen_funcs):
     generated_text = getattr(f,func_names[count])(scard,username=params['username'],gcard_loc=params['gcard_loc'],
                             GcardID = params['GcardID'],
@@ -47,7 +42,13 @@ def script_factory(script_obj,gen_funcs,func_names,scard,params,file_extension):
                             file_extension = file_extension,
                             runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base + file_extension + file_struct.runscript_file_obj.file_end,
                             runjob_filename=file_struct.run_job_obj.file_path+file_struct.run_job_obj.file_base + file_extension + file_struct.run_job_obj.file_end,)
-    with open(filename,"a") as file: file.write(generated_text)
+    if args.write_files:
+      filename = script_obj.file_path+script_obj.file_base+file_extension+script_obj.file_end
+      utils.printer("\tWriting submission file '{0}' based off of specifications of BatchID = {1}, GcardID = {2}".format(filename,
+          params['BatchID'],params['GcardID']))
+      if os.path.isfile(filename):
+        subprocess.call(['rm',filename])
+      with open(filename,"a") as file: file.write(generated_text)
     script_text += generated_text
   str_script_db = script_text.replace('"',"'") #I can't figure out a way to write "" into a sqlite field without errors
   # For now, we can replace " with ', which works ok, but IDK how it will run if the scripts were submitted to HTCondor
@@ -102,9 +103,9 @@ def submission_script_maker(args,BatchID):
     params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':file_struct.DB_path+file_struct.DB_name,
               'username':username[0][0],'gcard_loc':gcard_loc}
     #print("DB PATH IS: {0}".format(file_struct.DB_path+file_struct.DB_name))
-    script_factory(file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
-    script_factory(file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
-    script_factory(file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)
+    script_factory(args,file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
+    script_factory(args,file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
+    script_factory(args,file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)
     print("\tSuccessfully generated submission files for Batch {0} with GcardID {1}\n".format(BatchID,GcardID))
 
     submission_string = 'Submission scripts generated'.format(scard.data['farm_name'])
@@ -152,11 +153,10 @@ def process_jobs(args):
 if __name__ == "__main__":
   argparser = argparse.ArgumentParser()
   argparser.add_argument('-b','--BatchID', default='none', help = 'Enter the ID# of the batch you want to submit (e.g. -b 23)')
-  argparser.add_argument('-t','--test', help = 'Use this flag (no arguements) if you are NOT on a farm node and want to test the submission flag (-s)', action = 'store_true')
-  argparser.add_argument('-s','--submit', help = 'Use this flag (no arguements) if you want to submit the job', action = 'store_true')
-  args = argparser.parse_args()
-  argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash,
-                      default = file_struct.debug_default,help = file_struct.debug_help)
+  argparser.add_argument('-t','--test', help = 'Use this flag (no arguments) if you are NOT on a farm node and want to test the submission flag (-s)', action = 'store_true')
+  argparser.add_argument('-s','--submit', help = 'Use this flag (no arguments) if you want to submit the job', action = 'store_true')
+  argparser.add_argument('-w','--write_files', help = 'Use this flag (no arguments) if you want submission files to be written out to text files', action = 'store_true')
+  argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash, default = file_struct.debug_default,help = file_struct.debug_help)
   args = argparser.parse_args()
 
   file_struct.DEBUG = getattr(args,file_struct.debug_long)
