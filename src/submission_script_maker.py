@@ -42,14 +42,14 @@ def script_factory(args,script_obj,gen_funcs,func_names,scard,params,file_extens
                             file_extension = file_extension,
                             runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base + file_extension + file_struct.runscript_file_obj.file_end,
                             runjob_filename=file_struct.run_job_obj.file_path+file_struct.run_job_obj.file_base + file_extension + file_struct.run_job_obj.file_end,)
-    if args.write_files:
-      filename = script_obj.file_path+script_obj.file_base+file_extension+script_obj.file_end
-      utils.printer("\tWriting submission file '{0}' based off of specifications of BatchID = {1}, GcardID = {2}".format(filename,
-          params['BatchID'],params['GcardID']))
-      if os.path.isfile(filename):
-        subprocess.call(['rm',filename])
-      with open(filename,"a") as file: file.write(generated_text)
     script_text += generated_text
+  if args.write_files:
+    filename = script_obj.file_path+script_obj.file_base+file_extension+script_obj.file_end
+    utils.printer("\tWriting submission file '{0}' based off of specifications of BatchID = {1}, GcardID = {2}".format(filename,
+        params['BatchID'],params['GcardID']))
+    if os.path.isfile(filename):
+      subprocess.call(['rm',filename])
+    with open(filename,"a") as file: file.write(script_text)
   str_script_db = script_text.replace('"',"'") #I can't figure out a way to write "" into a sqlite field without errors
   # For now, we can replace " with ', which works ok, but IDK how it will run if the scripts were submitted to HTCondor
   strn = 'UPDATE Submissions SET {0} = "{1}" WHERE GcardID = {2};'.format(script_obj.file_text_fieldname,str_script_db,params['GcardID'])
@@ -79,8 +79,14 @@ def submission_script_maker(args,BatchID):
   strn = "SELECT scard FROM Batches WHERE BatchID = {0};".format(BatchID)
   scard_text = utils.sql3_grab(strn)[0][0] #sql3_grab returns a list of tuples, we need the 0th element of the 0th element
   scard = scard_helper.scard_class(scard_text)
-  scard.data['genExecutable'] = file_struct.genExecutable.get(scard.data.get('generator'))
-  scard.data['genOutput'] = file_struct.genOutput.get(scard.data.get('generator'))
+
+  if 'https://' in scard.data.get('generator'):
+    lund_helper.Lund_Entry(scard.data.get('generator'))
+    scard.data['genExecutable'] = "Null"
+    scard.data['genOutput'] = "Null"
+  else:
+    scard.data['genExecutable'] = file_struct.genExecutable.get(scard.data.get('generator'))
+    scard.data['genOutput'] = file_struct.genOutput.get(scard.data.get('generator'))
 
   for gcard in gcards:
     GcardID = gcard[0]

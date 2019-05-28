@@ -1,7 +1,12 @@
 # Runs the chosen generator with options
 
 def runGenerator(scard,**kwargs):
-  strn = """
+  if 'https://' in scard.data.get('generator'):
+    strn = """
+# Custom LUND file specified, not running generator
+    """
+  else:
+    strn = """
 
 # Run Generator
 # -------------
