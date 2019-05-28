@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 #Could also do the following, but then python has to search the
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import farm_submission_manager
-import utils, file_struct, scard_helper
+import utils, file_struct, scard_helper, lund_helper
 from script_generators.runscript_generators import runScriptHeader, runGenerator, runGemc, runEvio2hipo, runCooking, runScriptFooter
 from script_generators.clas12condor_generators import condorHeader, condorJobDetails, condorFilesHandler
 from script_generators.run_job_generators import run_job1
@@ -79,8 +79,14 @@ def submission_script_maker(args,BatchID):
   strn = "SELECT scard FROM Batches WHERE BatchID = {0};".format(BatchID)
   scard_text = utils.sql3_grab(strn)[0][0] #sql3_grab returns a list of tuples, we need the 0th element of the 0th element
   scard = scard_helper.scard_class(scard_text)
-  scard.data['genExecutable'] = file_struct.genExecutable.get(scard.data.get('generator'))
-  scard.data['genOutput'] = file_struct.genOutput.get(scard.data.get('generator'))
+
+  if 'https://' in scard.data.get('generator'):
+    lund_helper.Lund_Entry(scard.data.get('generator'))
+    scard.data['genExecutable'] = """NEED TO DEFINE A VALUE FOR THIS FIELD"""
+    scard.data['genOutput'] = """NEED TO DEFINE A VALUE FOR THIS FIELD"""
+  else:
+    scard.data['genExecutable'] = file_struct.genExecutable.get(scard.data.get('generator'))
+    scard.data['genOutput'] = file_struct.genOutput.get(scard.data.get('generator'))
 
   for gcard in gcards:
     GcardID = gcard[0]
