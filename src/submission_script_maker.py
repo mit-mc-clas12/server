@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 #Could also do the following, but then python has to search the
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import farm_submission_manager
-import utils, file_struct, scard_helper
+import utils, file_struct, scard_helper, lund_helper
 from script_generators.runscript_generators import runScriptHeader, runGenerator, runGemc, runEvio2hipo, runCooking, runScriptFooter
 from script_generators.clas12condor_generators import condorHeader, condorJobDetails, condorFilesHandler
 from script_generators.run_job_generators import run_job1
