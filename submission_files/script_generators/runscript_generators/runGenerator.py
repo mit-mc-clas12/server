@@ -3,8 +3,14 @@
 def runGenerator(scard,**kwargs):
   if 'https://' in scard.data.get('generator'):
     strn = """
-# Custom LUND file specified, not running generator
-    """
+# Generator
+# ---------
+
+# Custom LUND file: $lundFile
+
+# End of Generator
+# ----------------
+"""
   else:
     strn = """
 

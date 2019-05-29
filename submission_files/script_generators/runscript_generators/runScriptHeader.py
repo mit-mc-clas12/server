@@ -5,9 +5,9 @@
 # Arguments:
 # 1. submission ID
 
-def runScriptHeader(scard,**kwargs):
+def runScriptHeader(scard, **kwargs):
 
-	headerSTR = """#!/bin/csh
+	headerSTR = """#!/bin/csh -f
 
 # The SubMit Project: Container Script, downloaded from DB and executed by run.sh
 # -------------------------------------------------------------------------------
@@ -16,6 +16,10 @@ def runScriptHeader(scard,**kwargs):
 # -----------------
 
 set submissionID=$1
+
+# lund file is passed as an argument to this script
+# in condor this process is automatic. Assuming in other farm it is as well
+set lundFile=$2
 
 # saving date for bookmarking purposes:
 set startDate = `date`
@@ -36,6 +40,6 @@ echo
 # End of Run Script Header
 # ------------------------
 
-""".format(kwargs['username'],scard.data['group'])
+""".format(kwargs['username'], scard.data['group'])
 
 	return headerSTR
