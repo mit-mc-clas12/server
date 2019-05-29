@@ -23,10 +23,11 @@ argparser.add_argument('-t','--test', help = 'Use this flag (no arguments) if yo
 argparser.add_argument('-s','--submit', help = 'Use this flag (no arguments) if you want to submit the job', action = 'store_true')
 argparser.add_argument('-w','--write_files', help = 'Use this flag (no arguments) if you want submission files to be written out to text files', action = 'store_true')
 argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash, default = file_struct.debug_default,help = file_struct.debug_help)
+argparser.add_argument('-m','--mysql',help = "use -m or --mysql to connect to mysql DB, otherwise use SQLite DB", action = 'store_true')
 args = argparser.parse_args()
 
-dirname = os.path.dirname(__file__)
-if dirname == '': dirname = '.'
+file_struct.use_mysql = args.mysql
+file_struct.DEBUG = getattr(args,file_struct.debug_long)
 
 print("\nGenerating submission files from database")
 submission_script_maker.process_jobs(args)

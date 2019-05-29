@@ -106,9 +106,13 @@ def submission_script_maker(args,BatchID):
 
     file_extension = "_gcard_{0}_batch_{1}".format(GcardID,BatchID)
 
-    params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':file_struct.DB_path+file_struct.DB_name,
+    if file_struct.use_mysql:
+      DB_path = file_struct.MySQL_DB_path
+    else:
+      DB_path = file_struct.SQLite_DB_path
+
+    params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':DB_path+file_struct.DB_name,
               'username':username[0][0],'gcard_loc':gcard_loc}
-    #print("DB PATH IS: {0}".format(file_struct.DB_path+file_struct.DB_name))
     script_factory(args,file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
     script_factory(args,file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
     script_factory(args,file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)
@@ -163,8 +167,10 @@ if __name__ == "__main__":
   argparser.add_argument('-s','--submit', help = 'Use this flag (no arguments) if you want to submit the job', action = 'store_true')
   argparser.add_argument('-w','--write_files', help = 'Use this flag (no arguments) if you want submission files to be written out to text files', action = 'store_true')
   argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash, default = file_struct.debug_default,help = file_struct.debug_help)
+  argparser.add_argument('-m','--mysql',help = "use -m or --mysql to connect to mysql DB, otherwise use SQLite DB", action = 'store_true')
   args = argparser.parse_args()
 
   file_struct.DEBUG = getattr(args,file_struct.debug_long)
+  file_struct.use_mysql = args.mysql
 
   process_jobs(args)
