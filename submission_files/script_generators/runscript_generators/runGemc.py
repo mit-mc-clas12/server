@@ -3,8 +3,11 @@
 # Input:  scard.data['genOutput']
 # Output: gemc.evio
 
+import ntpath
+
 def runGemc(scard, **kwargs):
   if 'https://' in scard.data.get('generator'):
+    baseGcard = ntpath.basename(kwargs.get('gcard_loc'))
     strn = """
 # Run GEMC
 # --------
@@ -26,7 +29,7 @@ echo
 
 # End of GEMC
 # -----------
-""".format(kwargs.get('gcard_loc'))
+""".format(baseGcard)
   else:
     strn = """
 # Run GEMC

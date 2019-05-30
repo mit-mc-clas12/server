@@ -11,26 +11,24 @@ def condorFilesHandler(scard,**kwargs):
   # for now, copying it anyway, but path is hardcoded
   # transfer_input_files={0}, condor_wrapper
 
+  transfer_input_files = "CLAS12_OCRDB.db"
+  if 'https://' in scard.data.get('generator'):
+    transfer_input_files = transfer_input_files + ", " + kwargs.get('gcard_loc')
 
-  # OSG Farm: condor wrapper is not needed
-  strnInput = """
-# Input files
-transfer_input_files=CLAS12_OCRDB.db
-"""
-  # MIT Farm: condor wrapper is needed. Notice, path is needed? Can we assume this 
+  # MIT Farm: condor wrapper is needed. Notice, path is needed? Can we assume this
   if farm_name == 'MIT_Tier2':
-    strnInput = """
-# Input files
-transfer_input_files=CLAS12_OCRDB.db, condor_wrapper
-"""
+    transfer_input_files = transfer_input_files + ", " + "condor_wrapper"
 
-  # Handling the output
-  strnOutput = """
+  # Input and Outut files
+  strnIO = """
+
+# Input files
+transfer_input_files={0}
 
 # How to handle output
 should_transfer_files   = YES
 when_to_transfer_output = ON_EXIT
-"""
+""".format(transfer_input_files)
 
   # Submitting jobs based on subjob (Step)
   strnQueue = """
@@ -45,4 +43,4 @@ Queue {0}
 
 """.format(scard.data['jobs'], kwargs['GcardID'])
 
-  return strnInput + strnOutput + strnQueue
+  return strnIO + strnQueue
