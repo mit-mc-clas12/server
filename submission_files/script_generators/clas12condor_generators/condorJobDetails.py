@@ -5,6 +5,7 @@
 # Location of Output
 
 def condorJobDetails(scard,**kwargs):
+  print("LUND file dir is: {0}".format(kwargs.get('lund_dir'))) #This line is for testing purposes, please remove
   strn = """
 # Hardware requirements
 request_cpus   = {0}
@@ -22,5 +23,5 @@ Log    = log/job.$(Cluster).$(Process).log
 # CLAS12 project
 +ProjectName = "{2}"
 """.format(scard.data['cores_req'],scard.data['mem_req'],scard.data['project'])
-  
+
   return strn

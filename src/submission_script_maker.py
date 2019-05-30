@@ -37,7 +37,7 @@ def script_factory(args,script_obj,gen_funcs,func_names,scard,params,file_extens
   script_text = ""
   for count, f in enumerate(gen_funcs):
     generated_text = getattr(f,func_names[count])(scard,username=params['username'],gcard_loc=params['gcard_loc'],
-                            GcardID = params['GcardID'],
+                            GcardID = params['GcardID'],lund_dir = params['lund_dir'],
                             database_filename = params['database_filename'],
                             file_extension = file_extension,
                             runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base + file_extension + file_struct.runscript_file_obj.file_end,
@@ -81,16 +81,16 @@ def submission_script_maker(args,BatchID):
   scard = scard_helper.scard_class(scard_text)
 
   if 'https://' in scard.data.get('generator'):
-    lund_helper.Lund_Entry(scard.data.get('generator'))
+    lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
     scard.data['genExecutable'] = "Null"
     scard.data['genOutput'] = "Null"
   else:
+    lund_dir = 0
     scard.data['genExecutable'] = file_struct.genExecutable.get(scard.data.get('generator'))
     scard.data['genOutput'] = file_struct.genOutput.get(scard.data.get('generator'))
 
   for gcard in gcards:
     GcardID = gcard[0]
-
 
     if scard.data['gcards'] == file_struct.gcard_default:
       gcard_loc = scard.data['gcards']
@@ -112,7 +112,7 @@ def submission_script_maker(args,BatchID):
       DB_path = file_struct.SQLite_DB_path
 
     params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':DB_path+file_struct.DB_name,
-              'username':username[0][0],'gcard_loc':gcard_loc}
+              'username':username[0][0],'gcard_loc':gcard_loc,'lund_dir':lund_dir}
     script_factory(args,file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
     script_factory(args,file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
     script_factory(args,file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)
