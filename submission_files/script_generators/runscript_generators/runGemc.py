@@ -23,8 +23,10 @@ printf "Running events from user lund file $lundFile"
 echo Executable: `which gemc`
 
 if ( -f {0} ) then
+   echo {0} exists, copying it here
 	cp {0} job.gcard
 else
+	echo {0} does not exist, using sqlite to get it with command SELECT gcard_text FROM gcards WHERE gcardID = $submissionID
 	sqlite3 CLAS12_OCRDB.db "SELECT gcard_text FROM gcards WHERE gcardID = $submissionID"  > job.gcard
 endif
 """.format(kwargs.get('gcard_loc'))

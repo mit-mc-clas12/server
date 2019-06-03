@@ -1,5 +1,5 @@
 #!/bin/bash
-"""
+
 # The SubMit Project: Container Executable Script
 # Downloads the script to run in the container,
 # Based on the submission ID
@@ -9,7 +9,6 @@
 # 1. submission ID
 # 2. subjob id (defined by the farm submission configuration file)
 # 3. (optional) lund file
-"""
 
 submissionID=$1
 sjob=$2
@@ -20,9 +19,11 @@ nodeScript=nodeScript.sh
 
 outDir="out_"$submissionID"/simu_"$sjob
 mkdir -p $outDir
+cp CLAS12_OCRDB.db $outDir
 cd $outDir
 
-
+echo
+echo directory content: `\ls -l`
 echo
 echo Downloading runscript with submissionID: $submissionID
 echo

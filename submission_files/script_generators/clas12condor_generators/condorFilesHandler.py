@@ -38,7 +38,8 @@ when_to_transfer_output = ON_EXIT
   strOUTPUT = """
 
 # Output directory is defined by the subjob if (or Step)
-transfer_output_files = out_{0}/simu_$(Step)
+#transfer_output_files = out_{0}/simu_$(Step)
+transfer_output_files = out_{0}
 """.format(kwargs['GcardID'])
 
   # Argumnent to executable and QUEUE command.
@@ -65,7 +66,7 @@ Queue {0}
 # 3. lundfile, given by the queue comand
 #
 # Queue starts "jobs" number of subjobs
-Arguments  = {1} $(Step) $(lundFile)
+Arguments  = {1} $(Process) $(lundFile)
 queue lundFile matching files {2}/*.txt
 """.format(scard.data['jobs'], kwargs['GcardID'], kwargs['lund_dir'])
 

@@ -7,7 +7,7 @@
 
 def runScriptHeader(scard, **kwargs):
 
-	headerSTR = """#!/bin/csh -f
+	headerSTR = """#!/bin/csh
 
 # The SubMit Project: Container Script, downloaded from DB and executed by run.sh
 # -------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ printf "Job Start time: "; /bin/date
 printf "Job is running on node: "; /bin/hostname
 echo
 
-echo Directory Content before starting submittion $submissionID":"
+echo Directory Content before starting submission $submissionID", subjob "$sjob":"
 ls -l
 echo
 
