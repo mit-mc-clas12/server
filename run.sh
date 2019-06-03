@@ -29,8 +29,8 @@ echo
 
 rm -f $nodeScript
 
-# sqlite run. Assuming DB is in the same dir
-sqlite3 ../../CLAS12_OCRDB.db "SELECT runscript_text FROM Submissions WHERE submissionID = $submissionID"  > $nodeScript
+# sqlite run to download the script. Assuming DB is in the same dir
+sqlite3 CLAS12_OCRDB.db "SELECT runscript_text FROM Submissions WHERE submissionID = $submissionID"  > $nodeScript
 echo Now running $nodeScript with submissionID: $submissionID" inside directory: "`pwd`
 
 if [ $# == 3 ]; then

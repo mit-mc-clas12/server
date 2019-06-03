@@ -5,10 +5,13 @@
 
 import ntpath
 
+# the gcard is already loaded into job.card by run.sh
+
 def runGemc(scard, **kwargs):
-  if 'https://' in scard.data.get('generator'):
-    baseGcard = ntpath.basename(kwargs.get('gcard_loc'))
-    strn = """
+
+  # if the gcard already exists at the location, copy it to "job.gcard"
+  # otherwise download it from DB
+  copyGCard = """
 # Run GEMC
 # --------
 
@@ -16,10 +19,23 @@ def runGemc(scard, **kwargs):
 set gemcDate = `date`
 
 echo
-printf "Running events from user lund file $lundFile gcard >{0}<"
+printf "Running events from user lund file $lundFile"
 echo Executable: `which gemc`
-gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} -INPUT_GEN_FILE="lund,  $lundFile" {0}
-cp {0} .
+
+if ( -f {0} ) then
+	cp {0} job.gcard
+else
+	sqlite3 CLAS12_OCRDB.db "SELECT gcard_text FROM gcards WHERE gcardID = $submissionID"  > job.gcard
+endif
+""".format(kwargs.get('gcard_loc'))
+
+
+  if 'https://' in scard.data.get('generator'):
+    runGemc = """
+
+gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} -INPUT_GEN_FILE="lund,  $lundFile" job.gcard
+
+
 echo
 printf "GEMC Completed on: "; /bin/date
 echo
@@ -29,9 +45,9 @@ echo
 
 # End of GEMC
 # -----------
-""".format(baseGcard)
+"""
   else:
-    strn = """
+    runGemc = """
 # Run GEMC
 # --------
 
@@ -41,7 +57,7 @@ set gemcDate = `date`
 echo
 printf "Running {0} events with GEMC using gcard >{2}<"
 echo Executable: `which gemc`
-gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} -INPUT_GEN_FILE="lund, {1}" {2}
+gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} -INPUT_GEN_FILE="lund, {1}" job.gcard
 cp {2} .
 echo
 printf "GEMC Completed on: "; /bin/date
@@ -53,5 +69,7 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.data['nevents'],scard.data['genOutput'],kwargs.get('gcard_loc'))
-  return strn
+""".format(scard.data['nevents'],scard.data['genOutput'])
+
+  # copyGCard and runGemc
+  return copyGCard + runGemc
