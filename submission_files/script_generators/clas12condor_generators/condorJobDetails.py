@@ -5,7 +5,6 @@
 # Location of Output
 
 def condorJobDetails(scard,**kwargs):
-  print("LUND file dir is: {0}".format(kwargs.get('lund_dir'))) #This line is for testing purposes, please remove
   strn = """
 # Hardware requirements
 request_cpus   = {0}

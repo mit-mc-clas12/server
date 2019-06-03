@@ -116,7 +116,7 @@ def submission_script_maker(args,BatchID):
     script_factory(args,file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
     script_factory(args,file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
     script_factory(args,file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)
-    print("\tSuccessfully generated submission files for Batch {0} with GcardID {1}\n".format(BatchID,GcardID))
+    print("\tSuccessfully generated submission files for Batch {0} with GcardID {1}".format(BatchID,GcardID))
 
     submission_string = 'Submission scripts generated'.format(scard.data['farm_name'])
     strn = "UPDATE Submissions SET {0} = '{1}' WHERE BatchID = {2};".format('run_status',submission_string,BatchID)

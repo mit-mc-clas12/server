@@ -20,6 +20,7 @@ def condorFilesHandler(scard,**kwargs):
     transfer_input_files = transfer_input_files + ", " + "condor_wrapper"
 
   # Input and Outut files
+  #######################
   strnIO = """
 
 # Input files
@@ -30,17 +31,39 @@ should_transfer_files   = YES
 when_to_transfer_output = ON_EXIT
 """.format(transfer_input_files)
 
-  # Submitting jobs based on subjob (Step)
-  strnQueue = """
+  # Output file is defined based on the submission id (GcardID) and the subjob id (Steo)
+  strOUTPUT = """
 
 # Output directory is defined by the subjob if (or Step)
 transfer_output_files = out_{1}/simu_$(Step)
+"""
+
+  # Argumnent to executable and QUEUE command.
+  ############################################
+
+  # no Lund
+  arguQueue = """
+# Arguments given to the executables:
+# 1. submission id
+# 2. subjob id
+#
+# Queue starts "jobs" number of subjobs
 Arguments  = {1} $(Step)
-
-# QUEUE is the "start button" - it launches any jobs that have been
-# specified thus far. 1 means launch only 1 job
 Queue {0}
-
 """.format(scard.data['jobs'], kwargs['GcardID'])
 
-  return strnIO + strnQueue
+
+  # Lund submission
+  if 'https://' in scard.data.get('generator'):
+    arguQueue = """
+# Arguments given to the executables:
+# 1. submission id
+# 2. subjob id
+# 3. lundfile, given by the queue comand
+#
+# Queue starts "jobs" number of subjobs
+Arguments  = {1} $(Step) $(lundFile)
+queue lundFile matching files {2}/*.txt
+""".format(scard.data['jobs'], kwargs['GcardID'], kwargs['lund_dir'])
+
+  return strnIO + strOUTPUT + arguQueue
