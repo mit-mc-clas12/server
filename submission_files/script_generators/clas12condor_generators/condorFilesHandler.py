@@ -4,8 +4,6 @@
 # (Assuming it's in the same dir as where condor submit is executed)
 #
 
-import ntpath
-
 def condorFilesHandler(scard,**kwargs):
 
   farm_name = scard.data.get('farm_name')
@@ -16,7 +14,6 @@ def condorFilesHandler(scard,**kwargs):
   transfer_input_files = "CLAS12_OCRDB.db"
   if 'https://' in scard.data.get('generator'):
     transfer_input_files = transfer_input_files
-    print kwargs.get('gcard_loc')
 
   # MIT Farm: condor wrapper is needed. Notice, path is needed? Can we assume this
   if farm_name == 'MIT_Tier2':
@@ -33,6 +30,18 @@ transfer_input_files={0}
 should_transfer_files   = YES
 when_to_transfer_output = ON_EXIT
 """.format(transfer_input_files)
+
+  # Lund submission
+  if 'https://' in scard.data.get('generator'):
+    strnIO = """
+# Input files
+transfer_input_files={0}, $(lundFile)
+
+# How to handle output
+should_transfer_files   = YES
+when_to_transfer_output = ON_EXIT
+""".format(transfer_input_files)
+
 
   # Output file is defined based on the submission id (GcardID) and the subjob id (Steo)
   strOUTPUT = """
@@ -52,7 +61,7 @@ transfer_output_files = out_{0}
 # 2. subjob id
 #
 # Queue starts "jobs" number of subjobs
-Arguments  = {1} $(Step)
+Arguments = {1} $(Step)
 Queue {0}
 """.format(scard.data['jobs'], kwargs['GcardID'])
 

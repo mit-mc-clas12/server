@@ -1,11 +1,16 @@
 # Runs the chosen generator with options
 
 def runGenerator(scard,**kwargs):
-  if 'https://' in scard.data.get('generator'):
-    strn = """
+
+  strGeneratorHeader = """
 # Generator
 # ---------
+# saving date for bookmarking purposes:
+set generatorDate = `date`
+"""
 
+  if 'https://' in scard.data.get('generator'):
+    strn = """
 # Custom LUND file: $lundFile
 
 # End of Generator
@@ -13,13 +18,6 @@ def runGenerator(scard,**kwargs):
 """
   else:
     strn = """
-
-# Run Generator
-# -------------
-
-# saving date for bookmarking purposes:
-set generatorDate = `date`
-
 echo
 printf "Running {1} events with generator >{0}< with options: {2}"
 echo
@@ -35,4 +33,5 @@ echo
 # ---------------------
 
 """.format(scard.data['genExecutable'],scard.data['nevents'],scard.data['genOptions'])
-  return strn
+
+  return strGeneratorHeader + strn

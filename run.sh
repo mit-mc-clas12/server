@@ -20,17 +20,18 @@ nodeScript=nodeScript.sh
 outDir="out_"$submissionID"/simu_"$sjob
 mkdir -p $outDir
 cp CLAS12_OCRDB.db $outDir
+cp *.txt $outDir
 cd $outDir
 
 echo
-echo directory content: `\ls -l`
+echo Directory content at start: `\ls -l`
 echo
 echo Downloading runscript with submissionID: $submissionID
 echo
 
 rm -f $nodeScript
 
-# sqlite run to download the script. Assuming DB is in the same dir
+# sqlite run to download the running script and the gcard. Assuming DB is in the same dir
 sqlite3 CLAS12_OCRDB.db "SELECT runscript_text FROM Submissions WHERE submissionID = $submissionID"  > $nodeScript
 echo Now running $nodeScript with submissionID: $submissionID" inside directory: "`pwd`
 

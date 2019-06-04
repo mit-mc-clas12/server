@@ -13,9 +13,8 @@ def runCooking(scard,**kwargs):
 set reconstructionDate = `date`
 
 echo
-printf "Running notsouseful-util with torus current scale: {0} and solenoid current scale: {1}"
 echo
-echo
+echo executing: notsouseful-util -i gemc.hipo -o recon.hipo -c 2
 notsouseful-util -i gemc.hipo -o recon.hipo -c 2
 echo
 printf "notsouseful-util Completed on: "; /bin/date

@@ -4,6 +4,7 @@
 #
 # Arguments:
 # 1. submission ID
+# 2. lundfile if present
 
 def runScriptHeader(scard, **kwargs):
 
@@ -33,7 +34,7 @@ printf "Job Start time: "; /bin/date
 printf "Job is running on node: "; /bin/hostname
 echo
 
-echo Directory Content before starting submission $submissionID", subjob "$sjob":"
+echo Directory `pwd` content before starting submission $submissionID":"
 ls -l
 echo
 

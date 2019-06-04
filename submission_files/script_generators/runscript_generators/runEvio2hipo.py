@@ -16,7 +16,8 @@ echo
 printf "Running evio2hipo with torus current scale: {0} and solenoid current scale: {1}"
 echo
 echo
-evio2hipo -r 11 -t {0} -s {1} -i out.ev -o gemc.hipo
+echo executing: evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
+evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
 echo
 printf "evio2hipo Completed on: "; /bin/date
 echo
