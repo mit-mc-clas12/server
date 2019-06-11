@@ -12,8 +12,6 @@ from __future__ import print_function
 import argparse, os, sqlite3, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
-#Could also do the following, but then python has to search the
-#sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import farm_submission_manager
 import utils, file_struct, scard_helper, lund_helper
 from script_generators.runscript_generators import runScriptHeader, runGenerator, runGemc, runEvio2hipo, runCooking, runScriptFooter
@@ -32,17 +30,30 @@ def grab_username(BatchID):
   username = utils.sql3_grab(strn)
   return username
 
+def grab_scard(BatchID):
+  strn = "SELECT scard FROM Batches WHERE BatchID = {0};".format(BatchID)
+  scard_text = utils.sql3_grab(strn)[0][0]
+  return scard_text
+
 #Generates a script by appending functions that output strings
-def script_factory(args,script_obj,gen_funcs,func_names,scard,params,file_extension):
+def script_factory(args,script_obj,script_functions,function_names,scard,params,file_extension):
+
   script_text = ""
-  for count, f in enumerate(gen_funcs):
-    generated_text = getattr(f,func_names[count])(scard,username=params['username'],gcard_loc=params['gcard_loc'],
+  runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base
+  runscript_filename= runscript_filename + file_extension + file_struct.runscript_file_obj.file_end
+  runjob_filename=file_struct.run_job_obj.file_path+file_struct.run_job_obj.file_base
+  runjob_filename= runjob_filename+ file_extension + file_struct.run_job_obj.file_end
+
+  #In the below for loop, we loop through all script_generators for a certain submission script, appending the output of each function to a string
+  for count, function in enumerate(script_functions):
+    generated_text = getattr(function,function_names[count])(
+                            scard,username=params['username'],gcard_loc=params['gcard_loc'],
                             GcardID = params['GcardID'],lund_dir = params['lund_dir'],
-                            database_filename = params['database_filename'],
-                            file_extension = file_extension,
-                            runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base + file_extension + file_struct.runscript_file_obj.file_end,
-                            runjob_filename=file_struct.run_job_obj.file_path+file_struct.run_job_obj.file_base + file_extension + file_struct.run_job_obj.file_end,)
+                            database_filename = params['database_filename'],file_extension = file_extension,
+                            runscript_filename=runscript_filename, runjob_filename=runjob_filename,)
     script_text += generated_text
+
+  #This handles writing to disk and to SQL database
   if args.write_files:
     filename = script_obj.file_path+script_obj.file_base+file_extension+script_obj.file_end
     utils.printer("\tWriting submission file '{0}' based off of specifications of BatchID = {1}, GcardID = {2}".format(filename,
@@ -60,7 +71,15 @@ def submission_script_maker(args,BatchID):
   # Grabs batch and gcards as described in respective files
   gcards = grab_gcards(BatchID)
   username = grab_username(BatchID)
+  scard = scard_helper.scard_class(grab_scard(BatchID))
 
+  """#***************************************************************************
+  #There is probably some coding mechanism which will accomplish this block of code more effiently,
+  #but I cannot think of it currently. Essentially, the import statements at the top of this file
+  #specify a list of script_generators functions that will be run. There should be a way to pass
+  #this list of functions to script_factory(), but I couldn't find a way to do it. Instead we have to
+  #write out all the functions, and their names, and pass them to script_factory()
+  """
   # script to be run inside the container
   funcs_rs = ( runScriptHeader ,  runGenerator ,  runGemc , runEvio2hipo , runCooking ,  runScriptFooter )
   fname_rs = ('runScriptHeader', 'runGenerator', 'runGemc','runEvio2hipo','runCooking', 'runScriptFooter')
@@ -75,10 +94,7 @@ def submission_script_maker(args,BatchID):
   funcs_runjob = (run_job1,)
   fname_runjob = ('run_job1',)
 
-
-  strn = "SELECT scard FROM Batches WHERE BatchID = {0};".format(BatchID)
-  scard_text = utils.sql3_grab(strn)[0][0] #sql3_grab returns a list of tuples, we need the 0th element of the 0th element
-  scard = scard_helper.scard_class(scard_text)
+  """#***************************************************************************"""
 
   if 'https://' in scard.data.get('generator'):
     lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
@@ -113,6 +129,7 @@ def submission_script_maker(args,BatchID):
 
     params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':DB_path+file_struct.DB_name,
               'username':username[0][0],'gcard_loc':gcard_loc,'lund_dir':lund_dir}
+              
     script_factory(args,file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
     script_factory(args,file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
     script_factory(args,file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)
