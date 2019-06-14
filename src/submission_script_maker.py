@@ -20,13 +20,13 @@ from script_generators.run_job_generators import run_job1
 
 #Grabs all GCards from a corresponding Batch
 def grab_gcards(BatchID):
-  strn = "SELECT GcardID, gcard_text FROM GCards WHERE BatchID = {0};".format(BatchID)
+  strn = "SELECT GcardID, gcard_text FROM Gcards WHERE BatchID = {0};".format(BatchID)
   gcards = utils.sql3_grab(strn)
   return gcards
 
 #Grabs all GCards from a corresponding Batch
 def grab_username(BatchID):
-  strn = "SELECT user FROM Batches WHERE BatchID = {0};".format(BatchID)
+  strn = "SELECT UserID FROM Batches WHERE BatchID = {0};".format(BatchID)
   username = utils.sql3_grab(strn)
   return username
 
@@ -37,7 +37,7 @@ def grab_scard(BatchID):
 
 #Generates a script by appending functions that output strings
 def script_factory(args,script_obj,script_functions,function_names,scard,params,file_extension):
-
+  
   script_text = ""
   runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base
   runscript_filename= runscript_filename + file_extension + file_struct.runscript_file_obj.file_end
@@ -127,6 +127,8 @@ def submission_script_maker(args,BatchID):
     else:
       DB_path = file_struct.SQLite_DB_path
 
+    print("username is {0}".format(username))
+
     params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':DB_path+file_struct.DB_name,
               'username':username[0][0],'gcard_loc':gcard_loc,'lund_dir':lund_dir}
               
@@ -184,10 +186,10 @@ if __name__ == "__main__":
   argparser.add_argument('-s','--submit', help = 'Use this flag (no arguments) if you want to submit the job', action = 'store_true')
   argparser.add_argument('-w','--write_files', help = 'Use this flag (no arguments) if you want submission files to be written out to text files', action = 'store_true')
   argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash, default = file_struct.debug_default,help = file_struct.debug_help)
-  argparser.add_argument('-m','--mysql',help = "use -m or --mysql to connect to mysql DB, otherwise use SQLite DB", action = 'store_true')
+  argparser.add_argument('-l','--lite',help = "use -l or --lite to connect to sqlite DB, otherwise use MySQL DB", action = 'store_false')
   args = argparser.parse_args()
 
   file_struct.DEBUG = getattr(args,file_struct.debug_long)
-  file_struct.use_mysql = args.mysql
+  file_struct.use_mysql = args.lite
 
   process_jobs(args)
