@@ -16,25 +16,25 @@ import submission_script_maker
 import file_struct, utils
 
 def update_users_statistics(scard,params):
-  strn = "SELECT Total_Batches FROM Users WHERE UserID = '{0}';".format(params['username'])
+  strn = "SELECT Total_Batches FROM Users WHERE User = '{0}';".format(params['username'])
   batches_total = utils.sql3_grab(strn)[0][0]
   batches_total += 1
-  strn = "UPDATE Users SET Total_Batches = '{0}' WHERE UserID = '{1}';".format(batches_total,params['username'])
+  strn = "UPDATE Users SET Total_Batches = '{0}' WHERE User = '{1}';".format(batches_total,params['username'])
   utils.sql3_exec(strn)
 
-  strn = "SELECT Total_Jobs FROM Users WHERE UserID = '{0}';".format(params['username'])
+  strn = "SELECT Total_Jobs FROM Users WHERE User = '{0}';".format(params['username'])
   jobs_total = utils.sql3_grab(strn)[0][0]
   jobs_total += int(scard.data['jobs'])
-  strn = "UPDATE Users SET Total_Jobs = '{0}' WHERE UserID = '{1}';".format(jobs_total,params['username'])
+  strn = "UPDATE Users SET Total_Jobs = '{0}' WHERE User = '{1}';".format(jobs_total,params['username'])
   utils.sql3_exec(strn)
 
-  strn = "SELECT Total_Events FROM Users WHERE UserID = '{0}';".format(params['username'])
+  strn = "SELECT Total_Events FROM Users WHERE User = '{0}';".format(params['username'])
   events_total = utils.sql3_grab(strn)[0][0]
   events_total += int(scard.data['jobs'])*int(scard.data['nevents'])
-  strn = "UPDATE Users SET Total_Events = '{0}' WHERE UserID = '{1}';".format(events_total,params['username'])
+  strn = "UPDATE Users SET Total_Events = '{0}' WHERE User = '{1}';".format(events_total,params['username'])
   utils.sql3_exec(strn)
 
-  strn = "UPDATE Users SET Most_Recent_Active_Date = '{0}' WHERE UserID = '{1}';".format(utils.gettime(),params['username'])
+  strn = "UPDATE Users SET Most_Recent_Active_Date = '{0}' WHERE User = '{1}';".format(utils.gettime(),params['username'])
   utils.sql3_exec(strn)
 
 """The below can be extended in a better way for more farms, e.g. create a dictionary"""

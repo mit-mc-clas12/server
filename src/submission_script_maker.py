@@ -26,7 +26,7 @@ def grab_gcards(BatchID):
 
 #Grabs all GCards from a corresponding Batch
 def grab_username(BatchID):
-  strn = "SELECT UserID FROM Batches WHERE BatchID = {0};".format(BatchID)
+  strn = "SELECT User FROM Batches WHERE BatchID = {0};".format(BatchID)
   username = utils.sql3_grab(strn)
   return username
 
@@ -70,7 +70,7 @@ def submission_script_maker(args,BatchID):
   file_struct.DEBUG = getattr(args,file_struct.debug_long)
   # Grabs batch and gcards as described in respective files
   gcards = grab_gcards(BatchID)
-  username = grab_username(BatchID)
+  username = grab_username(BatchID)[0][0]
   scard = scard_helper.scard_class(grab_scard(BatchID))
 
   """#***************************************************************************
@@ -127,10 +127,8 @@ def submission_script_maker(args,BatchID):
     else:
       DB_path = file_struct.SQLite_DB_path
 
-    print("username is {0}".format(username))
-
     params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':DB_path+file_struct.DB_name,
-              'username':username[0][0],'gcard_loc':gcard_loc,'lund_dir':lund_dir}
+              'username':username,'gcard_loc':gcard_loc,'lund_dir':lund_dir}
               
     script_factory(args,file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
     script_factory(args,file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
