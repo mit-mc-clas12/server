@@ -11,7 +11,7 @@ def condorFilesHandler(scard,**kwargs):
   # for now, copying it anyway, but path is hardcoded
   # transfer_input_files={0}, condor_wrapper
 
-  transfer_input_files = "CLAS12_OCRDB.db"
+  transfer_input_files = "msqlconf.txt"#"CLAS12_OCRDB.db"
   if 'https://' in scard.data.get('generator'):
     transfer_input_files = transfer_input_files
 
