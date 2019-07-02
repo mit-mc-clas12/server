@@ -37,7 +37,7 @@ def grab_scard(BatchID):
 
 #Generates a script by appending functions that output strings
 def script_factory(args,script_obj,script_functions,function_names,scard,params,file_extension):
-  
+
   script_text = ""
   runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base
   runscript_filename= runscript_filename + file_extension + file_struct.runscript_file_obj.file_end
@@ -50,7 +50,8 @@ def script_factory(args,script_obj,script_functions,function_names,scard,params,
                             scard,username=params['username'],gcard_loc=params['gcard_loc'],
                             GcardID = params['GcardID'],lund_dir = params['lund_dir'],
                             database_filename = params['database_filename'],file_extension = file_extension,
-                            runscript_filename=runscript_filename, runjob_filename=runjob_filename,)
+                            runscript_filename=runscript_filename, runjob_filename=runjob_filename,
+                            using_sqlite = args.lite,)
     script_text += generated_text
 
   #This handles writing to disk and to SQL database
@@ -129,7 +130,7 @@ def submission_script_maker(args,BatchID):
 
     params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,'database_filename':DB_path+file_struct.DB_name,
               'username':username,'gcard_loc':gcard_loc,'lund_dir':lund_dir}
-              
+
     script_factory(args,file_struct.runscript_file_obj,funcs_rs,fname_rs,scard,params,file_extension)
     script_factory(args,file_struct.condor_file_obj,funcs_condor,fname_condor,scard,params,file_extension)
     script_factory(args,file_struct.run_job_obj,funcs_runjob,fname_runjob,scard,params,file_extension)
@@ -184,10 +185,10 @@ if __name__ == "__main__":
   argparser.add_argument('-s','--submit', help = 'Use this flag (no arguments) if you want to submit the job', action = 'store_true')
   argparser.add_argument('-w','--write_files', help = 'Use this flag (no arguments) if you want submission files to be written out to text files', action = 'store_true')
   argparser.add_argument(file_struct.debug_short,file_struct.debug_longdash, default = file_struct.debug_default,help = file_struct.debug_help)
-  argparser.add_argument('-l','--lite',help = "use -l or --lite to connect to sqlite DB, otherwise use MySQL DB", action = 'store_false')
+  argparser.add_argument('-l','--lite',help = "use -l or --lite to connect to sqlite DB, otherwise use MySQL DB", action = 'store_true')
   args = argparser.parse_args()
 
   file_struct.DEBUG = getattr(args,file_struct.debug_long)
-  file_struct.use_mysql = args.lite
+  file_struct.use_mysql = not args.lite
 
   process_jobs(args)
