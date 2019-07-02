@@ -30,7 +30,7 @@ def htcondor_submit(args,GcardID,file_extension):
     submission = """THIS IS A FAKE SUBMISSION...
     3 job(s) submitted to cluster 7334290."""
   else:
-    print("trying to submit job with popen")
+    #print("trying to submit job with popen")
     print(condorfile)
     submission = Popen(['condor_submit',condorfile], stdout=PIPE).communicate()[0]
 

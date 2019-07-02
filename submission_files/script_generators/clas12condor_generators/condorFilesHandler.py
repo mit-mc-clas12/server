@@ -12,7 +12,7 @@ def condorFilesHandler(scard,**kwargs):
   # transfer_input_files={0}, condor_wrapper
 
   if kwargs['using_sqlite']:
-    transfer_input_files = "CLAS12_OCRDB.db"
+    transfer_input_files = "../utils/database/CLAS12_OCRDB.db"
   else:
     transfer_input_files = "msqlconf.txt"
   if 'https://' in scard.data.get('generator'):
