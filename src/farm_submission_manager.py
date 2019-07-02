@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 #Could also do the following, but then python has to search the
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import htcondor_submit, slurm_submit
-import submission_script_maker
+import Submit_batch
 import file_struct, utils
 
 def update_users_statistics(scard,params):
