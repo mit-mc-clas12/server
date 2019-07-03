@@ -97,7 +97,7 @@ def submission_script_maker(args,BatchID):
 
   """#***************************************************************************"""
 
-  if 'https://' in scard.data.get('generator'):
+  if 'http' in scard.data.get('generator'):
     lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
     scard.data['genExecutable'] = "Null"
     scard.data['genOutput'] = "Null"
@@ -111,7 +111,7 @@ def submission_script_maker(args,BatchID):
 
     if scard.data['gcards'] == file_struct.gcard_default:
       gcard_loc = scard.data['gcards']
-    elif 'https://' in  scard.data['gcards']:
+    elif 'http' in  scard.data['gcards']:
       utils.printer('Writing gcard to local file')
       newfile = "gcard_{0}_batch_{1}.gcard".format(GcardID,BatchID)
       gfile= file_struct.sub_files_path+file_struct.gcards_dir+newfile

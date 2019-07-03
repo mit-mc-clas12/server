@@ -9,7 +9,7 @@ def runGenerator(scard,**kwargs):
 set generatorDate = `date`
 """
 
-  if 'https://' in scard.data.get('generator'):
+  if 'http' in scard.data.get('generator'):
     strn = """
 # Custom LUND file: $lundFile
 

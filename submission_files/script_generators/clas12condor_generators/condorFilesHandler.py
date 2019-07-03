@@ -15,7 +15,7 @@ def condorFilesHandler(scard,**kwargs):
     transfer_input_files = "../utils/database/CLAS12_OCRDB.db"
   else:
     transfer_input_files = "msqlconf.txt"
-  if 'https://' in scard.data.get('generator'):
+  if 'http' in scard.data.get('generator'):
     transfer_input_files = transfer_input_files
 
   # MIT Farm: condor wrapper is needed. Notice, path is needed? Can we assume this
@@ -35,7 +35,7 @@ when_to_transfer_output = ON_EXIT
 """.format(transfer_input_files)
 
   # Lund submission
-  if 'https://' in scard.data.get('generator'):
+  if 'http' in scard.data.get('generator'):
     strnIO = """
 # Input files
 transfer_input_files={0}, $(lundFile)
@@ -70,7 +70,7 @@ Queue {0}
 
 
   # Lund submission
-  if 'https://' in scard.data.get('generator'):
+  if 'http' in scard.data.get('generator'):
     arguQueue = """
 # Arguments given to the executables:
 # 1. submission id

@@ -29,7 +29,7 @@ else
 endif
 """.format(kwargs.get('gcard_loc'))
 
-  if 'https://' in scard.data.get('generator'):
+  if 'http' in scard.data.get('generator'):
     runGemc = """
 echo executing: gemc -USE_GUI=0 -OUTPUT='evio, gemc.evio' -INPUT_GEN_FILE='lund,  "$lundFile"' job.gcard
 gemc -USE_GUI=0 -OUTPUT='evio, gemc.evio' -INPUT_GEN_FILE='lund,  "$lundFile"' job.gcard
