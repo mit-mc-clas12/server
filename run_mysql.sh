@@ -19,7 +19,6 @@ nodeScript=nodeScript.sh
 
 outDir="out_"$submissionID"/simu_"$sjob
 mkdir -p $outDir
-#cp CLAS12_OCRDB.db $outDir
 cp *.txt $outDir
 cd $outDir
 
