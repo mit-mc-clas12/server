@@ -42,9 +42,6 @@ def process_jobs(args,BatchID):
   # condor wrapper
   funcs_runjob = (run_job1.run_job1,)
 
-
-  """#***************************************************************************"""
-
   if 'http' in scard.data.get('generator'):
     lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
     scard.data['genExecutable'] = "Null"
@@ -54,7 +51,7 @@ def process_jobs(args,BatchID):
     scard.data['genExecutable'] = file_struct.genExecutable.get(scard.data.get('generator'))
     scard.data['genOutput'] = file_struct.genOutput.get(scard.data.get('generator'))
 
-  """Now we create job submissions for all jobs that were recognized"""
+  # Now we create job submissions for all jobs that were recognized
   for gcard in gcards:
     GcardID = gcard[0]
 
