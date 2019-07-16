@@ -22,12 +22,19 @@ if ( -f {0} ) then
 	echo {0} exists, copying it here
 	cp {0} job.gcard
 else
-	rm -f job.gcard
-	echo "{0} does not exist, using sqlite3 to retrieve it"
-	mysql --defaults-extra-file=msqlconf.txt --execute="SELECT gcard_textFROM gcards WHERE gcardID = $submissionID;"  > job.gcard
-	#sqlite3 CLAS12_OCRDB.db 'SELECT gcard_text FROM gcards WHERE gcardID = "$submissionID"'  > job.gcard
-endif
-""".format(kwargs.get('gcard_loc'))
+	rm -f job.gcard""".format(kwargs.get('gcard_loc'))
+
+  if kwargs['using_sqlite']:
+    get_gcard = """
+    echo "{0} does not exist, using sqlite3 to retrieve it"
+  	sqlite3 CLAS12_OCRDB.db 'SELECT gcard_text FROM gcards WHERE gcardID = "$submissionID"'  > job.gcard
+  endif"""
+  if not kwargs['using_sqlite']:
+    get_gcard = """
+        echo "{0} does not exist, using mysql to retrieve it"
+      	mysql --defaults-extra-file=msqlconf.txt --execute="SELECT gcard_text FROM gcards WHERE gcardID = $submissionID;"  > job.gcard
+      endif"""
+
 
   if 'http' in scard.data.get('generator'):
     runGemc = """
@@ -59,4 +66,4 @@ echo
 """.format(scard.data['nevents'],scard.data['genOutput'])
 
   # copyGCard and runGemc
-  return copyGCard + runGemc
+  return copyGCard + get_gcard + runGemc

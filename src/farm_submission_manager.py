@@ -35,8 +35,9 @@ def update_users_statistics(scard,params):
     strn = "UPDATE Users SET Total_Events = '{0}' WHERE User = '{1}';".format(events_total,params['username'])
     utils.sql3_exec(strn)
   else:
-    print("""No explicit events number found, this will be handled in future. This does not affect the simulation, and
-            only means that you are using a custom LUND file.""")
+    utils.printer("""Since you are using custom LUND files, we are not able to update your usage statistics.
+This will not affect your simulations in any way, but will affect the total number of events reported as
+processing through our system. """)
 
   strn = "UPDATE Users SET Most_Recent_Active_Date = '{0}' WHERE User = '{1}';".format(utils.gettime(),params['username'])
   utils.sql3_exec(strn)
