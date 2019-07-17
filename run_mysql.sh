@@ -11,8 +11,8 @@
 # 3. (optional) lund file
 
 submissionID=$1
-sjob = $2
-lundFile = $3
+sjob=$2
+lundFile=$3
 
 # script name
 nodeScript=nodeScript.sh
@@ -32,7 +32,8 @@ rm -f $nodeScript
 
 # mysql run to download the running script and the gcard.
 #echo mysql -u $mysql_user -p $mysql_pass
-mysql --defaults-extra-file=msqlconf.txt --execute="SELECT runscript_text FROM Submissions WHERE submissionID = $submissionID;"  > $nodeScript
+#mysql --defaults-extra-file=msqlconf.txt --execute="SELECT runscript_text FROM Submissions WHERE submissionID = $submissionID;"  > $nodeScript
+mysql --defaults-extra-file=msql_conn.txt -N -s --execute='SELECT runscript_text FROM Submissions WHERE submissionID = 3;'        
 echo Now running $nodeScript with submissionID: $submissionID" inside directory: "`pwd`
 
 
