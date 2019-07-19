@@ -32,7 +32,7 @@ else
   if not kwargs['using_sqlite']:
     get_gcard = """
         echo "{0} does not exist, using mysql to retrieve it"
-      	mysql --defaults-extra-file=msqlconf.txt --execute="SELECT gcard_text FROM gcards WHERE gcardID = $submissionID;"  > job.gcard
+      	mysql --defaults-extra-file=msql_conn.txt --execute="SELECT gcard_text FROM gcards WHERE gcardID=$submissionID;"  > job.gcard
       endif"""
 
 
