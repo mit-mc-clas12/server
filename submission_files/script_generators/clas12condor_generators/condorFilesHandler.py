@@ -49,9 +49,9 @@ when_to_transfer_output = ON_EXIT
   # Output file is defined based on the submission id (GcardID) and the subjob id (Steo)
   strOUTPUT = """
 
-# Output directory is defined by the subjob if (or Step)
-#transfer_output_files = out_{0}/simu_$(Step)
-transfer_output_files = out_{0}
+# Output directory is defined by the subjob if (or Process)
+transfer_output_files = out_{0}/simu_$(Process)
+#transfer_output_files = out_{0}
 """.format(kwargs['GcardID'])
 
   # Argumnent to executable and QUEUE command.
@@ -64,7 +64,7 @@ transfer_output_files = out_{0}
 # 2. subjob id
 #
 # Queue starts "jobs" number of subjobs
-Arguments = {1} $(Step)
+Arguments = {1} $(Process)
 Queue {0}
 """.format(scard.data['jobs'], kwargs['GcardID'])
 
