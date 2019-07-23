@@ -62,7 +62,7 @@ def process_jobs(args,BatchID):
       utils.printer('Writing gcard to local file')
       newfile = "gcard_{0}_batch_{1}.gcard".format(GcardID,BatchID)
       gfile= fs.sub_files_path+fs.gcards_dir+newfile
-      if not os.path.exists(gfile):#fs.sub_files_path+fs.gcards_dir):
+      if not os.path.exists(gfile):
         newdir = fs.sub_files_path+fs.gcards_dir
         print("newdir is {0}".format(newdir))
         Popen(['mkdir','-p',newdir], stdout=PIPE)

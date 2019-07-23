@@ -5,6 +5,8 @@
 #****************************************************************
 from __future__ import print_function
 import os, sqlite3, subprocess, sys, time
+from subprocess import PIPE, Popen
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 import farm_submission_manager
 import utils, fs, scard_helper, lund_helper, get_args
@@ -37,8 +39,11 @@ def script_factory(args,script_obj,script_functions,params):
     filename = script_obj.file_path+script_obj.file_base+params['file_extension']+script_obj.file_end
     utils.printer("\tWriting submission file '{0}' based off of specifications of BatchID = {1}, GcardID = {2}".format(filename,
         params['BatchID'],params['GcardID']))
+    if not os.path.exists(script_obj.file_path):
+        Popen(['mkdir','-p',script_obj.file_path], stdout=PIPE)
     if os.path.isfile(filename):
       subprocess.call(['rm',filename])
+    Popen(['touch',filename], stdout=PIPE)
     with open(filename,"a") as file: file.write(script_text)
   str_script_db = script_text.replace('"',"'") #I can't figure out a way to write "" into a sqlite field without errors
   # For now, we can replace " with ', which works ok, but IDK how it will run if the scripts were submitted to HTCondor
