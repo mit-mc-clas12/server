@@ -7,16 +7,16 @@ from __future__ import print_function
 import os, sqlite3, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 import farm_submission_manager
-import utils, file_struct, scard_helper, lund_helper, get_args
+import utils, fs, scard_helper, lund_helper, get_args
 
 #Generates a script by appending functions that output strings
 def script_factory(args,script_obj,script_functions,params):
 
   script_text = ""
-  runscript_filename=file_struct.runscript_file_obj.file_path+file_struct.runscript_file_obj.file_base
-  runscript_filename= runscript_filename + params['file_extension'] + file_struct.runscript_file_obj.file_end
-  runjob_filename=file_struct.run_job_obj.file_path+file_struct.run_job_obj.file_base
-  runjob_filename= runjob_filename+ params['file_extension'] + file_struct.run_job_obj.file_end
+  runscript_filename=fs.runscript_file_obj.file_path+fs.runscript_file_obj.file_base
+  runscript_filename= runscript_filename + params['file_extension'] + fs.runscript_file_obj.file_end
+  runjob_filename=fs.run_job_obj.file_path+fs.run_job_obj.file_base
+  runjob_filename= runjob_filename+ params['file_extension'] + fs.run_job_obj.file_end
 
   #In the below for loop, we loop through all script_generators for a certain submission script, appending the output of each function to a string
   gen_text = [f(params['scard'],

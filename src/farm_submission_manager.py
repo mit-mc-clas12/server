@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import htcondor_submit, slurm_submit
 import Submit_batch
-import file_struct, utils
+import fs, utils
 
 def update_users_statistics(scard,params):
   strn = "SELECT Total_Batches FROM Users WHERE User = '{0}';".format(params['username'])

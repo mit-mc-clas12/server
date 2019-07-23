@@ -13,7 +13,7 @@ import os, sqlite3, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
 import farm_submission_manager, script_factory, submission_script_manager
-import utils, file_struct, scard_helper, lund_helper, get_args
+import utils, fs, scard_helper, lund_helper, get_args
 from script_generators.runscript_generators import runScriptHeader, runGenerator, runGemc, runEvio2hipo, runCooking, runScriptFooter
 from script_generators.clas12condor_generators import condorHeader, condorJobDetails, condorFilesHandler
 from script_generators.run_job_generators import run_job1

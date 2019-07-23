@@ -10,17 +10,18 @@
 #****************************************************************
 from __future__ import print_function
 import os, sqlite3, subprocess, sys, time
+from subprocess import PIPE, Popen
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files/script_generators')
 import farm_submission_manager, script_factory
-import utils, file_struct, scard_helper, lund_helper, get_args
+import utils, fs, scard_helper, lund_helper, get_args
 from runscript_generators import *
 from clas12condor_generators import *
 from run_job_generators import *
 
 
 def process_jobs(args,BatchID):
-  file_struct.DEBUG = getattr(args,file_struct.debug_long)
+  fs.DEBUG = getattr(args,fs.debug_long)
   # Grabs batch and gcards as described in respective files
   gcards = utils.sql3_grab("SELECT GcardID, gcard_text FROM Gcards WHERE BatchID = {0};".format(BatchID))
   username = utils.sql3_grab("SELECT User FROM Batches WHERE BatchID = {0};".format(BatchID))[0][0]
@@ -48,19 +49,24 @@ def process_jobs(args,BatchID):
     scard.data['genOutput'] = "Null"
   else:
     lund_dir = 0
-    scard.data['genExecutable'] = file_struct.genExecutable.get(scard.data.get('generator'))
-    scard.data['genOutput'] = file_struct.genOutput.get(scard.data.get('generator'))
+    scard.data['genExecutable'] = fs.genExecutable.get(scard.data.get('generator'))
+    scard.data['genOutput'] = fs.genOutput.get(scard.data.get('generator'))
 
   # Now we create job submissions for all jobs that were recognized
   for gcard in gcards:
     GcardID = gcard[0]
 
-    if scard.data['gcards'] == file_struct.gcard_default:
+    if scard.data['gcards'] == fs.gcard_default:
       gcard_loc = scard.data['gcards']
     elif 'http' in  scard.data['gcards']:
       utils.printer('Writing gcard to local file')
       newfile = "gcard_{0}_batch_{1}.gcard".format(GcardID,BatchID)
-      gfile= file_struct.sub_files_path+file_struct.gcards_dir+newfile
+      gfile= fs.sub_files_path+fs.gcards_dir+newfile
+      if not os.path.exists(gfile):#fs.sub_files_path+fs.gcards_dir):
+        newdir = fs.sub_files_path+fs.gcards_dir
+        print("newdir is {0}".format(newdir))
+        Popen(['mkdir','-p',newdir], stdout=PIPE)
+        Popen(['touch',gfile], stdout=PIPE)
       with open(gfile,"w") as file: file.write(gcard[1])
       gcard_loc = 'submission_files/gcards/'+newfile
     else:
@@ -69,17 +75,17 @@ def process_jobs(args,BatchID):
 
     file_extension = "_gcard_{0}_batch_{1}".format(GcardID,BatchID)
 
-    if file_struct.use_mysql:
-      DB_path = file_struct.MySQL_DB_path
+    if fs.use_mysql:
+      DB_path = fs.MySQL_DB_path
     else:
-      DB_path = file_struct.SQLite_DB_path
+      DB_path = fs.SQLite_DB_path
 
     params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,
-              'database_filename':DB_path+file_struct.DB_name,
+              'database_filename':DB_path+fs.DB_name,
               'username':username,'gcard_loc':gcard_loc,'lund_dir':lund_dir,
               'file_extension':file_extension,'scard':scard}
 
-    script_set = [file_struct.runscript_file_obj,file_struct.condor_file_obj,file_struct.run_job_obj]
+    script_set = [fs.runscript_file_obj,fs.condor_file_obj,fs.run_job_obj]
     script_set_funcs = [funcs_rs,funcs_condor,funcs_runjob]
 
     """ This is where we actually pass all arguements to write the scripts"""

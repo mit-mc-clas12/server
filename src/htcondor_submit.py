@@ -12,17 +12,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 #Could also do the following, but then python has to search the
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import Submit_batch
-import file_struct, utils
+import fs, utils
 
 def htcondor_submit(args,GcardID,file_extension):
 
   """ if value in submission === not submitted"""
 
-  runscript_file = file_struct.runscript_file_obj.file_base + file_extension + file_struct.runscript_file_obj.file_end
-  clas12condor_file = file_struct.condor_file_obj.file_base + file_extension + file_struct.condor_file_obj.file_end
+  runscript_file = fs.runscript_file_obj.file_base + file_extension + fs.runscript_file_obj.file_end
+  clas12condor_file = fs.condor_file_obj.file_base + file_extension + fs.condor_file_obj.file_end
 
-  condorfile = file_struct.condor_file_obj.file_path + clas12condor_file
-  #subprocess.call(['chmod','+x',file_struct.runscript_file_obj.file_path + runscript_file]) #No longer need to do this
+  condorfile = fs.condor_file_obj.file_path + clas12condor_file
+  #subprocess.call(['chmod','+x',fs.runscript_file_obj.file_path + runscript_file]) #No longer need to do this
   condorwrapper_location = os.path.dirname(os.path.abspath(__file__))+"/../condor_wrapper"
   subprocess.call(['chmod','+x',condorwrapper_location])
 
