@@ -3,6 +3,19 @@
 # Notice: hardcoding the name and path: CLAS12_OCRDB.db until DB_path is handled properly
 # (Assuming it's in the same dir as where condor submit is executed)
 #
+# Some relevant quantities:
+
+# $(Process) or $(ProcId)
+# Within a cluster of jobs, each takes on its own unique $(Process) or $(ProcId) value.
+# The first job has value 0. $(Process) or $(ProcId) will have the same value as the job ClassAd attribute ProcId.
+#
+# queue 3 in (A, B)
+# $(Process) takes on the six values 0, 1, 2, 3, 4, and 5.
+# Because there is no specification for the <varname> within this queue command, variable $(Item) is defined.
+# It has the value A for the first three jobs queued, and it has the value B for the second three jobs queued.
+# $(Step) takes on the three values 0, 1, and 2 for the three jobs with $(Item)=A, and it takes on the same three values 0, 1, and 2 for the three jobs with $(Item)=B.
+# $(ItemIndex) is 0 for all three jobs with $(Item)=A, and it is 1 for all three jobs with $(Item)=B.
+# $(Row) has the same value as $(ItemIndex) for this example.
 
 def condorFilesHandler(scard,**kwargs):
 

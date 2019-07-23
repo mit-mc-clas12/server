@@ -33,14 +33,25 @@ rm -f $nodeScript
 
 # sqlite run to download the running script and the gcard. Assuming DB is in the same dir
 sqlite3 CLAS12_OCRDB.db "SELECT runscript_text FROM Submissions WHERE submissionID = $submissionID"  > $nodeScript
+echo
+echo
+echo Content of $nodeScript
+echo
+cat $nodeScript
+echo
+echo end of $nodeScript
+echo
 echo Now running $nodeScript with submissionID: $submissionID" inside directory: "`pwd`
+
+chmod +x $nodeScript
 
 if [ $# == 3 ]; then
 	echo LUND filename: $lundFile
+	./$nodeScript $submissionID $lundFile
+else
+	./$nodeScript $submissionID
 fi
 
-chmod +x $nodeScript
-./$nodeScript $submissionID $lundFile
 echo
 echo $nodeScript run completed.
 echo

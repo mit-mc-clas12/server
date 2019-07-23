@@ -33,14 +33,25 @@ rm -f $nodeScript
 
 # mysql run to download the running script and the gcard.
 mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM Submissions WHERE submissionID=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > $nodeScript
+echo
+echo
+echo Content of $nodeScript
+echo
+cat $nodeScript
+echo
+echo end of $nodeScript
+echo
 echo Now running $nodeScript with submissionID: $submissionID" inside directory: "`pwd`
 
+chmod +x $nodeScript
+
 if [ $# == 3 ]; then
-	echo LUND filename: $lundFile
+echo LUND filename: $lundFile
+./$nodeScript $submissionID $lundFile
+else
+./$nodeScript $submissionID
 fi
 
-chmod +x $nodeScript
-./$nodeScript $submissionID $lundFile
 echo
 echo $nodeScript run completed.
 echo
