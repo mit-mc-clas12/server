@@ -25,7 +25,8 @@ cd $outDir
 
 echo
 echo Running inside `pwd`
-echo Directory content at start: `\ls -l`
+echo Directory content at start:
+\ls -l
 echo
 echo Downloading runscript with submissionID: $submissionID
 echo
@@ -35,14 +36,13 @@ rm -f $nodeScript
 # sqlite run to download the running script and the gcard. Assuming DB is in the same dir
 sqlite3 CLAS12_OCRDB.db "SELECT runscript_text FROM Submissions WHERE submissionID = $submissionID"  > $nodeScript
 echo
-echo
 echo Content of $nodeScript
 echo
 cat $nodeScript
 echo
-echo end of $nodeScript
+echo End of $nodeScript
 echo
-echo Now running $nodeScript with submissionID: $submissionID" inside directory: "`pwd`
+echo Now running $nodeScript with submissionID: $submissionID
 
 chmod +x $nodeScript
 
