@@ -43,4 +43,4 @@ def script_factory(args,script_obj,script_functions,params):
   str_script_db = script_text.replace('"',"'") #I can't figure out a way to write "" into a sqlite field without errors
   # For now, we can replace " with ', which works ok, but IDK how it will run if the scripts were submitted to HTCondor
   strn = 'UPDATE Submissions SET {0} = "{1}" WHERE GcardID = {2};'.format(script_obj.file_text_fieldname,str_script_db,params['GcardID'])
-  utils.sql3_exec(strn)
+  utils.db_write(strn)

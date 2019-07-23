@@ -22,7 +22,7 @@ def Submit_batch(args):
   if args.BatchID != 'none':
     Batches = []
     strn = "SELECT BatchID FROM Batches;"
-    Batches_array = utils.sql3_grab(strn)
+    Batches_array = utils.db_grab(strn)
     for i in Batches_array: Batches.append(i[0])
     if not int(args.BatchID) in Batches:
       print("The selected batch (BatchID = {0}) does not exist, exiting".format(args.BatchID))
@@ -33,12 +33,12 @@ def Submit_batch(args):
   else:
     if args.submit:
       strn = "SELECT BatchID FROM Submissions WHERE run_status NOT LIKE '{0}';".format("Submitted to%")
-      batches_to_submit = utils.sql3_grab(strn)
+      batches_to_submit = utils.db_grab(strn)
       if len(batches_to_submit) == 0:
         print("There are no batches which have not yet been submitted to a farm")
     else:
       strn = "SELECT BatchID FROM Submissions WHERE run_status = '{0}';".format("Not Submitted")
-      batches_to_submit = utils.sql3_grab(strn)
+      batches_to_submit = utils.db_grab(strn)
       if len(batches_to_submit) == 0:
         print("There are no batches which do not yet have submission scripts generated")
     if len(batches_to_submit) != 0:

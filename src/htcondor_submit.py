@@ -39,11 +39,11 @@ def htcondor_submit(args,GcardID,file_extension):
   node_number = words[len(words)-1] #This might only work on SubMIT
 
   strn = "UPDATE Submissions SET run_status = 'submitted to pool' WHERE GcardID = '{0}';".format(GcardID)
-  utils.sql3_exec(strn)
+  utils.db_write(strn)
 
   timestamp = utils.gettime() # Can modify this if need 10ths of seconds or more resolution
   strn = "UPDATE Submissions SET submission_timestamp = '{0}' WHERE GcardID = '{1}';".format(timestamp,GcardID)
-  utils.sql3_exec(strn)
+  utils.db_write(strn)
 
   strn = "UPDATE Submissions SET pool_node = '{0}' WHERE GcardID = '{1}';".format(node_number,GcardID)
-  utils.sql3_exec(strn)
+  utils.db_write(strn)

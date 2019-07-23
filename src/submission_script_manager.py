@@ -23,9 +23,9 @@ from run_job_generators import *
 def process_jobs(args,BatchID):
   fs.DEBUG = getattr(args,fs.debug_long)
   # Grabs batch and gcards as described in respective files
-  gcards = utils.sql3_grab("SELECT GcardID, gcard_text FROM Gcards WHERE BatchID = {0};".format(BatchID))
-  username = utils.sql3_grab("SELECT User FROM Batches WHERE BatchID = {0};".format(BatchID))[0][0]
-  scard = scard_helper.scard_class(utils.sql3_grab( "SELECT scard FROM Batches WHERE BatchID = {0};".format(BatchID))[0][0])
+  gcards = utils.db_grab("SELECT GcardID, gcard_text FROM Gcards WHERE BatchID = {0};".format(BatchID))
+  username = utils.db_grab("SELECT User FROM Batches WHERE BatchID = {0};".format(BatchID))[0][0]
+  scard = scard_helper.scard_class(utils.db_grab( "SELECT scard FROM Batches WHERE BatchID = {0};".format(BatchID))[0][0])
 
   # script to be run inside the container
   funcs_rs = (runScriptHeader.runScriptHeader,
@@ -96,11 +96,11 @@ def process_jobs(args,BatchID):
 
     submission_string = 'Submission scripts generated'.format(scard.data['farm_name'])
     strn = "UPDATE Submissions SET {0} = '{1}' WHERE BatchID = {2};".format('run_status',submission_string,BatchID)
-    utils.sql3_exec(strn)
+    utils.db_write(strn)
 
     if args.submit:
       print("\tSubmitting jobs to {0} \n".format(scard.data['farm_name']))
       farm_submission_manager.farm_submission_manager(args,GcardID,file_extension,scard,params)
       submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
       strn = "UPDATE Submissions SET {0} = '{1}' WHERE BatchID = {2};".format('run_status',submission_string,BatchID)
-      utils.sql3_exec(strn)
+      utils.db_write(strn)
