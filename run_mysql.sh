@@ -24,7 +24,8 @@ cd $outDir
 
 
 echo
-echo Directory content at start: `\ls -l`
+echo Running inside `pwd`
+echo Directory content at start `\ls -l`
 echo
 echo Downloading runscript with submissionID: $submissionID
 echo
@@ -32,7 +33,7 @@ echo
 rm -f $nodeScript
 
 # mysql run to download the running script and the gcard.
-mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM Submissions WHERE submissionID=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > $nodeScript
+/bin/mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM Submissions WHERE submissionID=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > $nodeScript
 echo
 echo
 echo Content of $nodeScript

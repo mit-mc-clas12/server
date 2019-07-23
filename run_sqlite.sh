@@ -24,6 +24,7 @@ cp *.txt $outDir
 cd $outDir
 
 echo
+echo Running inside `pwd`
 echo Directory content at start: `\ls -l`
 echo
 echo Downloading runscript with submissionID: $submissionID
