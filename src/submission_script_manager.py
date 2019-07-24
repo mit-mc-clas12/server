@@ -1,8 +1,8 @@
 #****************************************************************
 """
-# This file will query the command line to see what BatchID it should use,
-# or if no arguement is given on the CL, the most recent BatchID will be used
-# This BatchID is used to identify the proper scard and gcards, and then submission
+# This file will query the command line to see what UserSubmissionID it should use,
+# or if no arguement is given on the CL, the most recent UserSubmissionID will be used
+# This UserSubmissionID is used to identify the proper scard and gcards, and then submission
 # files corresponding to each gcard are generated and stored in the database, as
 # well as written out to a file with a unique name. This latter part will be passed
 # to the server side in the near future.
@@ -20,12 +20,12 @@ from clas12condor_generators import *
 from run_job_generators import *
 
 
-def process_jobs(args,BatchID):
+def process_jobs(args,UserSubmissionID):
   fs.DEBUG = getattr(args,fs.debug_long)
-  # Grabs batch and gcards as described in respective files
-  gcards = utils.db_grab("SELECT GcardID, gcard_text FROM Gcards WHERE BatchID = {0};".format(BatchID))
-  username = utils.db_grab("SELECT User FROM Batches WHERE BatchID = {0};".format(BatchID))[0][0]
-  scard = scard_helper.scard_class(utils.db_grab( "SELECT scard FROM Batches WHERE BatchID = {0};".format(BatchID))[0][0])
+  # Grabs UserSubmission and gcards as described in respective files
+  gcards = utils.db_grab("SELECT GcardID, gcard_text FROM Gcards WHERE UserSubmissionID = {0};".format(UserSubmissionID))
+  username = utils.db_grab("SELECT User FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0]
+  scard = scard_helper.scard_class(utils.db_grab( "SELECT scard FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0])
 
   # script to be run inside the container
   funcs_rs = (runScriptHeader.runScriptHeader,
@@ -60,7 +60,7 @@ def process_jobs(args,BatchID):
       gcard_loc = scard.data['gcards']
     elif 'http' in  scard.data['gcards']:
       utils.printer('Writing gcard to local file')
-      newfile = "gcard_{0}_batch_{1}.gcard".format(GcardID,BatchID)
+      newfile = "gcard_{0}_UserSubmission_{1}.gcard".format(GcardID,UserSubmissionID)
       gfile= fs.sub_files_path+fs.gcards_dir+newfile
       if not os.path.exists(gfile):
         newdir = fs.sub_files_path+fs.gcards_dir
@@ -73,14 +73,14 @@ def process_jobs(args,BatchID):
       print('gcard not recognized as default option or online repository, please inspect scard')
       exit()
 
-    file_extension = "_gcard_{0}_batch_{1}".format(GcardID,BatchID)
+    file_extension = "_gcard_{0}_UserSubmission_{1}".format(GcardID,UserSubmissionID)
 
     if fs.use_mysql:
       DB_path = fs.MySQL_DB_path
     else:
       DB_path = fs.SQLite_DB_path
 
-    params = {'table':'Scards','BatchID':BatchID,'GcardID':GcardID,
+    params = {'table':'Scards','UserSubmissionID':UserSubmissionID,'GcardID':GcardID,
               'database_filename':DB_path+fs.DB_name,
               'username':username,'gcard_loc':gcard_loc,'lund_dir':lund_dir,
               'file_extension':file_extension,'scard':scard}
@@ -92,15 +92,15 @@ def process_jobs(args,BatchID):
     for index, script in enumerate(script_set):
       script_factory.script_factory(args, script, script_set_funcs[index], params)
 
-    print("\tSuccessfully generated submission files for Batch {0} with GcardID {1}".format(BatchID,GcardID))
+    print("\tSuccessfully generated submission files for UserSubmission {0} with GcardID {1}".format(UserSubmissionID,GcardID))
 
     submission_string = 'Submission scripts generated'.format(scard.data['farm_name'])
-    strn = "UPDATE Submissions SET {0} = '{1}' WHERE BatchID = {2};".format('run_status',submission_string,BatchID)
+    strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format('run_status',submission_string,UserSubmissionID)
     utils.db_write(strn)
 
     if args.submit:
       print("\tSubmitting jobs to {0} \n".format(scard.data['farm_name']))
       farm_submission_manager.farm_submission_manager(args,GcardID,file_extension,scard,params)
       submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
-      strn = "UPDATE Submissions SET {0} = '{1}' WHERE BatchID = {2};".format('run_status',submission_string,BatchID)
+      strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format('run_status',submission_string,UserSubmissionID)
       utils.db_write(strn)

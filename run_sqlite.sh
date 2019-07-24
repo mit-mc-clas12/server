@@ -34,7 +34,7 @@ echo
 rm -f $nodeScript
 
 # sqlite run to download the running script and the gcard. Assuming DB is in the same dir
-sqlite3 CLAS12_OCRDB.db "SELECT runscript_text FROM Submissions WHERE submissionID = $submissionID"  > $nodeScript
+sqlite3 CLAS12_OCRDB.db "SELECT runscript_text FROM FarmSubmissions WHERE submissionID = $submissionID"  > $nodeScript
 echo
 echo Content of $nodeScript
 echo

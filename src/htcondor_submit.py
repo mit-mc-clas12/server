@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
 #Could also do the following, but then python has to search the
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import Submit_batch
+import Submit_UserSubmission
 import fs, utils
 
 def htcondor_submit(args,GcardID,file_extension):
@@ -38,12 +38,12 @@ def htcondor_submit(args,GcardID,file_extension):
   words = submission.split()
   node_number = words[len(words)-1] #This might only work on SubMIT
 
-  strn = "UPDATE Submissions SET run_status = 'submitted to pool' WHERE GcardID = '{0}';".format(GcardID)
+  strn = "UPDATE FarmSubmissions SET run_status = 'submitted to pool' WHERE GcardID = '{0}';".format(GcardID)
   utils.db_write(strn)
 
   timestamp = utils.gettime() # Can modify this if need 10ths of seconds or more resolution
-  strn = "UPDATE Submissions SET submission_timestamp = '{0}' WHERE GcardID = '{1}';".format(timestamp,GcardID)
+  strn = "UPDATE FarmSubmissions SET submission_timestamp = '{0}' WHERE GcardID = '{1}';".format(timestamp,GcardID)
   utils.db_write(strn)
 
-  strn = "UPDATE Submissions SET pool_node = '{0}' WHERE GcardID = '{1}';".format(node_number,GcardID)
+  strn = "UPDATE FarmSubmissions SET pool_node = '{0}' WHERE GcardID = '{1}';".format(node_number,GcardID)
   utils.db_write(strn)

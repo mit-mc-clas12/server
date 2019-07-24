@@ -37,8 +37,8 @@ def script_factory(args,script_obj,script_functions,params):
   #This handles writing to disk and to SQL database
   if args.write_files:
     filename = script_obj.file_path+script_obj.file_base+params['file_extension']+script_obj.file_end
-    utils.printer("\tWriting submission file '{0}' based off of specifications of BatchID = {1}, GcardID = {2}".format(filename,
-        params['BatchID'],params['GcardID']))
+    utils.printer("\tWriting submission file '{0}' based off of specifications of UserSubmissionID = {1}, GcardID = {2}".format(filename,
+        params['UserSubmissionID'],params['GcardID']))
     if not os.path.exists(script_obj.file_path):
         Popen(['mkdir','-p',script_obj.file_path], stdout=PIPE)
     if os.path.isfile(filename):
@@ -47,5 +47,5 @@ def script_factory(args,script_obj,script_functions,params):
     with open(filename,"a") as file: file.write(script_text)
   str_script_db = script_text.replace('"',"'") #I can't figure out a way to write "" into a sqlite field without errors
   # For now, we can replace " with ', which works ok, but IDK how it will run if the scripts were submitted to HTCondor
-  strn = 'UPDATE Submissions SET {0} = "{1}" WHERE GcardID = {2};'.format(script_obj.file_text_fieldname,str_script_db,params['GcardID'])
+  strn = 'UPDATE FarmSubmissions SET {0} = "{1}" WHERE GcardID = {2};'.format(script_obj.file_text_fieldname,str_script_db,params['GcardID'])
   utils.db_write(strn)

@@ -12,14 +12,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 #Could also do the following, but then python has to search the
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import htcondor_submit, slurm_submit
-import Submit_batch
+import Submit_UserSubmission
 import fs, utils
 
 def update_users_statistics(scard,params):
-  strn = "SELECT Total_Batches FROM Users WHERE User = '{0}';".format(params['username'])
-  batches_total = utils.db_grab(strn)[0][0]
-  batches_total += 1
-  strn = "UPDATE Users SET Total_Batches = '{0}' WHERE User = '{1}';".format(batches_total,params['username'])
+  strn = "SELECT Total_UserSubmissions FROM Users WHERE User = '{0}';".format(params['username'])
+  UserSubmissions_total = utils.db_grab(strn)[0][0]
+  UserSubmissions_total += 1
+  strn = "UPDATE Users SET Total_UserSubmissions = '{0}' WHERE User = '{1}';".format(UserSubmissions_total,params['username'])
   utils.db_write(strn)
 
   strn = "SELECT Total_Jobs FROM Users WHERE User = '{0}';".format(params['username'])
