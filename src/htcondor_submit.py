@@ -47,8 +47,8 @@ def htcondor_submit(args,scard,GcardID,file_extension,params):
     login_info = this_dirname + "/../../utils/msql.txt"
     subprocess.call([condor_exec,condorfile,output_dir_base,params['username'],run_sqlite_exec,str(args.test),login_info])
   else:
-    print("Fill in mysql conditions here")
-    #subprocess.call([condor_exec,params['username'],condorfile,run_sqlite_exec,msql_info])
+    print("Trying to execute condor_submit.sh now")
+    subprocess.call([condor_exec,condorfile,output_dir_base,params['username'],run_mysql_exec,str(args.test),login_info])
 
 """
   print(submission)
