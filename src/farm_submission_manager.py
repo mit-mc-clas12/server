@@ -46,11 +46,11 @@ processing through our system. """)
 def farm_submission_manager(args,GcardID,file_extension,scard,params):
   if scard.data['farm_name'] == "MIT_Tier2" or scard.data['farm_name'] == "OSG":
     utils.printer("Passing to htcondor_submit")
-    htcondor_submit.htcondor_submit(args,GcardID,file_extension)
+    htcondor_submit.htcondor_submit(args,scard,GcardID,file_extension,params)
     update_users_statistics(scard,params)
   elif scard.data['farm_name'] == "JLab":
     utils.printer("Passing to slurm_submit")
-    slurm_submit.slurm_submit(args,GcardID,file_extension)
+    slurm_submit.slurm_submit(args,scard,GcardID,file_extension,params)
     update_users_statistics(scard,params)
   else:
     print('Invalid farm name in scard, please check that the desired farm is spelled correctly and is supported')
