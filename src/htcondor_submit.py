@@ -22,36 +22,35 @@ def htcondor_submit(args,scard,GcardID,file_extension,params):
   runscript_file = fs.runscript_file_obj.file_base + file_extension + fs.runscript_file_obj.file_end
   clas12condor_file = fs.condor_file_obj.file_base + file_extension + fs.condor_file_obj.file_end
 
-  condorfile = fs.condor_file_obj.file_path + clas12condor_file
+  condorfile_loc = fs.condor_file_obj.file_path + clas12condor_file
   #subprocess.call(['chmod','+x',fs.runscript_file_obj.file_path + runscript_file]) #No longer need to do this
   condorwrapper_location = this_dirname+"/../condor_wrapper"
   subprocess.call(['chmod','+x',condorwrapper_location])
 
-  if args.test:
-    output_dir_base = this_dirname+"/volatile/clas12/osg/"
+  if args.OutputDir != 'none':
+    print("Using custom directory for output at {0}".format(args.OutputDir))
+    output_dir_base = args.OutputDir
   else:
-    output_dir_base = "/volatile/clas12/osg/"
+    if args.test:
+      output_dir_base = this_dirname+"/volatile/clas12/osg"
+    else:
+      output_dir_base = "/volatile/clas12/osg"
+
   condor_exec = this_dirname + "/../condor_submit.sh"
   run_mysql_exec = this_dirname + "/../run_mysql.sh"
   run_sqlite_exec = this_dirname + "/../run_sqlite.sh"
-  login_info = this_dirname + "/../../msqlr.txt"
 
-  #if args.test:
-  #  submission = """THIS IS A FAKE SUBMISSION...
-#    3 job(s) submitted to cluster 7334290."""#
-#  else:
-    #print("trying to submit job with popen")
-    #subprocess.call(['cd',scard.data["output_dir"]])
-    #submission = Popen(['condor_submit',condorfile], stdout=PIPE).communicate()[0]
   if args.lite:
-    login_info = this_dirname + "/../../utils/msql.txt"
-    subprocess.call([condor_exec,condorfile,output_dir_base,params['username'],run_sqlite_exec,str(args.test),login_info])
+    print("Since you used the -t flag, the command 'condor_submit clas12.condor will not be passed'")
+    submission = Popen([condor_exec,condorfile_loc,clas12condor_file,output_dir_base,
+      params['username'],run_sqlite_exec,str(args.test)], stdout=PIPE).communicate()[0]
   else:
     print("Trying to execute condor_submit.sh now")
-    subprocess.call([condor_exec,condorfile,output_dir_base,params['username'],run_mysql_exec,str(args.test),login_info])
+    submission = Popen([condor_exec,condorfile_loc,clas12condor_file,output_dir_base,
+      params['username'],run_mysql_exec,str(args.test)], stdout=PIPE).communicate()[0]
 
-"""
   print(submission)
+
   words = submission.split()
   node_number = words[len(words)-1] #This might only work on SubMIT
 
@@ -64,4 +63,3 @@ def htcondor_submit(args,scard,GcardID,file_extension,params):
 
   strn = "UPDATE FarmSubmissions SET pool_node = '{0}' WHERE GcardID = '{1}';".format(node_number,GcardID)
   utils.db_write(strn)
-"""

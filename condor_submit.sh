@@ -3,21 +3,26 @@
 # For HTCondor FarmSubmissions
 # This script is called in server/src/htcondor_submit.py
 
-condor_file=$1
-output_dir_base=$2
-username=$3
-run_script=$4
-testing=$5
-login_info=$6
+condor_file_path=$1
+clas12condor_file_name=$2
+output_dir_base=$3
+username=$4
+run_script=$5
+testing=$6
 
 # script name
 #nodeScript=nodeScript.sh
 
-outDir=$output_dir_base$username
+outDir=$output_dir_base"/"$username
 mkdir -p $outDir
-cp $condor_file $outDir
+cp $condor_file_path $outDir
 cp $run_script $outDir
-cp $login_info $outDir
 cd $outDir
 
-#'condor_submit',condorfile
+
+if [ "$testing" == "True" ]; then
+   submission="THIS IS A FAKE SUBMISSION...  3 job(s) submitted to cluster 7334290."
+   echo $submission
+else
+  condor_submit clas12condor_file_name
+fi
