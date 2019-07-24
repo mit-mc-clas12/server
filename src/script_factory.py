@@ -44,7 +44,7 @@ def script_factory(args,script_obj,script_functions,params):
     if os.path.isfile(filename):
       subprocess.call(['rm',filename])
     Popen(['touch',filename], stdout=PIPE)
-    with open(filename,"a") as file: file.write(script_text)
+    with open(filename,"w") as file: file.write(script_text)
   str_script_db = script_text.replace('"',"'") #I can't figure out a way to write "" into a sqlite field without errors
   # For now, we can replace " with ', which works ok, but IDK how it will run if the scripts were submitted to HTCondor
   strn = 'UPDATE FarmSubmissions SET {0} = "{1}" WHERE GcardID = {2};'.format(script_obj.file_text_fieldname,str_script_db,params['GcardID'])
