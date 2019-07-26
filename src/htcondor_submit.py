@@ -17,37 +17,14 @@ import fs, utils
 def htcondor_submit(args,scard,GcardID,file_extension,params):
 
   """ if value in submission === not submitted"""
-  this_dirname = os.path.dirname(os.path.abspath(__file__))#os.path.dirname(__file__)
+  # Need to add condition here in case path is different for non-jlab
+  scripts_baseDir  = "/group/clas12/SubMit"
+  condor_exec = scripts_baseDir + "/server/condor_submit.sh"
+  jobOutputDir = "/volatile/clas12/osg"
 
-  runscript_file = fs.runscript_file_obj.file_base + file_extension + fs.runscript_file_obj.file_end
-  clas12condor_file = fs.condor_file_obj.file_base + file_extension + fs.condor_file_obj.file_end
 
-  condorfile_loc = fs.condor_file_obj.file_path + clas12condor_file
-  #subprocess.call(['chmod','+x',fs.runscript_file_obj.file_path + runscript_file]) #No longer need to do this
-  condorwrapper_location = this_dirname+"/../condor_wrapper"
-  subprocess.call(['chmod','+x',condorwrapper_location])
-
-  if args.OutputDir != 'none':
-    print("Using custom directory for output at {0}".format(args.OutputDir))
-    output_dir_base = args.OutputDir
-  else:
-    if args.test:
-      output_dir_base = this_dirname+"/volatile/clas12/osg"
-    else:
-      output_dir_base = "/volatile/clas12/osg"
-
-  condor_exec = this_dirname + "/../condor_submit.sh"
-  run_mysql_exec = this_dirname + "/../run_mysql.sh"
-  run_sqlite_exec = this_dirname + "/../run_sqlite.sh"
-
-  if args.lite:
-    print("Since you used the -t flag, the command 'condor_submit clas12.condor will not be passed'")
-    submission = Popen([condor_exec,condorfile_loc,clas12condor_file,output_dir_base,
-      params['username'],run_sqlite_exec,str(args.test)], stdout=PIPE).communicate()[0]
-  else:
-    print("Trying to execute condor_submit.sh now")
-    submission = Popen([condor_exec,condorfile_loc,clas12condor_file,output_dir_base,
-      params['username'],run_mysql_exec,str(args.test)], stdout=PIPE).communicate()[0]
+  # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
+  submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'], str(GcardID)], stdout=PIPE).communicate()[0]
 
   print(submission)
 

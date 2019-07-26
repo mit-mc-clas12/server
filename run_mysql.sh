@@ -34,7 +34,7 @@ echo
 rm -f $nodeScript
 
 # mysql run to download the running script and the gcard.
-/bin/mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM FarmSubmissions WHERE FarmSubmissionID=$FarmSubmissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > $nodeScript
+mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM FarmSubmissions WHERE FarmSubmissionID=$FarmSubmissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > $nodeScript
 echo
 echo Content of $nodeScript
 echo

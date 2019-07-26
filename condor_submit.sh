@@ -3,26 +3,22 @@
 # For HTCondor FarmSubmissions
 # This script is called in server/src/htcondor_submit.py
 
-condor_file_path=$1
-clas12condor_file_name=$2
-output_dir_base=$3
-username=$4
-run_script=$5
-testing=$6
+scripts_baseDir=$1
+jobOutputDir=$2
+username=$3
+# hardcoding this, not sure how to pass it 
+submissionID=$4
 
-# script name
-#nodeScript=nodeScript.sh
+outDir=$jobOutputDir"/"$username"/out_"$submissionID
 
-outDir=$output_dir_base"/"$username
+
 mkdir -p $outDir
-cp $condor_file_path $outDir
-cp $run_script $outDir
 cd $outDir
+rm -f *
+mkdir log
 
+cp $scripts_baseDir/server/run_mysql.sh .
+cp $scripts_baseDir/msql_conn.txt .
+mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT clas12_condor_text FROM FarmSubmissions WHERE FarmSubmissionID=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > clas12.condor
 
-if [ "$testing" == "True" ]; then
-   submission="THIS IS A FAKE SUBMISSION...  3 job(s) submitted to cluster 7334290."
-   echo $submission
-else
-  condor_submit clas12condor_file_name
-fi
+condor_submit clas12.condor
