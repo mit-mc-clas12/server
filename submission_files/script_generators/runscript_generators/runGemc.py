@@ -20,7 +20,8 @@ echo Running events from user lund file: $lundFile
 echo Executable: `which gemc`
 if ( -f {0} ) then
 	echo {0} exists, copying it here
-	cp {0} job.gcard""".format(kwargs.get('gcard_loc'))
+	cp {0} job.gcard
+endif""".format(kwargs.get('gcard_loc'))
 #else
 #	rm -f job.gcard""".format(kwargs.get('gcard_loc'))
 #

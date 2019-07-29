@@ -19,7 +19,7 @@ nodeScript=nodeScript.sh
 
 outDir="out_"$FarmSubmissionID"/simu_"$sjob
 mkdir -p $outDir
-cp *.txt $outDir
+cp *.* $outDir
 cd $outDir
 
 

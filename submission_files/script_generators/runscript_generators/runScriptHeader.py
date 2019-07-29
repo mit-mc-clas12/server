@@ -16,6 +16,8 @@ def runScriptHeader(scard, **kwargs):
 # Run Script Header
 # -----------------
 
+source /etc/profile.d/environmentB.csh
+
 set submissionID=$1
 
 # lund file is passed as an argument to this script
