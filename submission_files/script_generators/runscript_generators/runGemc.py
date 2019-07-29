@@ -21,19 +21,20 @@ echo Executable: `which gemc`
 if ( -f {0} ) then
 	echo {0} exists, copying it here
 	cp {0} job.gcard
-else
-	rm -f job.gcard""".format(kwargs.get('gcard_loc'))
-
-  if kwargs['using_sqlite']:
-    get_gcard = """
-    echo "{0} does not exist, using sqlite3 to retrieve it"
-  	sqlite3 CLAS12_OCRDB.db 'SELECT gcard_text FROM gcards WHERE gcardID = "$submissionID"'  > job.gcard
-  endif"""
-  if not kwargs['using_sqlite']:
-    get_gcard = """
-        echo "{0} does not exist, using mysql to retrieve it"
-      	mysql --defaults-extra-file=msql_conn.txt --execute="SELECT gcard_text FROM gcards WHERE gcardID=$submissionID;"  > job.gcard
-      endif"""
+# Commenting the download of gcard as now it's handled by condor_submit
+#else
+#	rm -f job.gcard""".format(kwargs.get('gcard_loc'))
+#
+#  if kwargs['using_sqlite']:
+#    get_gcard = """
+#    echo "{0} does not exist, using sqlite3 to retrieve it"
+#  	sqlite3 CLAS12_OCRDB.db 'SELECT gcard_text FROM gcards WHERE gcardID = "$submissionID"'  > job.gcard
+#  endif"""
+#  if not kwargs['using_sqlite']:
+#    get_gcard = """
+#        echo "{0} does not exist, using mysql to retrieve it"
+#      	mysql --defaults-extra-file=msql_conn.txt --execute="SELECT gcard_text FROM gcards WHERE gcardID=$submissionID;"  > job.gcard
+#      endif"""
 
 
   if 'http' in scard.data.get('generator'):

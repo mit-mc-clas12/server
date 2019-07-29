@@ -28,20 +28,6 @@ echo Running inside `pwd`
 echo Directory content at start:
 \ls -l
 echo
-echo Downloading runscript with FarmSubmissionID: $FarmSubmissionID
-echo
-
-rm -f $nodeScript
-
-# mysql run to download the running script and the gcard.
-mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM FarmSubmissions WHERE FarmSubmissionID=$FarmSubmissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > $nodeScript
-echo
-echo Content of $nodeScript
-echo
-cat $nodeScript
-echo
-echo End of $nodeScript
-echo
 echo Now running $nodeScript with FarmSubmissionID: $FarmSubmissionID
 
 chmod +x $nodeScript

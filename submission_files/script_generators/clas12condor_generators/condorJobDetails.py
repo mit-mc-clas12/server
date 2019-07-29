@@ -5,10 +5,8 @@
 # Location of Output
 
 def condorJobDetails(scard,**kwargs):
-  if kwargs['using_sqlite']:
-    executable = "run_sqlite.sh"
-  else:
-    executable = "run_mysql.sh"
+
+  executable = "run.sh"
   strn = """
 # Hardware requirements
 request_cpus   = {0}
