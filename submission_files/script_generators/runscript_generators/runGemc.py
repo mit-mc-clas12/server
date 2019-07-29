@@ -66,4 +66,4 @@ echo
 """.format(scard.data['nevents'],scard.data['genOutput'])
 
   # copyGCard and runGemc
-  return copyGCard + get_gcard + runGemc
+  return copyGCard + runGemc
