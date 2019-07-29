@@ -20,16 +20,16 @@
 def condorFilesHandler(scard,**kwargs):
 
   farm_name = scard.data.get('farm_name')
-  # if it's a test, the Database should be copied
-  # for now, copying it anyway, but path is hardcoded
-  # transfer_input_files={0}, condor_wrapper
 
+  # handling mysql or sqlite
   if kwargs['using_sqlite']:
     transfer_input_files = "../utils/database/CLAS12_OCRDB.db"
   else:
     transfer_input_files = "msql_conn.txt"
-  if 'http' in scard.data.get('generator'):
-    transfer_input_files = transfer_input_files
+
+  # remaining files
+  transfer_input_files = transfer_input_files + ", run.sh, nodeScript.sh, job.gcard"
+
 
   # MIT Farm: condor wrapper is needed. Notice, path is needed? Can we assume this
   if farm_name == 'MIT_Tier2':
