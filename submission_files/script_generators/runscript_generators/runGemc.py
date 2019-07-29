@@ -20,7 +20,7 @@ echo Running events from user lund file: $lundFile
 echo Executable: `which gemc`
 if ( -f {0} ) then
 	echo {0} exists, copying it here
-	cp {0} job.gcard
+	cp {0} job.gcard"""
 # Commenting the download of gcard as now it's handled by condor_submit
 #else
 #	rm -f job.gcard""".format(kwargs.get('gcard_loc'))
