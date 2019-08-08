@@ -12,6 +12,7 @@ import farm_submission_manager
 import utils, fs, scard_helper, lund_helper, get_args
 
 #Generates a script by appending functions that output strings
+#This function is called by submission_script_manager.py
 def script_factory(args,script_obj,script_functions,params):
 
   script_text = ""

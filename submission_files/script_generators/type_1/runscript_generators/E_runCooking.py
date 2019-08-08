@@ -3,7 +3,7 @@
 # Input:  gemc.hipo
 # Output: recon.hipo
 
-def runCooking(scard,**kwargs):
+def E_runCooking(scard,**kwargs):
   strn = """
 
 # Run Reconstruction

@@ -6,7 +6,7 @@
 # 1. submission ID
 # 2. lundfile if present
 
-def runScriptHeader(scard, **kwargs):
+def A_runScriptHeader(scard, **kwargs):
 
 	headerSTR = """#!/bin/csh
 

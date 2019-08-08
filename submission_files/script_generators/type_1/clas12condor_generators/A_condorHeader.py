@@ -7,7 +7,7 @@
 # MIT_Tier2
 # OSG
 
-def condorHeader(scard, **kwargs):
+def A_condorHeader(scard, **kwargs):
   farm_name = scard.data.get('farm_name')
 
   strHeader = """# The SubMit Project: Condor Submission Script
@@ -30,5 +30,5 @@ Requirements = HAS_SINGULARITY == TRUE
 	  requirementsStr = """
 Requirements  = (GLIDEIN_Site == "MIT_CampusFactory" && BOSCOGroup == "bosco_lns")
 """
-  
+
   return strHeader + requirementsStr

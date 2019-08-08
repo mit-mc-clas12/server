@@ -4,7 +4,7 @@
 """
 #****************************************************************
 
-def run_job1(scard,**kwargs):
+def A_run_job1(scard,**kwargs):
   strn = """#!/bin/bash
 
 echo "XXX"

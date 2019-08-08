@@ -4,7 +4,7 @@
 # Executable and Arguments
 # Location of Output
 
-def condorJobDetails(scard,**kwargs):
+def B_condorJobDetails(scard,**kwargs):
 
   executable = "run.sh"
   strn = """

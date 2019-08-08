@@ -15,10 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files/script_generators')
 import farm_submission_manager, script_factory
 import utils, fs, scard_helper, lund_helper, get_args
-from runscript_generators import *
-from clas12condor_generators import *
-from run_job_generators import *
-
+from importlib import import_module
 
 def process_jobs(args,UserSubmissionID):
   fs.DEBUG = getattr(args,fs.debug_long)
@@ -27,21 +24,37 @@ def process_jobs(args,UserSubmissionID):
   username = utils.db_grab("SELECT User FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0]
   scard = scard_helper.scard_class(utils.db_grab( "SELECT scard FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0])
 
-  # script to be run inside the container
-  funcs_rs = (runScriptHeader.runScriptHeader,
-              runGenerator.runGenerator,
-              runGemc.runGemc,
-              runEvio2hipo.runEvio2hipo,
-              runCooking.runCooking,
-              runScriptFooter.runScriptFooter)
+  try:
+    scard_type = int(args.scard_type)
+  except Exception as err:
+    print("There was an error in recognizing scard type: ")
+    print(err)
+    exit()
 
-  # condor submission script
-  funcs_condor = (condorHeader.condorHeader,
-                  condorJobDetails.condorJobDetails,
-                  condorFilesHandler.condorFilesHandler)
+  if scard_type == 1:
+    sub_type = "type_1"
+    print("Using scard type 1 template")
+  elif scard_type == 2:
+    sub_type = "type_2"
+    print("Using scard type 2 template")
+  else:
+    print("submission type not properly defined, exiting")
+    exit()
 
-  # condor wrapper
-  funcs_runjob = (run_job1.run_job1,)
+  script_set = [fs.runscript_file_obj,fs.condor_file_obj,fs.run_job_obj]
+  funcs_rs, funcs_condor,funcs_runjob = [], [], [] #initialize empty function arrays
+  script_set_funcs = [funcs_rs,funcs_condor,funcs_runjob]
+  #Please note, the ordering of this array must match the ordering of the above
+  scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
+
+  for index, script_dir in enumerate(scripts):
+    for function in os.listdir("submission_files/script_generators/"+sub_type+script_dir):
+      if "init" not in function:
+        if ".pyc" not in function:
+          module_name = function[:-3]
+          module = import_module(sub_type+'.'+script_dir[1:-1]+'.'+module_name,module_name)
+          func = getattr(module,module_name)
+          script_set_funcs[index].append(func)
 
   if 'http' in scard.data.get('generator'):
     lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
@@ -85,8 +98,6 @@ def process_jobs(args,UserSubmissionID):
               'username':username,'gcard_loc':gcard_loc,'lund_dir':lund_dir,
               'file_extension':file_extension,'scard':scard}
 
-    script_set = [fs.runscript_file_obj,fs.condor_file_obj,fs.run_job_obj]
-    script_set_funcs = [funcs_rs,funcs_condor,funcs_runjob]
 
     """ This is where we actually pass all arguements to write the scripts"""
     for index, script in enumerate(script_set):

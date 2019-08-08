@@ -1,6 +1,6 @@
 # Runs the chosen generator with options
 
-def runGenerator(scard,**kwargs):
+def B_runGenerator(scard,**kwargs):
 
   strGeneratorHeader = """
 # Generator

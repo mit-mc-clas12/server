@@ -3,7 +3,7 @@
 # Input:  gemc.evio
 # Output: gemc.hipo
 
-def runEvio2hipo(scard,**kwargs):
+def D_runEvio2hipo(scard,**kwargs):
   strn = """
 
 # Run evio2hipo

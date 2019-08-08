@@ -4,7 +4,7 @@
 # Output: gemc.evio
 
 
-def runGemc(scard, **kwargs):
+def C_runGemc(scard, **kwargs):
 
   # if the gcard already exists at the location, copy it to "job.gcard"
   # otherwise download it from DB

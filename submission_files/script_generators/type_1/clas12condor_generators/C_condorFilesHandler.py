@@ -17,7 +17,7 @@
 # $(ItemIndex) is 0 for all three jobs with $(Item)=A, and it is 1 for all three jobs with $(Item)=B.
 # $(Row) has the same value as $(ItemIndex) for this example.
 
-def condorFilesHandler(scard,**kwargs):
+def C_condorFilesHandler(scard,**kwargs):
 
   farm_name = scard.data.get('farm_name')
 

@@ -1,7 +1,7 @@
 # Job finish up:
 # Logs statistic, each prepended by "====" for better retrieval later
 
-def runScriptFooter(scard,**kwargs):
+def F_runScriptFooter(scard,**kwargs):
 
 	strn = """
 #!/bin/csh
