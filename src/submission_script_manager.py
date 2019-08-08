@@ -24,6 +24,7 @@ def process_jobs(args,UserSubmissionID):
   username = utils.db_grab("SELECT User FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0]
   scard = scard_helper.scard_class(utils.db_grab( "SELECT scard FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0])
 
+  #This block picks up the scard type from arguements and throws an error if it was not an int
   try:
     scard_type = int(args.scard_type)
   except Exception as err:
@@ -31,6 +32,7 @@ def process_jobs(args,UserSubmissionID):
     print(err)
     exit()
 
+  #Setting sub_type to the right directory based on the scard_type
   if scard_type == 1:
     sub_type = "type_1"
     print("Using scard type 1 template")
@@ -38,15 +40,17 @@ def process_jobs(args,UserSubmissionID):
     sub_type = "type_2"
     print("Using scard type 2 template")
   else:
-    print("submission type not properly defined, exiting")
+    print("submission type not properly defined, exiting. Use -y # flag when submitting to specify scard type")
     exit()
 
+  #This is creating an array of script generating functions.
   script_set = [fs.runscript_file_obj,fs.condor_file_obj,fs.run_job_obj]
   funcs_rs, funcs_condor,funcs_runjob = [], [], [] #initialize empty function arrays
   script_set_funcs = [funcs_rs,funcs_condor,funcs_runjob]
   #Please note, the ordering of this array must match the ordering of the above
   scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
 
+  #Now we will loop through directories to import the script generation functions
   for index, script_dir in enumerate(scripts):
     for function in os.listdir("submission_files/script_generators/"+sub_type+script_dir):
       if "init" not in function:
