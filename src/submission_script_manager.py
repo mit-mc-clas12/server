@@ -13,7 +13,7 @@ import os, sqlite3, subprocess, sys, time
 from subprocess import PIPE, Popen
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files/script_generators')
-import farm_submission_manager, script_factory
+import farm_submission_manager, script_factory, type_manager
 import utils, fs, scard_helper, lund_helper, get_args
 from importlib import import_module
 
@@ -33,15 +33,19 @@ def process_jobs(args,UserSubmissionID):
     exit()
 
   #Setting sub_type to the right directory based on the scard_type
-  if scard_type == 1:
-    sub_type = "type_1"
-    print("Using scard type 1 template")
-  elif scard_type == 2:
-    sub_type = "type_2"
-    print("Using scard type 2 template")
+
+  if scard_type in fs.valid_scard_types:
+    sub_type = "type_{0}".format(scard_type)
+    print("Using scard type {0} template".format(scard_type))
+  elif scard_type == 0:
+    sub_type = "type_{0}".format(type_manager.manage_type(args,scard))
   else:
-    print("submission type not properly defined, exiting. Use -y # flag when submitting to specify scard type")
+    print("Poorly defined scard_type: {0}. Below is a list of valid scard types. Exiting".format(scard_type))
+    for type in fs.valid_scard_types:
+      print("Valid scard type: {0}".format(type))
     exit()
+
+  print("sub_type is {0}".format(sub_type))
 
   #This is creating an array of script generating functions.
   script_set = [fs.runscript_file_obj,fs.condor_file_obj,fs.run_job_obj]
