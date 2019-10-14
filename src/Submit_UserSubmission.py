@@ -62,12 +62,11 @@ def Submit_UserSubmission(args):
       if len(UserSubmissions_to_submit) == 0:
         print("There are no UserSubmissions which do not yet have submission scripts generated")
 
-   #From the above we have our (non-empty) UserSubmission of jobs to submit. Now we can pass it through process_jobs
-    if len(UserSubmissions_to_submit) != 0: #This conditional can probably be removed as it is handled in the above cases
-      for UserSubmission in UserSubmissions_to_submit:
-        UserSubmissionID = UserSubmission[0] #UserSubmissionID is the first element of the tuple
-        utils.printer("Generating scripts for UserSubmission with UserSubmissionID = {0}".format(str(UserSubmissionID)))
-        submission_script_manager.process_jobs(args,UserSubmissionID)
+    #From the above we have our (non-empty) UserSubmission of jobs to submit. Now we can pass it through process_jobs
+    for UserSubmission in UserSubmissions_to_submit:
+      UserSubmissionID = UserSubmission[0] #UserSubmissionID is the first element of the tuple
+      utils.printer("Generating scripts for UserSubmission with UserSubmissionID = {0}".format(str(UserSubmissionID)))
+      submission_script_manager.process_jobs(args,UserSubmissionID)
 
 
 if __name__ == "__main__":
