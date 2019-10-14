@@ -18,6 +18,7 @@ import utils, fs, scard_helper, lund_helper, get_args
 from importlib import import_module
 
 def process_jobs(args,UserSubmissionID):
+
   fs.DEBUG = getattr(args,fs.debug_long)
   # Grabs UserSubmission and gcards as described in respective files
   gcards = utils.db_grab("SELECT GcardID, gcard_text FROM Gcards WHERE UserSubmissionID = {0};".format(UserSubmissionID))
@@ -56,7 +57,9 @@ def process_jobs(args,UserSubmissionID):
 
   #Now we will loop through directories to import the script generation functions
   for index, script_dir in enumerate(scripts):
-    for function in os.listdir("submission_files/script_generators/"+sub_type+script_dir):
+    script_path = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.abspath(script_path + '/../submission_files/script_generators/' + sub_type + script_dir)
+    for function in os.listdir(script_path):
       if "init" not in function:
         if ".pyc" not in function:
           module_name = function[:-3]
