@@ -36,6 +36,7 @@ def script_factory(args,script_obj,script_functions,params):
 
   #This handles writing to disk and to SQL database
   if args.write_files:
+    # Build path to local file for writing, and normalize it (remove ../).
     filename = os.path.normpath(script_obj.file_path+script_obj.file_base+params['file_extension']+script_obj.file_end)
     
     utils.printer("\tWriting submission file '{0}' based off of specifications of UserSubmissionID = {1}, GcardID = {2}".format(

@@ -57,8 +57,8 @@ def process_jobs(args,UserSubmissionID):
 
   #Now we will loop through directories to import the script generation functions
   for index, script_dir in enumerate(scripts):
-    script_path = os.path.dirname(os.path.abspath(__file__))
-    script_path = os.path.abspath(script_path + '/../submission_files/script_generators/' + sub_type + script_dir)
+    top_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.abspath(top_dir + '/../submission_files/script_generators/' + sub_type + script_dir)
     for function in os.listdir(script_path):
       if "init" not in function:
         if ".pyc" not in function:
