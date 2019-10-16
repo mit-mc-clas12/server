@@ -15,7 +15,7 @@ outDir=$jobOutputDir"/"$username"/out_"$submissionID
 mkdir -p $outDir
 cd $outDir
 rm -f *
-mkdir log
+mkdir -p log
 
 cp $scripts_baseDir/server/run.sh .
 cp $scripts_baseDir/msql_conn.txt .
