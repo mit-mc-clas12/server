@@ -14,7 +14,7 @@ outDir=$jobOutputDir"/"$username"/out_"$submissionID
 
 mkdir -p $outDir
 cd $outDir
-rm -f *
+rm -rf *
 mkdir -p log
 
 cp $scripts_baseDir/server/run.sh .
