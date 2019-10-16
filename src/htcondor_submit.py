@@ -9,12 +9,12 @@ import argparse, os, sqlite3, subprocess, sys, time
 from subprocess import PIPE, Popen
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
-#Could also do the following, but then python has to search the
-#sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Could also do the following, but then python has to search the
+# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import Submit_UserSubmission
 import fs, utils
 
-def htcondor_submit(args,scard,GcardID,file_extension,params):
+def htcondor_submit(args, scard, GcardID, file_extension, params):
 
   """ if value in submission === not submitted"""
 
@@ -24,10 +24,12 @@ def htcondor_submit(args,scard,GcardID,file_extension,params):
   jobOutputDir = "/volatile/clas12/osg"
 
   # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
+  # error: we really need to pass farmsubmissionID
   submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'], str(GcardID)], stdout=PIPE).communicate()[0]
 
   print(submission)
 
+  # what is this?
   words = submission.split()
   node_number = words[len(words)-1] # This might only work on SubMIT
 

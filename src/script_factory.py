@@ -34,7 +34,8 @@ def script_factory(args,script_obj,script_functions,params):
 
   script_text = script_text.join(gen_text)
 
-  #This handles writing to disk and to SQL database
+  # This handles writing to disk and to SQL database
+  # Notice: only activated if -w is given, need to fix this
   if args.write_files:
     # Build path to local file for writing, and normalize it (remove ../).
     filename = os.path.normpath(script_obj.file_path+script_obj.file_base+params['file_extension']+script_obj.file_end)

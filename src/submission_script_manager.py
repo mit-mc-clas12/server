@@ -17,15 +17,15 @@ import farm_submission_manager, script_factory, type_manager
 import utils, fs, scard_helper, lund_helper, get_args
 from importlib import import_module
 
-def process_jobs(args,UserSubmissionID):
+def process_jobs(args, UserSubmissionID):
 
   fs.DEBUG = getattr(args,fs.debug_long)
   # Grabs UserSubmission and gcards as described in respective files
-  gcards = utils.db_grab("SELECT GcardID, gcard_text FROM Gcards WHERE UserSubmissionID = {0};".format(UserSubmissionID))
+  gcards   = utils.db_grab("SELECT GcardID, gcard_text FROM Gcards WHERE UserSubmissionID = {0};".format(UserSubmissionID))
   username = utils.db_grab("SELECT User FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0]
-  scard = scard_helper.scard_class(utils.db_grab( "SELECT scard FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0])
+  scard    = scard_helper.scard_class(utils.db_grab( "SELECT scard FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0])
 
-  #This block picks up the scard type from arguements and throws an error if it was not an int
+  # Picks up the scard type from arguments and throws an error if it was not an int
   try:
     scard_type = int(args.scard_type)
   except Exception as err:
