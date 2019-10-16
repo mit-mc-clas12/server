@@ -23,6 +23,6 @@ Log    = log/job.$(Cluster).$(Process).log
 
 # CLAS12 project
 +ProjectName = "{3}"
-""".format(scard.data['cores_req'],scard.data['mem_req'],executable,scard.data['project'])
+""".format('-1', '2', executable, scard.data['project'])
 
   return strn

@@ -28,5 +28,5 @@ echo
 # End of evio2hipo
 # ----------------
 
-""".format(scard.data['tcurrent'],scard.data['pcurrent'])
+""".format('-1', '-1')
   return strn
