@@ -33,8 +33,8 @@ def process_jobs(args,UserSubmissionID):
     print(err)
     exit()
 
-  #Setting sub_type to the right directory based on the scard_type
-
+  # Setting sub_type to the right directory based on the scard_type
+  # scard_type is taken from the filename
   if scard_type in fs.valid_scard_types:
     sub_type = "type_{0}".format(scard_type)
     print("Using scard type {0} template".format(scard_type))
@@ -48,14 +48,15 @@ def process_jobs(args,UserSubmissionID):
 
   print("sub_type is {0}".format(sub_type))
 
-  #This is creating an array of script generating functions.
-  script_set = [fs.runscript_file_obj,fs.condor_file_obj,fs.run_job_obj]
-  funcs_rs, funcs_condor,funcs_runjob = [], [], [] #initialize empty function arrays
-  script_set_funcs = [funcs_rs,funcs_condor,funcs_runjob]
-  #Please note, the ordering of this array must match the ordering of the above
+  # Creating an array of script generating functions.
+  script_set = [fs.runscript_file_obj, fs.condor_file_obj, fs.run_job_obj]
+  funcs_rs, funcs_condor, funcs_runjob = [], [], [] # initialize empty function arrays
+  script_set_funcs = [funcs_rs, funcs_condor, funcs_runjob]
+
+  # Please note, the ordering of this array must match the ordering of the above
   scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
 
-  #Now we will loop through directories to import the script generation functions
+  # Now we will loop through directories to import the script generation functions
   for index, script_dir in enumerate(scripts):
     top_dir = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.abspath(top_dir + '/../submission_files/script_generators/' + sub_type + script_dir)
@@ -67,6 +68,7 @@ def process_jobs(args,UserSubmissionID):
           func = getattr(module,module_name)
           script_set_funcs[index].append(func)
 
+  # this needs to change, different choices are described in scard_type.
   if 'http' in scard.data.get('generator'):
     lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
     scard.data['genExecutable'] = "Null"
@@ -77,6 +79,7 @@ def process_jobs(args,UserSubmissionID):
     scard.data['genOutput'] = fs.genOutput.get(scard.data.get('generator'))
 
   # Now we create job submissions for all jobs that were recognized
+  # this needs to change,
   for gcard in gcards:
     GcardID = gcard[0]
 

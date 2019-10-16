@@ -16,26 +16,25 @@ import farm_submission_manager, script_factory, submission_script_manager
 import utils, fs, scard_helper, lund_helper, get_args
 
 def Submit_UserSubmission(args):
-  # For debugging, we have a -b --UserSubmissionID flag that, if used (i.e. -b 15) will submit that UserSubmission only
-  # Also, if that UserSubmission has already been marked as submitted, it will be passed through again, anyways.
+  # Debugging: -b --UserSubmissionID flag. If used (i.e. -b 15) will submit that UserSubmission ID only (even if it was already submitted)
 
-  #First, if the -b flag is used (so UserSubmissionID is NOT equal to none), we have to make sure that the given
-  #UserSubmissionID actually exists in the database.
+  # First, if the -b flag is used (so UserSubmissionID is NOT equal to none), we have to make sure that the given
+  # UserSubmissionID actually exists in the database.
   if args.UserSubmissionID != 'none':
     UserSubmissions = []
-    strn = "SELECT UserSubmissionID FROM UserSubmissions;" #Select all UserSubmissionIDs from the DB
+    strn = "SELECT UserSubmissionID FROM UserSubmissions;" # Select all UserSubmissionIDs from the DB
     UserSubmissions_array = utils.db_grab(strn)
-    for i in UserSubmissions_array: UserSubmissions.append(i[0]) #Create a list of all UserSubmissionIDs
-    if not int(args.UserSubmissionID) in UserSubmissions:   #If the given UserSubmissionID specified does not exist, throw an error
+    for i in UserSubmissions_array: UserSubmissions.append(i[0]) # Create a list of all UserSubmissionIDs
+    if not int(args.UserSubmissionID) in UserSubmissions:        # If the given UserSubmissionID specified does not exist, throw an error
       print("The selected UserSubmission (UserSubmissionID = {0}) does not exist, exiting".format(args.UserSubmissionID))
       exit()
-    else: #If we can find the UserSubmissionID in the database (i.e. the UserSubmissionID is valid) pass it to process_jobs()
+    else: # If we can find the UserSubmissionID in the database (i.e. the UserSubmissionID is valid) pass it to process_jobs()
       UserSubmissionID = args.UserSubmissionID
-      submission_script_manager.process_jobs(args,UserSubmissionID)
+      submission_script_manager.process_jobs(args, UserSubmissionID)
 
-  #Now we handle the case where a UserSubmissionID is not specified. This will be normal running operation.
-  #Here we will select all UserSubmissionIDs corresponding to UserSubmissions that have not yet been simulated, and push
-  #Then through the simulation.
+  # UserSubmissionID is not specified (normal running operation).
+  # Here we will select all UserSubmissionIDs corresponding to UserSubmissions that have not yet been simulated, and push
+  # Then through the simulation.
   else:
     """
     # There are three options for values in the run_status field in the Submissions table:
@@ -51,22 +50,22 @@ def Submit_UserSubmission(args):
     # Case (2) will just create submission scripts for UserSubmissions created in status (1)
     # Case (3) will create submission scripts and submit jobs for all UserSubmissions in status (1) and (2)
     """
-    if args.submit: #Here, we will grab ALL UserSubmissions that have NOT been simulated
+    if args.submit: # Here, we will grab ALL UserSubmissions that have NOT been simulated
       strn = "SELECT UserSubmissionID FROM FarmSubmissions WHERE run_status NOT LIKE '{0}';".format("Submitted to%")
       UserSubmissions_to_submit = utils.db_grab(strn)
       if len(UserSubmissions_to_submit) == 0:
         print("There are no UserSubmissions which have not yet been submitted to a farm")
-    else: #Here,if the -s flag was not used, we will just generate submission scripts from UserSubmissions that have not had any generated yet
+    else: # Here,if the -s flag was not used, we will just generate submission scripts from UserSubmissions that have not had any generated yet
       strn = "SELECT UserSubmissionID FROM FarmSubmissions WHERE run_status = '{0}';".format("Not Submitted")
       UserSubmissions_to_submit = utils.db_grab(strn)
       if len(UserSubmissions_to_submit) == 0:
         print("There are no UserSubmissions which do not yet have submission scripts generated")
 
-    #From the above we have our (non-empty) UserSubmission of jobs to submit. Now we can pass it through process_jobs
+    # From the above we have our (non-empty) UserSubmission of jobs to submit. Now we can pass it through process_jobs
     for UserSubmission in UserSubmissions_to_submit:
       UserSubmissionID = UserSubmission[0] #UserSubmissionID is the first element of the tuple
       utils.printer("Generating scripts for UserSubmission with UserSubmissionID = {0}".format(str(UserSubmissionID)))
-      submission_script_manager.process_jobs(args,UserSubmissionID)
+      submission_script_manager.process_jobs(args, UserSubmissionID)
 
 
 if __name__ == "__main__":

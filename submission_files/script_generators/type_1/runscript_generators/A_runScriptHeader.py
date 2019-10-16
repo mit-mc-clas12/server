@@ -45,4 +45,6 @@ echo
 
 """.format(kwargs['username'], scard.data['group'])
 
+	headerSTR = ""
+	
 	return headerSTR
