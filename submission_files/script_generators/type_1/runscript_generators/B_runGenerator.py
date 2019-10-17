@@ -24,4 +24,4 @@ echo
 
 """.format(scard.data['genExecutable'], scard.data['nevents'], scard.data['genOptions'])
 
-  return strGeneratorHeader + strn
+  return strGeneratorHeader
