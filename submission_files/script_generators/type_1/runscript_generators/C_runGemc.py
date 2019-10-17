@@ -1,6 +1,6 @@
 # Runs GEMC using the gcard, on LUND generated events.
 #
-# Input:  scard.data['genOutput']
+# Input:  number of events, scard.data['genOutput']
 # Output: gemc.evio
 
 

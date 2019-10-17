@@ -1,4 +1,7 @@
 # Runs the chosen generator with its options
+#
+# Input:  scard.data['genExecutable'], number of events, scard.data['genOptions']
+# Output: scard.data['genOutput']
 
 def B_runGenerator(scard,**kwargs):
 
