@@ -28,5 +28,4 @@ echo
 
 """.format(scard.data['nevents'], scard.data['genOutput'])
 
-  # runGemc
-  return runGemc
+	return runGemc
