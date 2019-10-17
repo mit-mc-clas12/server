@@ -1,14 +1,12 @@
 #!/bin/bash
 
 # The SubMit Project: Container Executable Script
-# Downloads the script to run in the container,
-# Based on the submission ID
 # -----------------------------------------------
 #
 # Arguments:
 # 1. submission ID
 # 2. subjob id (defined by the farm submission configuration file)
-# 3. (optional) lund file
+# 3. (optional) lund filename for types 2 and 4
 
 FarmSubmissionID=$1
 sjob=$2

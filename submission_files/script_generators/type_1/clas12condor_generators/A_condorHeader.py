@@ -1,11 +1,16 @@
-# Condor Submission Script Header Maker
-# Header
+# Condor Submission Script Header
+#
 # Individual farms requirements
 #
 # farm_name possible choices:
 #
 # MIT_Tier2
 # OSG
+# GridPP
+#
+# Note:to bind to CVMFS add:
+# +SingularityBindCVMFS = True
+
 
 def A_condorHeader(scard, **kwargs):
   farm_name = scard.data.get('farm_name')
@@ -17,7 +22,6 @@ Universe = vanilla
 
 # singularity image and CVMFS binding
 +SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12simulations:production"
-+SingularityBindCVMFS = True
 """
 
   # OSG Farm Requirements
