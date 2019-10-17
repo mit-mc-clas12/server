@@ -6,7 +6,7 @@
 
 def C_runGemc(scard, **kwargs):
 
-runGemc = """
+	runGemc = """
 # Run GEMC
 # --------
 
