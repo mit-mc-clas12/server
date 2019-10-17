@@ -20,8 +20,8 @@ def htcondor_submit(args, scard, GcardID, file_extension, params):
 
   # Need to add condition here in case path is different for non-jlab
   scripts_baseDir  = "/group/clas12/SubMit"
-  condor_exec = scripts_baseDir + "/server/condor_submit.sh"
-  jobOutputDir = "/volatile/clas12/osg"
+  condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
+  jobOutputDir     = "/volatile/clas12/osg"
 
   # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
   # error: we really need to pass farmsubmissionID
