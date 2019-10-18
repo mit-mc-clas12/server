@@ -15,22 +15,32 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_fi
 import farm_submission_manager, script_factory, submission_script_manager
 import utils, fs, scard_helper, lund_helper, get_args
 
+def count_user_submission_id(user_sub_id):
+    """Select and count instances of the UserSubmissionID and return a count."""
+    
+    query = """
+    SELECT COUNT(UserSubmissionID) FROM UserSubmissions
+        WHERE UserSubmissionID = {0}; 
+    """.format(user_sub_id)
+    
+    count = utils.db_grab(query)
+
+    # The database call returns an array with a tuple inside of it 
+    # so we need the first element of each.
+    return int(count[0][0])
+
+
 def Submit_UserSubmission(args):
   # Debugging: -b --UserSubmissionID flag. If used (i.e. -b 15) will submit that UserSubmission ID only (even if it was already submitted)
 
   # First, if the -b flag is used (so UserSubmissionID is NOT equal to none), we have to make sure that the given
   # UserSubmissionID actually exists in the database.
   if args.UserSubmissionID != 'none':
-    UserSubmissions = []
-    strn = "SELECT UserSubmissionID FROM UserSubmissions;" # Select all UserSubmissionIDs from the DB
-    UserSubmissions_array = utils.db_grab(strn)
-    for i in UserSubmissions_array: UserSubmissions.append(i[0]) # Create a list of all UserSubmissionIDs
-    if not int(args.UserSubmissionID) in UserSubmissions:        # If the given UserSubmissionID specified does not exist, throw an error
+    if count_user_submission_id(args.UserSubmissionID) > 0:
+        submission_script_manager.process_jobs(args, args.UserSubmissionID)
+    else:
       print("The selected UserSubmission (UserSubmissionID = {0}) does not exist, exiting".format(args.UserSubmissionID))
       exit()
-    else: # If we can find the UserSubmissionID in the database (i.e. the UserSubmissionID is valid) pass it to process_jobs()
-      UserSubmissionID = args.UserSubmissionID
-      submission_script_manager.process_jobs(args, UserSubmissionID)
 
   # UserSubmissionID is not specified (normal running operation).
   # Here we will select all UserSubmissionIDs corresponding to UserSubmissions that have not yet been simulated, and push

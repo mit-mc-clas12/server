@@ -83,8 +83,11 @@ def process_jobs(args, UserSubmissionID):
   for gcard in gcards:
     GcardID = gcard[0]
 
-    if scard.data['gcards'] == fs.gcard_default:
+    # Ensure that the user supplied gcard exists in our container 
+    # and if so, agree to use it. 
+    if scard.data['gcards'] in fs.container_gcards:
       gcard_loc = scard.data['gcards']
+
     elif 'http' in  scard.data['gcards']:
       utils.printer('Writing gcard to local file')
       newfile = "gcard_{0}_UserSubmission_{1}.gcard".format(GcardID,UserSubmissionID)
@@ -96,6 +99,7 @@ def process_jobs(args, UserSubmissionID):
         Popen(['touch',gfile], stdout=PIPE)
       with open(gfile,"w") as file: file.write(gcard[1])
       gcard_loc = 'submission_files/gcards/'+newfile
+
     else:
       print('gcard not recognized as default option or online repository, please inspect scard')
       exit()
