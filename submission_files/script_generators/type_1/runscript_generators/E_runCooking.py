@@ -3,7 +3,7 @@
 # Input:  gemc.hipo
 # Output: recon.hipo
 
-def E_runCooking(scard,**kwargs):
+def E_runCooking(scard, **kwargs):
   strn = """
 
 # Run Reconstruction
@@ -12,14 +12,16 @@ def E_runCooking(scard,**kwargs):
 # saving date for bookmarking purposes:
 set reconstructionDate = `date`
 
+
+set configuration = `echo `
 echo
 echo
-echo executing: notsouseful-util -i gemc.hipo -o recon.hipo -c 2
-notsouseful-util -i gemc.hipo -o recon.hipo -c 2
+echo executing: recon-util -i gemc.hipo -o recon.hipo -c 2
+recon-util -i gemc.hipo -o recon.hipo -c 2
 echo
-printf "notsouseful-util Completed on: "; /bin/date
+printf "recon-util Completed on: "; /bin/date
 echo
-echo "Directory Content After notsouseful-util:"
+echo "Directory Content After recon-util:"
 ls -l
 echo
 

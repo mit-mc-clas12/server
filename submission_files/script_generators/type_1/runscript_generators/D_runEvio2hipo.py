@@ -12,12 +12,23 @@ def D_runEvio2hipo(scard, **kwargs):
 # saving date for bookmarking purposes:
 set evio2hipoDate = `date`
 
+
+set configuration = `echo {0} | awk -F".gcard" '{print $1}' | awk -F\/ '{print $NF}' `
+
+set torusField = -1
+set solenField = 1
+
+if ($configuration == "rgk-fall2018") then
+	echo rgk fall 2018 has inverted torus polarity
+	set torusField = 1
+endif
+
 echo
-printf "Running evio2hipo with torus current scale: {0} and solenoid current scale: {1}"
+printf "Running evio2hipo with torus current scale:  $torusField and solenoid current scale: $solenField"
 echo
 echo
-echo executing: evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
-evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
+echo executing: evio2hipo -r 11 -t $torusField -s $solenField -i gemc.evio -o gemc.hipo
+evio2hipo -r 11 -t $torusField -s $solenField -i gemc.evio -o gemc.hipo
 echo
 printf "evio2hipo Completed on: "; /bin/date
 echo
@@ -28,5 +39,5 @@ echo
 # End of evio2hipo
 # ----------------
 
-""".format('-1', '-1')
+""".format(scard.data['gcards'])
   return strn

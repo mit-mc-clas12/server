@@ -13,6 +13,7 @@ def A_runScriptHeader(scard, **kwargs):
 # Run Script Header
 # -----------------
 
+unsetenv XERCESROOT
 source /etc/profile.d/environment.csh
 
 set submissionID=$1
@@ -20,8 +21,8 @@ set submissionID=$1
 # saving date for bookmarking purposes:
 set startDate = `date`
 
-echo Running directory: `pwd`
 
+echo Running directory: `pwd`
 printf "Job submitted by: {0}"
 printf "Job Project: {1}"
 echo
