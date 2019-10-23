@@ -4,6 +4,12 @@
 # Output: gemc.hipo
 
 def D_runEvio2hipo(scard, **kwargs):
+
+  gcard = scard.data['gcards']
+  lim = gcard.find(".")
+  configuration = gcard[0:lim]
+
+
   strn = """
 
 # Run evio2hipo
@@ -13,7 +19,8 @@ def D_runEvio2hipo(scard, **kwargs):
 set evio2hipoDate = `date`
 
 
-set configuration = `echo {0} | awk -F".gcard" '{print $1}' | awk -F\/ '{print $NF}' `
+set configuration = {0} 
+
 
 set torusField = -1
 set solenField = 1
@@ -39,5 +46,5 @@ echo
 # End of evio2hipo
 # ----------------
 
-""".format(scard.data['gcards'])
+""".format(configuration)
   return strn
