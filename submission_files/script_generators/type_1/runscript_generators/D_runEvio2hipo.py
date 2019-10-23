@@ -10,6 +10,7 @@ def D_runEvio2hipo(scard, **kwargs):
   configuration = gcard[0:lim]
 
   torusField = -1
+  solenField = -1
 
   if configuration == "rgk-fall2018":
     torusField = 1
@@ -24,15 +25,12 @@ def D_runEvio2hipo(scard, **kwargs):
 set evio2hipoDate = `date`
 
 
-set torusField = {0}
-set solenField = 1
-
 echo
 printf "Running evio2hipo with torus current scale:  $torusField and solenoid current scale: $solenField"
 echo
 echo
-echo executing: evio2hipo -r 11 -t $torusField -s $solenField -i gemc.evio -o gemc.hipo
-evio2hipo -r 11 -t $torusField -s $solenField -i gemc.evio -o gemc.hipo
+echo executing: evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
+evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
 echo
 printf "evio2hipo Completed on: "; /bin/date
 echo
@@ -43,5 +41,5 @@ echo
 # End of evio2hipo
 # ----------------
 
-""".format(torusField)
+""".format(torusField, solenField)
   return strn

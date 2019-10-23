@@ -4,6 +4,13 @@
 # Output: recon.hipo
 
 def E_runCooking(scard, **kwargs):
+
+  # gcard with path
+  gcard = scard.data['gcards']
+  lim = gcard.find(".")
+  configuration = gcard[0:lim]
+  YAMLFILE = configuration + "yaml"
+
   strn = """
 
 # Run Reconstruction
@@ -17,8 +24,8 @@ set YAMLFILE = $configuration".yaml"
 set configuration = `echo `
 echo
 echo
-echo executing: recon-util -y $YAMLFILE -i gemc.hipo -o recon.hipo
-recon-util -y $YAMLFILE -i gemc.hipo -o recon.hipo
+echo executing: recon-util -y {0} -i gemc.hipo -o recon.hipo
+recon-util -y {0} -i gemc.hipo -o recon.hipo
 echo
 printf "recon-util Completed on: "; /bin/date
 echo
@@ -30,4 +37,4 @@ echo
 # ---------------------
 
 """
-  return strn
+  return strn.format(YAMLFILE)
