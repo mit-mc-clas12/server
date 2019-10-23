@@ -24,6 +24,6 @@ cp $scripts_baseDir/msql_conn.txt .
 rm -f clas12.condor nodeScript.sh job.gcard
 mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT clas12_condor_text FROM FarmSubmissions WHERE FarmSubmissionID=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > clas12.condor
 mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM FarmSubmissions WHERE FarmSubmissionID=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
-mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT gcard_text FROM Gcards WHERE gcardID=$submissionID;"                           | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > job.gcard
+mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT gcard_text FROM Gcards WHERE GcardID=$submissionID;"                           | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > job.gcard
 
 condor_submit clas12.condor

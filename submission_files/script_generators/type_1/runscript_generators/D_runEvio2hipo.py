@@ -5,9 +5,14 @@
 
 def D_runEvio2hipo(scard, **kwargs):
 
-  gcard = scard.data['gcards']
+  gcard = scard.data['gcards'].split('/')[-1]
   lim = gcard.find(".")
   configuration = gcard[0:lim]
+
+  torusField = -1
+
+  if configuration == "rgk-fall2018":
+    torusField = 1
 
 
   strn = """
@@ -19,16 +24,8 @@ def D_runEvio2hipo(scard, **kwargs):
 set evio2hipoDate = `date`
 
 
-set configuration = {0} 
-
-
-set torusField = -1
+set torusField = {0}
 set solenField = 1
-
-if ($configuration == "rgk-fall2018") then
-	echo rgk fall 2018 has inverted torus polarity
-	set torusField = 1
-endif
 
 echo
 printf "Running evio2hipo with torus current scale:  $torusField and solenoid current scale: $solenField"
@@ -46,5 +43,5 @@ echo
 # End of evio2hipo
 # ----------------
 
-""".format(configuration)
+""".format(torusField)
   return strn
