@@ -43,6 +43,14 @@ should_transfer_files   = YES
 when_to_transfer_output = ON_EXIT
 """.format(transfer_input_files)
 
+
+  # Output directory is defined by the subjob id (or Process). In this case the farmSubmissionID (same as GcardID)
+  strOUTPUT = """
+
+# Output directory is defined by the subjob id (or Process)
+transfer_output_files = out_{0}
+""".format(kwargs['GcardID'])
+
 # Arguments to executable: number of jobs and GcardID (same as FarmSubmissionID)
 
   arguQueue = """
@@ -56,3 +64,4 @@ Queue {0}
 """.format(scard.data['jobs'], kwargs['GcardID'])
 
 
+  return strnIO + strOUTPUT + arguQueue
