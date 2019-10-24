@@ -18,10 +18,8 @@ def E_runCooking(scard, **kwargs):
 
 # saving date for bookmarking purposes:
 set reconstructionDate = `date`
-set configuration = `echo {0} | awk -F".gcard" '{print $1}'
-set YAMLFILE = $configuration".yaml"
 
-set configuration = `echo `
+set configuration = `echo YAML file: {0}`
 echo
 echo
 echo executing: recon-util -y {0} -i gemc.hipo -o recon.hipo
