@@ -1,27 +1,22 @@
-# Job start up:
-# - creates first non existing sjob directory inside submissionID dir
-# - screen logs job information
+# Logs Job information
 #
-# Arguments:
-# 1. submission ID
-# 2. lundfile if present
+# nodeScript.sh arguments used:
+# $1 submission ID
+# $2 lund file
 
 def A_runScriptHeader(scard, **kwargs):
 
 	headerSTR = """#!/bin/csh
 
-# The SubMit Project: Container Script, downloaded from DB and executed by run.sh
+# The SubMit Project: Container Script "nodeScript.sh", downloaded from DB and executed by run.sh
 # -------------------------------------------------------------------------------
 
 # Run Script Header
 # -----------------
 
-source /etc/profile.d/environmentB.csh
+source /etc/profile.d/environment.csh
 
 set submissionID=$1
-
-# lund file is passed as an argument to this script
-# in condor this process is automatic. Assuming in other farm it is as well
 set lundFile=$2
 
 # saving date for bookmarking purposes:

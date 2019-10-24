@@ -6,7 +6,7 @@
 # Arguments:
 # 1. submission ID
 # 2. subjob id (defined by the farm submission configuration file)
-# 3. (optional) lund filename for types 2 and 4
+# 3. (optional) lund filename for types 2 and 4. This is passed by the condor file
 
 FarmSubmissionID=$1
 sjob=$2
