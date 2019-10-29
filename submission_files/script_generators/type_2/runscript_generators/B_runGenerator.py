@@ -16,4 +16,4 @@ echo
 
 """.format(scard.data['genExecutable'])
 
-  return strGeneratorHeader + strn
+  return strGeneratorHeader
