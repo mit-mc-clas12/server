@@ -51,7 +51,7 @@ transfer_output_files = out_{0}
 
   # Argumnent to executable and QUEUE command.
   # QUEUE command in the look on the number of jobs
-    arguQueue = """
+  arguQueue = """
 # Arguments given to the executables:
 # 1. submission id
 # 2. subjob id
