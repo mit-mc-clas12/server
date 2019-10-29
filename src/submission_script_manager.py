@@ -116,7 +116,7 @@ def process_jobs(args, UserSubmissionID):
 
     params = {'table':'Scards','UserSubmissionID':UserSubmissionID,'GcardID':GcardID,
               'database_filename':DB_path+fs.DB_name,
-              'username':username,'gcard_loc':gcard_loc,'lund_dir':lund_dir,
+              'username':username,'gcard_loc':gcard_loc,
               'file_extension':file_extension,'scard':scard}
 
 
