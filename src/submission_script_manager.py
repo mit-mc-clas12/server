@@ -68,15 +68,18 @@ def process_jobs(args, UserSubmissionID):
           func = getattr(module,module_name)
           script_set_funcs[index].append(func)
 
-  # this needs to change, different choices are described in scard_type.
-  if 'http' in scard.data.get('generator'):
-    lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
-    scard.data['genExecutable'] = "Null"
-    scard.data['genOutput'] = "Null"
-  else:
+  # Setup for different scard types the proper generation options.
+  # If external lund files are provided, we go get them. 
+  if scard_type in [1,3]:
     lund_dir = 0
     scard.data['genExecutable'] = fs.genExecutable.get(scard.data.get('generator'))
     scard.data['genOutput'] = fs.genOutput.get(scard.data.get('generator'))
+  
+  elif scard_type in [2,4]:
+    lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
+    scard.data['genExecutable'] = "Null"
+    scard.data['genOutput'] = "Null"
+
 
   # Now we create job submissions for all jobs that were recognized
   # this needs to change,
