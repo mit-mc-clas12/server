@@ -3,7 +3,10 @@
 # Memory and CPU
 # Executable and Arguments
 # Location of Output
-
+#
+# Notice the double quotes on the project name
+# These are converted into two single quotes to be inserted in MYSQL tables
+# Then converted back into a single double quote in the condor submission gile
 def B_condorJobDetails(scard,**kwargs):
 
   executable = "run.sh"
@@ -22,7 +25,7 @@ Output = log/job.$(Cluster).$(Process).out
 Log    = log/job.$(Cluster).$(Process).log
 
 # CLAS12 project
-+ProjectName = "{3}"
-""".format(scard.data['cores_req'], scard.data['mem_req'], executable,scard.data['project'])
++ProjectName = ""{3}""
+""".format('1', '1.5', executable, scard.data['project'])
 
   return strn

@@ -11,6 +11,7 @@
 # Note:to bind to CVMFS add:
 # +SingularityBindCVMFS = True
 
+
 def A_condorHeader(scard, **kwargs):
   farm_name = scard.data.get('farm_name')
 

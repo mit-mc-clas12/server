@@ -3,7 +3,19 @@
 # Input:  gemc.evio
 # Output: gemc.hipo
 
-def D_runEvio2hipo(scard,**kwargs):
+def D_runEvio2hipo(scard, **kwargs):
+
+  gcard = scard.data['gcards'].split('/')[-1]
+  lim = gcard.find(".")
+  configuration = gcard[0:lim]
+
+  torusField = -1
+  solenField = -1
+
+  if configuration == "rgk-fall2018":
+    torusField = 1
+
+
   strn = """
 
 # Run evio2hipo
@@ -12,8 +24,9 @@ def D_runEvio2hipo(scard,**kwargs):
 # saving date for bookmarking purposes:
 set evio2hipoDate = `date`
 
+
 echo
-printf "Running evio2hipo with torus current scale: {0} and solenoid current scale: {1}"
+printf "Running evio2hipo with torus current scale:  $torusField and solenoid current scale: $solenField"
 echo
 echo
 echo executing: evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
@@ -28,5 +41,5 @@ echo
 # End of evio2hipo
 # ----------------
 
-""".format(scard.data['tcurrent'],scard.data['pcurrent'])
+""".format(torusField, solenField)
   return strn

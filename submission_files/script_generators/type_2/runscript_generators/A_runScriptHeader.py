@@ -8,9 +8,6 @@ def A_runScriptHeader(scard, **kwargs):
 
 	headerSTR = """#!/bin/csh
 
-# The SubMit Project: Container Script "nodeScript.sh", downloaded from DB and executed by run.sh
-# -------------------------------------------------------------------------------
-
 # Run Script Header
 # -----------------
 

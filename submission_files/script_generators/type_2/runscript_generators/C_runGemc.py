@@ -8,29 +8,29 @@
 
 def C_runGemc(scard, **kwargs):
 
-        runGemc = """
-    # Run GEMC
-    # --------
+	runGemc = """
+# Run GEMC
+# --------
 
-    # saving date for bookmarking purposes:
-    set gemcDate = `date`
+# saving date for bookmarking purposes:
+set gemcDate = `date`
 
-    # copying gcard to gemc.gcard
-    cp `cat job.gcard` gemc.gcard
+# copying gcard to gemc.gcard
+cp `cat job.gcard` gemc.gcard
 
-    echo
-    echo GEMC executable: `which gemc`
-    gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=0 -INPUT_GEN_FILE="lund, $lundfile" gemc.gcard
-    echo
-    printf "GEMC Completed on: "; /bin/date
-    echo
-    echo "Directory Content After GEMC:"
-    ls -l
-    echo
+echo
+echo GEMC executable: `which gemc`
+gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=0 -INPUT_GEN_FILE="lund, $lundfile" gemc.gcard
+echo
+printf "GEMC Completed on: "; /bin/date
+echo
+echo "Directory Content After GEMC:"
+ls -l
+echo
 
-    # End of GEMC
-    # -----------
+# End of GEMC
+# -----------
 
-    """.format(scard.data['nevents'], scard.data['genOutput'])
+""".format(scard.data['nevents'], scard.data['genOutput'])
 
-  return runGemc
+	return runGemc

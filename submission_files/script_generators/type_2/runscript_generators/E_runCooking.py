@@ -1,9 +1,16 @@
-# Runs reconstruction on gemc.hipo
+# Runs reconstruction (with clara) on gemc.hipo
 #
 # Input:  gemc.hipo
 # Output: recon.hipo
 
-def E_runCooking(scard,**kwargs):
+def E_runCooking(scard, **kwargs):
+
+  # gcard with path
+  gcard = scard.data['gcards']
+  lim = gcard.find(".")
+  configuration = gcard[0:lim]
+  YAMLFILE = configuration + ".yaml"
+
   strn = """
 
 # Run Reconstruction
@@ -12,14 +19,15 @@ def E_runCooking(scard,**kwargs):
 # saving date for bookmarking purposes:
 set reconstructionDate = `date`
 
+set configuration = `echo YAML file: {0}`
 echo
 echo
-echo executing: notsouseful-util -i gemc.hipo -o recon.hipo -c 2
-notsouseful-util -i gemc.hipo -o recon.hipo -c 2
+echo executing: recon-util -y {0} -i gemc.hipo -o recon.hipo
+recon-util -y {0} -i gemc.hipo -o recon.hipo
 echo
-printf "notsouseful-util Completed on: "; /bin/date
+printf "recon-util Completed on: "; /bin/date
 echo
-echo "Directory Content After notsouseful-util:"
+echo "Directory Content After recon-util:"
 ls -l
 echo
 
@@ -27,4 +35,4 @@ echo
 # ---------------------
 
 """
-  return strn
+  return strn.format(YAMLFILE)
