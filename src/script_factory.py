@@ -25,7 +25,6 @@ def script_factory(args,script_obj,script_functions,params):
                 username=params['username'],
                 gcard_loc=params['gcard_loc'],
                 GcardID = params['GcardID'],
-                lund_dir = params['lund_dir'],
                 database_filename = params['database_filename'],
                 file_extension = params['file_extension'],
                 runscript_filename=runscript_filename,
