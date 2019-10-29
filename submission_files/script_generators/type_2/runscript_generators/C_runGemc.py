@@ -31,6 +31,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.data['nevents'], scard.data['genOutput'])
+"""
 
 	return runGemc
