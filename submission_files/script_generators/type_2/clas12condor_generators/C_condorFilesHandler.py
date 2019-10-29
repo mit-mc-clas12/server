@@ -58,8 +58,8 @@ transfer_output_files = out_{0}
 # 3. lundfile, given by the queue comand
 #
 # Queue starts "jobs" number of subjobs
-Arguments  = {1} $(Process) $(lundFile)
+Arguments  = {0} $(Process) $(lundFile)
 queue lundFile matching files {2}/*.txt
-""".format(scard.data['jobs'], kwargs['GcardID'], 'lund_dir')
+""".format(kwargs['GcardID'], 'lund_dir')
 
   return strnIO + strOUTPUT + arguQueue
