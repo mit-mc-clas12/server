@@ -29,4 +29,15 @@ echo
 
 """.format(scard.data['genExecutable'], scard.data['nevents'], scard.data['genOptions'])
 
+  if scard.data['genExecutable'] == 'gemc':
+    strGeneratorHeader = """
+# Generator
+# ---------
+#
+# gemc internal
+#
+# End of Run Generator
+# ---------------------
+  """
+  
   return strGeneratorHeader
