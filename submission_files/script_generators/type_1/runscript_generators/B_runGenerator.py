@@ -5,7 +5,21 @@
 
 def B_runGenerator(scard,**kwargs):
 
-  strGeneratorHeader = """
+    strGeneratorHeader = ""
+
+    if scard.data['genExecutable'] == 'gemc':
+        strGeneratorHeader = """
+# Generator
+# ---------
+#
+# gemc internal
+#
+# End of Run Generator
+# ---------------------
+"""
+
+    else:
+        strGeneratorHeader = """
 # Generator
 # ---------
 
@@ -29,4 +43,4 @@ echo
 
 """.format(scard.data['genExecutable'], scard.data['nevents'], scard.data['genOptions'])
 
-  return strGeneratorHeader
+    return strGeneratorHeader

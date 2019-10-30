@@ -20,10 +20,11 @@
 def C_condorFilesHandler(scard,**kwargs):
 
   farm_name = scard.data.get('farm_name')
+  transfer_input_files = ""
 
   # handling mysql or sqlite
   if kwargs['using_sqlite']:
-    transfer_input_files = "../utils/database/CLAS12_OCRDB.db"
+    transfer_input_files = transfer_input_files + "../utils/database/CLAS12_OCRDB.db"
 
   # remaining files
   transfer_input_files = transfer_input_files + ", run.sh, nodeScript.sh, job.gcard"
