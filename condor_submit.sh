@@ -8,6 +8,7 @@ jobOutputDir=$2
 username=$3
 # hardcoding this, not sure how to pass it 
 submissionID=$4
+lund_url=$5
 
 outDir=$jobOutputDir"/"$username"/out_"$submissionID
 
@@ -25,5 +26,5 @@ rm -f clas12.condor nodeScript.sh job.gcard
 mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT clas12_condor_text FROM FarmSubmissions WHERE FarmSubmissionID=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed s/\'\'/\"/g > clas12.condor
 mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM FarmSubmissions WHERE FarmSubmissionID=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
 mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT gcard_text FROM Gcards WHERE GcardID=$submissionID;"                           | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > job.gcard
-
+python lund_downloader.py --url=$lund_url --output_dir='lund_dir'
 condor_submit clas12.condor

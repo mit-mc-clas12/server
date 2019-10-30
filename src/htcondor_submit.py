@@ -22,10 +22,12 @@ def htcondor_submit(args, scard, GcardID, file_extension, params):
   scripts_baseDir  = "/group/clas12/SubMit"
   condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
   jobOutputDir     = "/volatile/clas12/osg"
+  url = scard.data['generator'] if scard.data['genExecutable'] == "Null" else 'no_download'
 
   # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
   # error: we really need to pass farmsubmissionID
-  submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'], str(GcardID)], stdout=PIPE).communicate()[0]
+  submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'], 
+                      str(GcardID), url], stdout=PIPE).communicate()[0]
 
   print(submission)
 
