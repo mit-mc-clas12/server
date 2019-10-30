@@ -1,4 +1,4 @@
-#****************************************************************
+B1;95;0c#****************************************************************
 """
 # File Description
 """
@@ -12,16 +12,17 @@ import farm_submission_manager, script_factory
 import utils, fs, scard_helper, lund_helper, get_args
 from importlib import import_module
 
-def manage_type(args,scard):
+def manage_type(args, scard):
   print("in type manager")
   custom_gcard_identifier = "http"
   custom_lund_identifier = "http"
   scard_type = 1 #Default value, will be modified only if identifiers are found in scard
   lund_type_mod, gcard_type_mod = 0, 0
 
-  if custom_lund_identifier in scard.data.get('generator'):
+  if scard.data['generator'] not in fs.genExecutable:
+  #if custom_lund_identifier in scard.data.get('generator'):
     lund_type_mod = 1
-  if custom_gcard_identifier in  scard.data['gcards']:
+  if custom_gcard_identifier in scard.data['gcards']:
     gcard_type_mod = 2
 
   #If using default scard,         type = 1
