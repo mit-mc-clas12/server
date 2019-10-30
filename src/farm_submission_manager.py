@@ -22,11 +22,11 @@ def update_users_statistics(scard,params):
   strn = "UPDATE Users SET Total_UserSubmissions = '{0}' WHERE User = '{1}';".format(UserSubmissions_total,params['username'])
   utils.db_write(strn)
 
-  strn = "SELECT Total_Jobs FROM Users WHERE User = '{0}';".format(params['username'])
-  jobs_total = utils.db_grab(strn)[0][0]
-  jobs_total += int(scard.data['jobs'])
-  strn = "UPDATE Users SET Total_Jobs = '{0}' WHERE User = '{1}';".format(jobs_total,params['username'])
-  utils.db_write(strn)
+  #strn = "SELECT Total_Jobs FROM Users WHERE User = '{0}';".format(params['username'])
+  #jobs_total = utils.db_grab(strn)[0][0]
+  #jobs_total += int(scard.data['jobs'])
+  #strn = "UPDATE Users SET Total_Jobs = '{0}' WHERE User = '{1}';".format(jobs_total,params['username'])
+  #utils.db_write(strn)
 
   if 'nevents' in scard.data:
     strn = "SELECT Total_Events FROM Users WHERE User = '{0}';".format(params['username'])
