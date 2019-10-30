@@ -32,5 +32,7 @@ rm msql_conn.txt
 
 # Get lund files and send job 
 python lund_downloader.py --url=$lund_url --output_dir='lund_dir'
-condor_submit clas12.condor
+
+condor_submit clas12.condor 2> condorSubmissionError.txt
+
 
