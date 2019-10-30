@@ -24,8 +24,6 @@ def C_condorFilesHandler(scard,**kwargs):
   # handling mysql or sqlite
   if kwargs['using_sqlite']:
     transfer_input_files = "../utils/database/CLAS12_OCRDB.db"
-  else:
-    transfer_input_files = "msql_conn.txt"
 
   # remaining files
   transfer_input_files = transfer_input_files + ", run.sh, nodeScript.sh, job.gcard"
