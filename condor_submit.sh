@@ -30,7 +30,7 @@ mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT gcard_text FRO
 
 # Get lund files and send job 
 python $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
-condor_submit clas12.condor
+condor_submit clas12.condor 2> condorSubmissionError.txt
 
 # Clean up 
 rm msql_conn.txt
