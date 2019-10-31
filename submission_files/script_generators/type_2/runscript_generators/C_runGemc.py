@@ -18,12 +18,9 @@ set gemcDate = `date`
 # copying gcard to gemc.gcard
 cp `cat job.gcard` gemc.gcard
 
-set INPUTC=`echo -INPUT_GEN_FILE=\'lund, $lundFile\'`
-echo GEMC INPUT: $INPUTC
-
 echo
 echo GEMC executable: `which gemc`
-gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=0 `echo $INPUTC` gemc.gcard
+gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=0 -INPUT_GEN_FILE="lund, lund.dat" gemc.gcard
 echo
 printf "GEMC Completed on: "; /bin/date
 echo

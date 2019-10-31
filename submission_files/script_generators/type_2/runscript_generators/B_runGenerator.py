@@ -1,6 +1,7 @@
 # Type 2 has no generator, events are from a lund file
 #
-# Input:  scard.data['genExecutable']
+# The  $lundFile is copied to the harcoded name lund.dat because
+# of quotes complications (conversion double to single due to mysql)
 def B_runGenerator(scard,**kwargs):
 
   strGeneratorHeader = """
@@ -9,6 +10,7 @@ def B_runGenerator(scard,**kwargs):
 
 echo
 echo LUND Event File: $lundFile
+cp $lundFile lund.dat
 echo
 
 # End of Run Generator
