@@ -8,12 +8,12 @@ def B_runGenerator(scard,**kwargs):
 # ---------
 
 echo
-echo LUND Event File: {0}
+echo LUND Event File: $lundFile
 echo
 
 # End of Run Generator
 # ---------------------
 
-""".format(scard.data['genExecutable'])
+"""
 
   return strGeneratorHeader
