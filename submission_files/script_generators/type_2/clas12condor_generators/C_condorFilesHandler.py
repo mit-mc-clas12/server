@@ -45,8 +45,8 @@ when_to_transfer_output = ON_EXIT
   # Output directory is defined by the subjob id (or Process). In this case the farmSubmissionID (same as GcardID)
   strOUTPUT = """
 # Output directory is defined by the subjob if (or Process)
-transfer_output_files = out_{0}
-""".format(kwargs['GcardID'])
+transfer_output_files = output
+"""
 
   # Argumnent to executable and QUEUE command.
   # QUEUE command in the look on the number of jobs
