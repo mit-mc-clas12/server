@@ -5,13 +5,15 @@
 # Type 1 store the name of the gcard in the file "job.gcard"
 
 
-
 def C_runGemc(scard, **kwargs):
 
-	gemcAdditionalOptions = ""
+	gemcInputOptions = ""
 
 	if scard.data['genExecutable'] == 'gemc':
-		gemcAdditionalOptions = scard.data['genOptions']
+		gemcInputOptions = scard.data['genOptions']
+	else:
+		gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.data['genOutput'])
+
 
 	runGemc = """
 # Run GEMC
@@ -25,7 +27,7 @@ cp `cat job.gcard` gemc.gcard
 
 echo
 echo GEMC executable: `which gemc`
-gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} -INPUT_GEN_FILE="lund, {1}" {2} gemc.gcard
+gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} {1} gemc.gcard
 echo
 printf "GEMC Completed on: "; /bin/date
 echo
@@ -36,6 +38,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.data['nevents'], scard.data['genOutput'], gemcAdditionalOptions)
+""".format(scard.data['nevents'], gemcInputOptions)
 
 	return runGemc

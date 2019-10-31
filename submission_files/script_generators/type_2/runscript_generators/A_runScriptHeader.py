@@ -2,7 +2,7 @@
 #
 # nodeScript.sh arguments used:
 # $1 submission ID
-#
+# $2 condor file transferred, including the path "lund_dir", for example lund_dir/1.txt
 
 def A_runScriptHeader(scard, **kwargs):
 
@@ -14,7 +14,7 @@ def A_runScriptHeader(scard, **kwargs):
 source /etc/profile.d/environment.csh
 
 set submissionID=$1
-
+set lundFile=`echo $2 | awk -F\/ '{print $2}'`
 
 # saving date for bookmarking purposes:
 set startDate = `date`

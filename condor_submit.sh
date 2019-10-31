@@ -10,7 +10,7 @@ username=$3
 submissionID=$4
 url=$5
 
-outDir=$jobOutputDir"/"$username"/out_"$submissionID
+outDir=$jobOutputDir"/"$username"/job_"$submissionID
 
 
 mkdir -p $outDir

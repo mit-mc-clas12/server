@@ -15,7 +15,7 @@ lundFile=$3
 # script name
 nodeScript=nodeScript.sh
 
-outDir="out_"$FarmSubmissionID"/simu_"$sjob
+outDir="output/simu_"$sjob
 mkdir -p $outDir
 cp *.* $outDir
 cd $outDir
@@ -31,7 +31,7 @@ echo Now running $nodeScript with FarmSubmissionID: $FarmSubmissionID
 chmod +x $nodeScript
 
 if [ $# == 3 ]; then
-	echo LUND filename: $lundFile
+	echo LUND filename passed by condor: $lundFile
 	./$nodeScript $FarmSubmissionID $lundFile
 else
 	./$nodeScript $FarmSubmissionID
