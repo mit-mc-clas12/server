@@ -12,7 +12,7 @@ FarmSubmissionID=$1
 sjob=$2
 lundFileC=$3
 
-lundFile=${lundFileC%%/*}
+lundFile=${lundFileC##*/}
 
 
 # script name
@@ -30,9 +30,6 @@ echo Directory content at start:
 \ls -l
 echo
 echo Now running $nodeScript with FarmSubmissionID: $FarmSubmissionID
-if [ $# == 3 ]; then
-	echo lundFile: $lundFile
-fi
 
 chmod +x $nodeScript
 
