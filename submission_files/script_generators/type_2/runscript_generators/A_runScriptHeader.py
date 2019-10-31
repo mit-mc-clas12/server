@@ -13,8 +13,10 @@ def A_runScriptHeader(scard, **kwargs):
 
 source /etc/profile.d/environment.csh
 
-set submissionID=$1
-set lundFile=`echo $2 | awk -F\/ '{print $2}'`
+set submissionID = $1
+set condorLund   = $2
+
+set lundFile=`echo $condorLund | awk -F\/ '{print $2}'`
 
 # saving date for bookmarking purposes:
 set startDate = `date`
