@@ -8,10 +8,10 @@
 
 def C_runGemc(scard, **kwargs):
 
-    gemcAdditionalOptions = ""
+	gemcAdditionalOptions = ""
 
-    if scard.data['genExecutable'] == 'gemc':
-        gemcAdditionalOptions = scard.data['genOptions']
+	if scard.data['genExecutable'] == 'gemc':
+		gemcAdditionalOptions = scard.data['genOptions']
 
 	runGemc = """
 # Run GEMC
