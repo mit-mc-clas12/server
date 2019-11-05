@@ -1,4 +1,5 @@
 # Job finish up:
+# Filtering unnecessary output
 # Logs statistic, each prepended by "====" for better retrieval later
 
 def F_runScriptFooter(scard,**kwargs):
@@ -46,9 +47,15 @@ echo Removing reconstructed file
 rm recon.hipo
 	"""
 
-
 	strn = """
-#!/bin/csh
+# Removing Unnecessary Files and Creating DST if selected
+# -------------------------------------------------------
+
+{0}
+{1}
+{2}
+{3}
+{4}
 
 # Run Script Footer
 # -----------------
@@ -67,4 +74,4 @@ echo ==== SubMit-Job === Job End: $endDate
 
 """
 
-	return strn
+	return strn.format(generator, gemc_evio, gemc_hipo, reconstruction, dst)

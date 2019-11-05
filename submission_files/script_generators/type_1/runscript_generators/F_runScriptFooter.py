@@ -48,7 +48,8 @@ rm recon.hipo
 	"""
 
 	strn = """
-#!/bin/csh
+# Removing Unnecessary Files and Creating DST if selected
+# -------------------------------------------------------
 
 {0}
 {1}
@@ -60,17 +61,17 @@ rm recon.hipo
 # -----------------
 
 set endDate = `date`
-        
+
 echo ==== SubMit-Job === Job Start: $startDate
 echo ==== SubMit-Job === Generator Start: $generatorDate
 echo ==== SubMit-Job === GEMC Start: $gemcDate
 echo ==== SubMit-Job === evio2hipoDate Start: $evio2hipoDate
 echo ==== SubMit-Job === Reconstruction Start: $reconstructionDate
 echo ==== SubMit-Job === Job End: $endDate
-        
+
 # End of Run Script Footer
 # ------------------------
-        
+
 """
 
 	return strn.format(generator, gemc_evio, gemc_hipo, reconstruction, dst)
