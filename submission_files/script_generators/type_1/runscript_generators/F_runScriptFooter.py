@@ -13,21 +13,21 @@ def F_runScriptFooter(scard,**kwargs):
 	# Try getting these options from the scard, if they don't
 	# exist, return the default value (yes).
 	# removing generator output if not needed
-	if scard.data.get('generatorOUT', 'yes') == "yes" and scard.data['genExecutable'] != 'gemc':
+	if scard.data.get('generatorOUT', 'yes') == "no" and scard.data['genExecutable'] != 'gemc':
 		generator = """
 echo Removing generated events file
 rm {0}
 """.fornat(scard.data['genOutput'])
 
 	# removing gemc output if not needed
-	if scard.data.get('gemcEvioOUT', 'yes') == "yes":
+	if scard.data.get('gemcEvioOUT', 'yes') == "no":
 		gemc_evio = """
 echo Removing gemc evio file
 rm gemc.evio
 """
 
 	# removing gemc decoded hipo if not needed
-	if scard.data.get('gemcHipoOUT', 'yes') == "yes":
+	if scard.data.get('gemcHipoOUT', 'yes') == "no":
 		gemc_hipo = """
 echo Removing gemc hipo file
 rm gemc.hipo
@@ -41,7 +41,7 @@ hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::
 """
 
 	# removing reconstruction output
-	if scard.data.get('reconstructionOUT', 'yes') == "yes":
+	if scard.data.get('reconstructionOUT', 'yes') == "no":
 		reconstruction = """
 echo Removing reconstructed file
 rm recon.hipo
