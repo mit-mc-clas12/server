@@ -16,7 +16,7 @@ def F_runScriptFooter(scard,**kwargs):
 		generator = """
 echo Removing generated events file
 rm {0}
-""".fornat(scard.data['genOutput'])
+""".format(scard.data['genOutput'])
 
 	# removing gemc output if not needed
 	if scard.data.get('gemcEvioOUT', 'yes') == "no":
