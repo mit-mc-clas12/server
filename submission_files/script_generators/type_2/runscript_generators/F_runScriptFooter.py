@@ -4,20 +4,12 @@
 
 def F_runScriptFooter(scard,**kwargs):
 
-	generator = ""
+
 	gemc_evio = ""
 	gemc_hipo = ""
 	reconstruction = ""
 	dst = ""
 
-	# Try getting these options from the scard, if they don't
-	# exist, return the default value (yes).
-	# removing generator output if not needed
-	if scard.data.get('generatorOUT', 'yes') == "no" and scard.data['genExecutable'] != 'gemc':
-		generator = """
-echo Removing generated events file
-rm {0}
-""".format(scard.data['genOutput'])
 
 	# removing gemc output if not needed
 	if scard.data.get('gemcEvioOUT', 'yes') == "no":
@@ -55,7 +47,6 @@ rm recon.hipo
 {1}
 {2}
 {3}
-{4}
 
 # Run Script Footer
 # -----------------
@@ -74,4 +65,4 @@ echo ==== SubMit-Job === Job End: $endDate
 
 """
 
-	return strn.format(generator, gemc_evio, gemc_hipo, reconstruction, dst)
+	return strn.format(gemc_evio, gemc_hipo, reconstruction, dst)
