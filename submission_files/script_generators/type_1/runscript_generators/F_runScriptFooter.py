@@ -13,7 +13,7 @@ def F_runScriptFooter(scard,**kwargs):
 	# Try getting these options from the scard, if they don't
 	# exist, return the default value (yes).
 	# removing generator output if not needed
-	if scard.data.get('generatorOUT', 'yes') == "yes" && scard.data['genExecutable'] != 'gemc':
+	if scard.data.get('generatorOUT', 'yes') == "yes" and scard.data['genExecutable'] != 'gemc':
 		generator = """
 echo Removing generated events file
 rm {0}
