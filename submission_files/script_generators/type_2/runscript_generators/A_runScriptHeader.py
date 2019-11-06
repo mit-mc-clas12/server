@@ -12,6 +12,7 @@ def A_runScriptHeader(scard, **kwargs):
 # -----------------
 
 source /etc/profile.d/environment.csh
+setenv RCDB_CONNECTION mysql://null
 
 set submissionID = $1
 set lundFile     = $2
