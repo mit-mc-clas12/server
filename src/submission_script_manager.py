@@ -1,106 +1,117 @@
-#****************************************************************
 """
-# This file will query the command line to see what UserSubmissionID it should use,
-# or if no arguement is given on the CL, the most recent UserSubmissionID will be used
-# This UserSubmissionID is used to identify the proper scard and gcards, and then submission
-# files corresponding to each gcard are generated and stored in the database, as
-# well as written out to a file with a unique name. This latter part will be passed
-# to the server side in the near future.
+
+This file, currently under constriction, does most of the work
+involved in the submission process.  Here is an overview.
+
+1) Retrieve the gcard, username, and scard for this UserSubmissionID
+2) Determine the scard type and validate it against fs.valid_scard_types.
+3) Build a list of script generators dynamically from the directory
+   structure of the project.
+4) Get all gcards from online, save locally, and if they're local
+   container cards, make sure they exist.
+5) Set file extension and database path
+6) Call all script builders to write them (script_factory.py)
+7) Update FarmSubmissions.run_status field
+8) do submission (farm_submission_manager.py)
+
 """
-#****************************************************************
+
 from __future__ import print_function
-import os, sqlite3, subprocess, sys, time
-from subprocess import PIPE, Popen
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files/script_generators')
-import farm_submission_manager, script_factory, type_manager
-import utils, fs, scard_helper, lund_helper, get_args
+
+# python standard library 
+import os
+import sqlite3
+import subprocess
+import sys
+import time
+
 from importlib import import_module
+from subprocess import PIPE, Popen
 
-def process_jobs(args, UserSubmissionID):
+# local libraries 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
+                + '/../../utils')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
+                + '/../submission_files/script_generators')
+import database
+import farm_submission_manager
+import fs
+import get_args
+import lund_helper
+import scard_helper
+import script_factory
+import type_manager
+import utils
 
-  fs.DEBUG = getattr(args,fs.debug_long)
+
+def process_jobs(args, UserSubmissionID, db_conn, sql):
+  """ 
+  Submit the job for UserSubmissionID. 
+
+  Detail described in the header of this file.
+  I'll write a more useful comment here once the function 
+  has been refactored. 
+
+  Inputs: 
+  -------
+  args - command line arguments 
+  UserSubmissionID - (int) from UserSubmissions.UserSubmissionID 
+  that drives the submission. 
+  db_conn - Active database connection.
+  sql - Cursor object for database. 
+
+  """
+  fs.DEBUG = getattr(args, fs.debug_long)
+
   # Grabs UserSubmission and gcards as described in respective files
-  gcards   = utils.db_grab("SELECT GcardID, gcard_text FROM Gcards WHERE UserSubmissionID = {0};".format(UserSubmissionID))
-  username = utils.db_grab("SELECT User FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0]
-  scard    = scard_helper.scard_class(utils.db_grab( "SELECT scard FROM UserSubmissions WHERE UserSubmissionID = {0};".format(UserSubmissionID))[0][0])
+  gcards = database.get_gcards_for_submission(UserSubmissionID, sql)
+  username = database.get_username_for_submission(UserSubmissionID, sql)
+  scard = scard_helper.scard_class(database.get_scard_text_for_submission(
+    UserSubmissionID, sql))
 
-  # Picks up the scard type from arguments and throws an error if it was not an int
-  try:
-    scard_type = int(args.scard_type)
-  except Exception as err:
-    print("There was an error in recognizing scard type: ")
-    print(err)
-    exit()
-
-  # Setting sub_type to the right directory based on the scard_type
-  # scard_type is taken from the filename
-  if scard_type in fs.valid_scard_types:
-    sub_type = "type_{0}".format(scard_type)
-    print("Using scard type {0} template".format(scard_type))
-  elif scard_type == 0:
-    sub_type = "type_{0}".format(type_manager.manage_type(args,scard))
-  else:
-    print("Poorly defined scard_type: {0}. Below is a list of valid scard types. Exiting".format(scard_type))
-    for type in fs.valid_scard_types:
-      print("Valid scard type: {0}".format(type))
-    exit()
-
+  # Infer the type of scard submission that is being 
+  # processed. On the client side this is done by 
+  # reading the name of the scard file, since they 
+  # are always sent by the web_interface.  We could 
+  # just insert this value into the database. 
+  scard_type = type_manager.manage_type(args, scard)
+  sub_type = 'type_{}'.format(scard_type)
   print("sub_type is {0}".format(sub_type))
-
-  # Creating an array of script generating functions.
-  script_set = [fs.runscript_file_obj, fs.condor_file_obj, fs.run_job_obj]
-  funcs_rs, funcs_condor, funcs_runjob = [], [], [] # initialize empty function arrays
-  script_set_funcs = [funcs_rs, funcs_condor, funcs_runjob]
-
-  # Please note, the ordering of this array must match the ordering of the above
-  scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
-
-  # Now we will loop through directories to import the script generation functions
-  for index, script_dir in enumerate(scripts):
-    top_dir = os.path.dirname(os.path.abspath(__file__))
-    script_path = os.path.abspath(top_dir + '/../submission_files/script_generators/' + sub_type + script_dir)
-    for function in os.listdir(script_path):
-      if "init" not in function:
-        if ".pyc" not in function:
-          module_name = function[:-3]
-          module = import_module(sub_type+'.'+script_dir[1:-1]+'.'+module_name,module_name)
-          func = getattr(module,module_name)
-          script_set_funcs[index].append(func)
+  
+  # Dynamically load the script generation functions 
+  # from the type{sub_type} folder. 
+  script_set, script_set_funcs = load_script_generators(sub_type)
 
   # Setup for different scard types the proper generation options.
-  # If external lund files are provided, we go get them. 
-  if scard_type in [1,3]:
-  #  lund_dir = 0
-    scard.data['genExecutable'] = fs.genExecutable.get(scard.data.get('generator'))
-    scard.data['genOutput'] = fs.genOutput.get(scard.data.get('generator'))
-  
-  elif scard_type in [2,4]:
-  #  lund_dir = lund_helper.Lund_Entry(scard.data.get('generator'))
-    scard.data['genExecutable'] = "Null"
-    scard.data['genOutput'] = "Null"
+  # If external lund files are provided, we go get them.
+  set_scard_generator_options(scard, scard_type)
 
   # Now we create job submissions for all jobs that were recognized
   # this needs to change,
-  for gcard in gcards:
-    GcardID = gcard[0]
+  for gcard_id, gcard_content in gcards:
 
-    # Ensure that the user supplied gcard exists in our container 
-    # and if so, agree to use it. 
+    # Ensure that the user supplied gcard exists in our container
+    # and if so, agree to use it.
     if scard.data['gcards'] in fs.container_gcards:
       gcard_loc = scard.data['gcards']
 
     elif 'http' in  scard.data['gcards']:
       utils.printer('Writing gcard to local file')
-      newfile = "gcard_{0}_UserSubmission_{1}.gcard".format(GcardID,UserSubmissionID)
-      gfile= fs.sub_files_path+fs.gcards_dir+newfile
+      newfile = "gcard_{0}_UserSubmission_{1}.gcard".format(
+        gcard_id, UserSubmissionID)
+      gfile= fs.sub_files_path + fs.gcards_dir + newfile
+
       if not os.path.exists(gfile):
-        newdir = fs.sub_files_path+fs.gcards_dir
+        newdir = fs.sub_files_path + fs.gcards_dir
         print("newdir is {0}".format(newdir))
-        Popen(['mkdir','-p',newdir], stdout=PIPE)
-        Popen(['touch',gfile], stdout=PIPE)
-      with open(gfile,"w") as file: file.write(gcard[1])
-      gcard_loc = 'submission_files/gcards/'+newfile
+        Popen(['mkdir','-p', newdir], stdout=PIPE)
+        Popen(['touch', gfile], stdout=PIPE)
+
+      # Write it out for later. 
+      with open(gfile,"w") as output_gcard_file: 
+        output_gcard_file.write(gcard_content)
+
+      gcard_loc = 'submission_files/gcards/' + newfile
 
     else:
       print('gcard not recognized as default option or online repository, please inspect scard')
@@ -113,17 +124,18 @@ def process_jobs(args, UserSubmissionID):
     else:
       DB_path = fs.SQLite_DB_path
 
-    params = {'table':'Scards','UserSubmissionID':UserSubmissionID,'GcardID':GcardID,
-              'database_filename':DB_path+fs.DB_name,
-              'username':username,'gcard_loc':gcard_loc,
-              'file_extension':file_extension,'scard':scard}
+    params = {'table': 'Scards','UserSubmissionID': UserSubmissionID,'GcardID': GcardID,
+              'database_filename': DB_path+fs.DB_name,
+              'username': username,'gcard_loc': gcard_loc,
+              'file_extension': file_extension,'scard': scard}
 
-
-    """ This is where we actually pass all arguements to write the scripts"""
+    # This is where we actually pass all arguements to write the scripts
     for index, script in enumerate(script_set):
       script_factory.script_factory(args, script, script_set_funcs[index], params)
 
-    print("\tSuccessfully generated submission files for UserSubmission {0} with GcardID {1}".format(UserSubmissionID,GcardID))
+    print(("\tSuccessfully generated submission files for "
+           "UserSubmission {0} with GcardID {1}").format(
+             UserSubmissionID,GcardID))
 
     submission_string = 'Submission scripts generated'.format(scard.data['farm_name'])
     strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format('run_status',submission_string,UserSubmissionID)
@@ -135,3 +147,55 @@ def process_jobs(args, UserSubmissionID):
       submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
       strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format('run_status',submission_string,UserSubmissionID)
       utils.db_write(strn)
+
+# Move to script factory
+def load_script_generators(sub_type):
+  """ Dynamically load script generation modules 
+  from the directory structure.  """
+
+  # Creating an array of script generating functions.
+  script_set = [fs.runscript_file_obj, fs.condor_file_obj, fs.run_job_obj]
+  funcs_rs, funcs_condor, funcs_runjob = [], [], [] # initialize empty function arrays
+  script_set_funcs = [funcs_rs, funcs_condor, funcs_runjob]
+
+  # Please note, the ordering of this array must match the ordering of the above
+  scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
+
+  # Now we will loop through directories to import the script generation functions
+  for index, script_dir in enumerate(scripts):
+    top_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.abspath(top_dir + '/../submission_files/script_generators/' \
+                                  + sub_type + script_dir)
+    
+    for function in os.listdir(script_path):
+      if "init" not in function:
+        if ".pyc" not in function:
+          module_name = function[:-3]
+          module = import_module(sub_type + '.' + script_dir[1:-1] + '.' + module_name, 
+                                 module_name)
+          func = getattr(module, module_name)
+          script_set_funcs[index].append(func)
+
+    return script_set, script_set_funcs
+
+def set_scard_generator_options(scard, scard_type):
+  """ Setup generator options for different types of 
+  submissions. 
+
+  Inputs: 
+  -------
+  - scard - (scard_class) The scard. 
+  - scard_type - (int) integer scard type 
+
+  Returns: 
+  --------
+  - nothing, the scard data is modified inplace. 
+
+  """
+  if scard_type in [1,3]:
+    scard.data['genExecutable'] = fs.genExecutable.get(scard.data.get('generator'))
+    scard.data['genOutput'] = fs.genOutput.get(scard.data.get('generator'))
+
+  elif scard_type in [2,4]:
+    scard.data['genExecutable'] = "Null"
+    scard.data['genOutput'] = "Null"

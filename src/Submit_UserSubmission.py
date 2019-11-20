@@ -9,29 +9,32 @@
 """
 #****************************************************************
 from __future__ import print_function
-import os, sqlite3, subprocess, sys, time
+
+# python standard lib 
+import os
+import sqlite3
+import subprocess
+import sys
+import time
+
+# this project 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
-import farm_submission_manager, script_factory, submission_script_manager
-import utils, fs, scard_helper, lund_helper, get_args
-
-def count_user_submission_id(user_sub_id):
-    """Select and count instances of the UserSubmissionID and return a count."""
-    
-    query = """
-    SELECT COUNT(UserSubmissionID) FROM UserSubmissions
-        WHERE UserSubmissionID = {0}; 
-    """.format(user_sub_id)
-    
-    count = utils.db_grab(query)
-
-    # The database call returns an array with a tuple inside of it 
-    # so we need the first element of each.
-    return int(count[0][0])
+import database
+import farm_submission_manager
+import fs
+import get_args
+import lund_helper
+import scard_helper
+import script_factory
+import submission_script_manager
+import utils 
 
 
 def Submit_UserSubmission(args):
 
+    # This can be removed later when the database auth is 
+    # properly configured. 
     if args.lite is not None: 
         print('Server received --lite={}'.format(args.lite))
 
@@ -44,16 +47,30 @@ def Submit_UserSubmission(args):
         else:
             print('SQLite database not found at {}'.format(args.lite))
 
+    # Setup database authentication, connect to database.
+    cred_file = os.path.normpath(
+        os.path.dirname(os.path.abspath(__file__)) + '/../../msqlrw.txt'
+    ) 
+    username, password = database.load_database_credentials(cred_file)
+
+    use_mysql = False if args.lite else True 
+    db_conn, sql = database.get_database_connection(
+        use_mysql=use_mysql,
+        database_name=args.lite,
+        username=username,
+        password=password,
+        hostname='jsubmit.jlab.org'
+    )
+
     if args.UserSubmissionID != 'none':
         if count_user_submission_id(args.UserSubmissionID) > 0:
-            submission_script_manager.process_jobs(args, args.UserSubmissionID)
+            submission_script_manager.process_jobs(args, args.UserSubmissionID, db_conn, sql)
         else:
             print("The selected UserSubmission (UserSubmissionID = {0}) does not exist, exiting".format(args.UserSubmissionID))
             exit()
 
-            # UserSubmissionID is not specified (normal running operation).
-            # Here we will select all UserSubmissionIDs corresponding to UserSubmissions that have not yet been simulated, and push
-            # Then through the simulation.
+    # No UserSubmissionID specified, send all 
+    # that haven't been sent already. 
     else:
         """
         # There are three options for values in the run_status field in the Submissions table:
@@ -84,7 +101,37 @@ def Submit_UserSubmission(args):
             for UserSubmission in UserSubmissions_to_submit:
                 UserSubmissionID = UserSubmission[0] #UserSubmissionID is the first element of the tuple
                 utils.printer("Generating scripts for UserSubmission with UserSubmissionID = {0}".format(str(UserSubmissionID)))
-                submission_script_manager.process_jobs(args, UserSubmissionID)
+                submission_script_manager.process_jobs(args, UserSubmissionID, db_conn, sql)
+
+    # Shutdown the database, we're done here. 
+    db_conn.close()
+ 
+def count_user_submission_id(user_sub_id):
+    """ Select and count instances of the UserSubmissionID and 
+    return a count.
+    
+    Inputs: 
+    -------
+    - user_sub_id - (int) From UserSubmissions.UserSubmissionID
+    
+    Returns: 
+    --------
+    - count - (int) Total number of submissions with this ID.
+    We really only ever care about 0 and 1.  There shouldn't 
+    be more than 1. 
+    """
+    
+    query = """
+    SELECT COUNT(UserSubmissionID) FROM UserSubmissions
+        WHERE UserSubmissionID = {0}; 
+    """.format(user_sub_id)
+    
+    count = utils.db_grab(query)
+
+    # The database call returns an array with a tuple inside of it 
+    # so we need the first element of each.
+    return int(count[0][0])
+
 
 
 if __name__ == "__main__":
