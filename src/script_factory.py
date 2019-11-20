@@ -1,18 +1,17 @@
-#****************************************************************
 """
 # Enter file description here
 """
-#****************************************************************
+
 from __future__ import print_function
 import os, sqlite3, subprocess, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 import farm_submission_manager
-import utils, fs, scard_helper, lund_helper, get_args
+import utils, fs, scard_helper, lund_helper, get_args, update_tables
 
 # Generates a script by appending functions that output strings
 # This function is called by submission_script_manager.py
-def script_factory(args,script_obj,script_functions,params):
+def script_factory(args, script_obj, script_functions, params, db_conn, sql):
 
   runscript_filename = fs.runscript_file_obj.file_path + \
                        fs.runscript_file_obj.file_base
@@ -22,7 +21,7 @@ def script_factory(args,script_obj,script_functions,params):
   runjob_filename = runjob_filename + params['file_extension'] + \
                     fs.run_job_obj.file_end
 
-  # In the below for loop, we loop through all script_generators 
+  # In the below for loop, we loop through all script_generators
   # for a certain submission script, appending the output of each
   # function to a string
   gen_text = [f(params['scard'],
@@ -43,29 +42,33 @@ def script_factory(args,script_obj,script_functions,params):
                                 + script_obj.file_base
                                 + params['file_extension']
                                 + script_obj.file_end)
-    
+
     utils.printer(("\tWriting submission file '{0}' based off of specs "
                    "of UserSubmissionID = {1}, GcardID = {2}").format(
                      filename, params['UserSubmissionID'], params['GcardID']))
 
     if not os.path.exists(os.path.normpath(script_obj.file_path)):
       utils.printer('Creating directory: {}'.format(script_obj.file_path))
-      subprocess.call(['mkdir','-p',script_obj.file_path], 
+      subprocess.call(['mkdir','-p',script_obj.file_path],
                       stdout=subprocess.PIPE)
 
     if os.path.isfile(filename):
       subprocess.call(['rm',filename])
-        
+
     subprocess.call(['touch', filename])
-    with open(filename, 'w') as f: 
+    with open(filename, 'w') as f:
       f.write(script_text)
 
-  # Write out to the database, regardless of the value of args.write_files. 
+  # Write out to the database, regardless of the value of args.write_files.
   #
   # I can't figure out a way to write "" into a sqlite field without errors
-  # For now, we can replace " with ', which works ok, 
+  # For now, we can replace " with ', which works ok,
   # but IDK how it will run if the scripts were submitted to HTCondor
-  str_script_db = script_text.replace('"',"'") 
-  strn = 'UPDATE FarmSubmissions SET {0} = "{1}" WHERE GcardID = {2};'.format(
-    script_obj.file_text_fieldname, str_script_db, params['GcardID'])
-  utils.db_write(strn)
+  str_script_db = script_text.replace('"',"'")
+  #strn = 'UPDATE FarmSubmissions SET {0} = "{1}" WHERE GcardID = {2};'.format(
+  #  script_obj.file_text_fieldname, str_script_db, params['GcardID'])
+  #utils.db_write(strn)
+  update_tables.update_run_script(
+    script_obj.file_text_fieldname, str_script_db, params['GcardID'],
+    db_conn, sql
+  )

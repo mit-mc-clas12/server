@@ -94,58 +94,48 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
     # and if so, agree to use it.
     if scard.data['gcards'] in fs.container_gcards:
       gcard_loc = scard.data['gcards']
-
     elif 'http' in  scard.data['gcards']:
-      utils.printer('Writing gcard to local file')
-      newfile = "gcard_{0}_UserSubmission_{1}.gcard".format(
-        gcard_id, UserSubmissionID)
-      gfile= fs.sub_files_path + fs.gcards_dir + newfile
-
-      if not os.path.exists(gfile):
-        newdir = fs.sub_files_path + fs.gcards_dir
-        print("newdir is {0}".format(newdir))
-        Popen(['mkdir','-p', newdir], stdout=PIPE)
-        Popen(['touch', gfile], stdout=PIPE)
-
-      # Write it out for later. 
-      with open(gfile,"w") as output_gcard_file: 
-        output_gcard_file.write(gcard_content)
-
-      gcard_loc = 'submission_files/gcards/' + newfile
-
+      gcard_loc = write_gcard(gcard_id, UserSubmissionID)
     else:
       print('gcard not recognized as default option or online repository, please inspect scard')
       exit()
 
-    file_extension = "_gcard_{0}_UserSubmission_{1}".format(GcardID,UserSubmissionID)
+    file_extension = "_gcard_{0}_UserSubmission_{1}".format(gcard_id, UserSubmissionID)
 
     if fs.use_mysql:
       DB_path = fs.MySQL_DB_path
     else:
       DB_path = fs.SQLite_DB_path
 
-    params = {'table': 'Scards','UserSubmissionID': UserSubmissionID,'GcardID': GcardID,
-              'database_filename': DB_path+fs.DB_name,
+    params = {'table': 'Scards','UserSubmissionID': UserSubmissionID,'GcardID': gcard_id,
+              'database_filename': DB_path + fs.DB_name,
               'username': username,'gcard_loc': gcard_loc,
               'file_extension': file_extension,'scard': scard}
 
     # This is where we actually pass all arguements to write the scripts
     for index, script in enumerate(script_set):
-      script_factory.script_factory(args, script, script_set_funcs[index], params)
+      script_factory.script_factory(args, script, script_set_funcs[index], 
+                                    params, db_conn, sql)
 
     print(("\tSuccessfully generated submission files for "
            "UserSubmission {0} with GcardID {1}").format(
-             UserSubmissionID,GcardID))
+             UserSubmissionID, gcard_id))
 
     submission_string = 'Submission scripts generated'.format(scard.data['farm_name'])
-    strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format('run_status',submission_string,UserSubmissionID)
-    utils.db_write(strn)
+    #strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format(
+    #  'run_status', submission_string, UserSubmissionID)
+    #utils.db_write(strn)
+
+    update_tables.update_run_status(submission_string, UserSubmissionID,
+                                    db_conn, sql)
 
     if args.submit:
       print("\tSubmitting jobs to {0} \n".format(scard.data['farm_name']))
-      farm_submission_manager.farm_submission_manager(args,GcardID,file_extension,scard,params)
+      farm_submission_manager.farm_submission_manager(args, gcard_id, 
+                                                      file_extension, scard, params)
       submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
-      strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format('run_status',submission_string,UserSubmissionID)
+      strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format(
+        'run_status', submission_string, UserSubmissionID)
       utils.db_write(strn)
 
 # Move to script factory
@@ -199,3 +189,26 @@ def set_scard_generator_options(scard, scard_type):
   elif scard_type in [2,4]:
     scard.data['genExecutable'] = "Null"
     scard.data['genOutput'] = "Null"
+
+def write_gcard(gcard_id, UserSubmissionID):
+  """ Write the gcard and return the location.  This 
+  will likely be removed in favor of downloading the 
+  gcard before job submission (like lund files). """
+
+  utils.printer('Writing gcard to local file')
+  newfile = "gcard_{0}_UserSubmission_{1}.gcard".format(
+    gcard_id, UserSubmissionID)
+  gfile = fs.sub_files_path + fs.gcards_dir + newfile
+
+  if not os.path.exists(gfile):
+    newdir = fs.sub_files_path + fs.gcards_dir
+
+    Popen(['mkdir','-p', newdir], stdout=PIPE)
+    Popen(['touch', gfile], stdout=PIPE)
+
+    # Write it out for later. 
+    with open(gfile,"w") as output_gcard_file: 
+      output_gcard_file.write(gcard_content)
+
+    gcard_loc = 'submission_files/gcards/' + newfile
+    return gcard_loc 
