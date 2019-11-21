@@ -19,8 +19,10 @@ import sys
 import time
 
 # this project
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) \
+                + '/../../utils')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) \
+                + '/../submission_files')
 import database
 import farm_submission_manager
 import fs
@@ -35,20 +37,6 @@ import utils
 
 def Submit_UserSubmission(args):
 
-    # This can be removed later when the database auth is
-    # properly configured.
-    if args.lite is not None:
-        print('Server received --lite={}'.format(args.lite))
-
-        # This actually doesn't work, most likely
-        # subsequent imports of fs overwrite this
-        # variable.
-        if os.path.exists(args.lite):
-            fs.SQLite_DB_Path = args.lite
-            fs.use_mysql = False
-        else:
-            print('SQLite database not found at {}'.format(args.lite))
-
     logger = utils.configure_logger(args)
 
     # Setup database authentication, connect to database.
@@ -58,7 +46,7 @@ def Submit_UserSubmission(args):
     username, password = database.load_database_credentials(cred_file)
     use_mysql = False if args.lite else True
 
-    logger.debug('Connecting to MySQL/SQLite (0/1): {}'.format(
+    logger.debug('Connecting to MySQL: {}'.format(
         use_mysql))
 
     if args.lite is not None:

@@ -19,6 +19,7 @@ involved in the submission process.  Here is an overview.
 from __future__ import print_function
 
 # python standard library 
+import logging 
 import os
 import sqlite3
 import subprocess
@@ -62,6 +63,8 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   sql - Cursor object for database. 
 
   """
+  logger = logging.getLogger('SubMit')
+
   fs.DEBUG = getattr(args, fs.debug_long)
 
   # Grabs UserSubmission and gcards as described in respective files
@@ -69,6 +72,8 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   username = database.get_username_for_submission(UserSubmissionID, sql)
   scard = scard_helper.scard_class(database.get_scard_text_for_submission(
     UserSubmissionID, sql))
+  logging.debug('For UserSubmissionID = {}, user is {}'.format(
+    UserSubmissionID, username))
 
   # Infer the type of scard submission that is being 
   # processed. On the client side this is done by 
