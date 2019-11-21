@@ -42,7 +42,7 @@ def update_run_status(submission_string, usub_id, db_conn, sql):
     Nothing, the database is updated. 
 
     """
-    strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format(
+    strn = "UPDATE FarmSubmissions SET run_status = '{0}' WHERE UserSubmissionID = {1};".format(
         submission_string, usub_id)     
     sql.execute(strn)
     db_conn.commit() 

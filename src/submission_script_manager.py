@@ -41,6 +41,7 @@ import lund_helper
 import scard_helper
 import script_factory
 import type_manager
+import update_tables
 import utils
 
 

@@ -28,6 +28,7 @@ import lund_helper
 import scard_helper
 import script_factory
 import submission_script_manager
+import update_tables
 import utils
 
 
