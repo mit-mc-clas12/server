@@ -12,6 +12,7 @@ to the server side in the near future.
 from __future__ import print_function
 
 # python standard lib
+import argparse
 import os
 import sqlite3
 import subprocess
@@ -19,9 +20,9 @@ import sys
 import time
 
 # this project
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) \
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../../utils')
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) \
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files')
 import database
 import farm_submission_manager
@@ -119,6 +120,51 @@ def count_user_submission_id(user_sub_id):
     # so we need the first element of each.
     return int(count[0][0])
 
+def configure_args():
+
+    parser = argparse.ArgumentParser()
+    
+    help_str = "Enter the ID# of the batch you want to submit (e.g. -b 23)"
+    parser.add_argument('-b','--UserSubmissionID', default='none', help=help_str)
+
+    help_str = ("Use this flag (no arguments) if you are NOT on a farm"
+                " node and want to test the submission flag (-s)")
+    parser.add_argument('-t', '--test', help = help_str, action = 'store_true')
+
+    help_str = "Use this flag (no arguments) if you want to submit the job"
+    parser.add_argument('-s', '--submit', help=help_str, action='store_true')
+
+    help_str = ("Use this flag (no arguments) if you want submission "
+                "files to be written out to text files")
+    parser.add_argument('-w','--write_files', help=help_str, 
+                        action='store_true')
+
+    help_str = "Enter scard type (e.g. -y 1 for submitting type 1 scards)"
+    parser.add_argument('-y','--scard_type', default='0', help =help_str)
+
+    help_str = ("use -l or --lite to connect to sqlite DB, "
+                "otherwise use MySQL DB")
+    parser.add_argument('-l','--lite', help=help_str, type=str, default=None)
+
+    help_str =  ("Enter full path of your desired output directory, "
+                 "e.g. /u/home/robertej")
+    parser.add_argument('-o','--OutputDir', default='none', help=help_str)
+
+    help_str = "Use testing database (MySQL)"
+    parser.add_argument('--test_database', action='store_true', 
+                        default=False, help=help_str)
+
+    help_str = fs.debug_help
+    parser.add_argument(fs.debug_short,fs.debug_longdash, 
+                        default=fs.debug_default, help=help_str)
+
+    args = parser.parse_args()
+    
+    fs.DEBUG = getattr(args, fs.debug_long)
+    fs.use_mysql = False if args.lite else True
+
+    return args
+
 if __name__ == "__main__":
-    args = get_args.get_args()
+    args = configure_args()
     Submit_UserSubmission(args)

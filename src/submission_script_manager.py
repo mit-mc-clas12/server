@@ -47,8 +47,7 @@ import utils
 
 
 def process_jobs(args, UserSubmissionID, db_conn, sql):
-  """ 
-  Submit the job for UserSubmissionID. 
+  """ Submit the job for UserSubmissionID. 
 
   Detail described in the header of this file.
   I'll write a more useful comment here once the function 
@@ -75,11 +74,6 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   logging.debug('For UserSubmissionID = {}, user is {}'.format(
     UserSubmissionID, username))
 
-  # Infer the type of scard submission that is being 
-  # processed. On the client side this is done by 
-  # reading the name of the scard file, since they 
-  # are always sent by the web_interface.  We could 
-  # just insert this value into the database. 
   scard_type = type_manager.manage_type(args, scard)
   sub_type = 'type_{}'.format(scard_type)
   print("sub_type is {0}".format(sub_type))
@@ -123,26 +117,22 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
       script_factory.script_factory(args, script, script_set_funcs[index], 
                                     params, db_conn, sql)
 
-    print(("\tSuccessfully generated submission files for "
+    print(("Successfully generated submission files for "
            "UserSubmission {0} with GcardID {1}").format(
              UserSubmissionID, gcard_id))
 
-    submission_string = 'Submission scripts generated'.format(scard.data['farm_name'])
-    #strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format(
-    #  'run_status', submission_string, UserSubmissionID)
-    #utils.db_write(strn)
-
+    submission_string = 'Submission scripts generated'
     update_tables.update_run_status(submission_string, UserSubmissionID,
                                     db_conn, sql)
 
     if args.submit:
-      print("\tSubmitting jobs to {0} \n".format(scard.data['farm_name']))
+      print("Submitting jobs to {0} \n".format(scard.data['farm_name']))
       farm_submission_manager.farm_submission_manager(args, gcard_id, 
-                                                      file_extension, scard, params)
+                                                      file_extension, scard, params, 
+                                                      db_conn, sql)
       submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
-      strn = "UPDATE FarmSubmissions SET {0} = '{1}' WHERE UserSubmissionID = {2};".format(
-        'run_status', submission_string, UserSubmissionID)
-      utils.db_write(strn)
+      update_tables.update_run_status(submission_string, UserSubmissionID, 
+                                      db_conn, sql)
 
 # Move to script factory
 def load_script_generators(sub_type):
