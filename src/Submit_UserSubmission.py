@@ -1,13 +1,14 @@
-#****************************************************************
 """
-# This file will query the command line to see what UserSubmissionID it should use,
-# or if no arguement is given on the CL, the most recent UserSubmissionID will be used
-# This UserSubmissionID is used to identify the proper scard and gcards, and then submission
-# files corresponding to each gcard are generated and stored in the database, as
-# well as written out to a file with a unique name. This latter part will be passed
-# to the server side in the near future.
+
+This file will query the command line to see what UserSubmissionID it should use,
+or if no arguement is given on the CL, the most recent UserSubmissionID will be used
+This UserSubmissionID is used to identify the proper scard and gcards, and then submission
+files corresponding to each gcard are generated and stored in the database, as
+well as written out to a file with a unique name. This latter part will be passed
+to the server side in the near future.
+
 """
-#****************************************************************
+
 from __future__ import print_function
 
 # python standard lib
@@ -60,9 +61,17 @@ def Submit_UserSubmission(args):
     logger.debug('Connecting to MySQL/SQLite (0/1): {}'.format(
         use_mysql))
 
+    if args.lite is not None:
+        database_name = args.lite 
+    else:
+        if args.test_database:
+            database_name = "CLAS12TEST"
+        else:
+            database_name = "CLAS12OCR"
+
     db_conn, sql = database.get_database_connection(
         use_mysql=use_mysql,
-        database_name=args.lite,
+        database_name=database_name,
         username=username,
         password=password,
         hostname='jsubmit.jlab.org'
