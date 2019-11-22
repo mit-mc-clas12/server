@@ -76,7 +76,7 @@ def update_users_statistics(scard, params, timestamp, db_conn, sql):
 
     query = """
     SELECT Total_UserSubmissions FROM Users
-    WHERE User = {}
+    WHERE User = '{}'
     """.format(params['username'])
     logger.debug('Executing SQL command: {}'.format(query))
 
@@ -88,7 +88,7 @@ def update_users_statistics(scard, params, timestamp, db_conn, sql):
     strn = """
     UPDATE Users SET Total_UserSubmissions = '{0}'
     WHERE User = '{1}';""".format(
-        UserSubmissions_total, params['username'])
+        total, params['username'])
     logger.debug('Executing SQL command: {}'.format(strn))
 
     sql.execute(strn)
