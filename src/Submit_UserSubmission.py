@@ -67,7 +67,7 @@ def Submit_UserSubmission(args):
     )
 
     if args.UserSubmissionID != 'none':
-        if count_user_submission_id(args.UserSubmissionID) > 0:
+        if update_tables.count_user_submission_id(args.UserSubmissionID, sql) > 0:
             logger.debug('Processing {}'.format(args.UserSubmissionID))
             submission_script_manager.process_jobs(args, args.UserSubmissionID, db_conn, sql)
         else:
@@ -93,32 +93,6 @@ def Submit_UserSubmission(args):
 
     # Shutdown the database, we're done here.
     db_conn.close()
-
-def count_user_submission_id(user_sub_id):
-    """ Select and count instances of the UserSubmissionID and
-    return a count.
-
-    Inputs:
-    -------
-    - user_sub_id - (int) From UserSubmissions.UserSubmissionID
-
-    Returns:
-    --------
-    - count - (int) Total number of submissions with this ID.
-    We really only ever care about 0 and 1.  There shouldn't
-    be more than 1.
-    """
-
-    query = """
-    SELECT COUNT(UserSubmissionID) FROM UserSubmissions
-        WHERE UserSubmissionID = {0};
-    """.format(user_sub_id)
-
-    count = utils.db_grab(query)
-
-    # The database call returns an array with a tuple inside of it
-    # so we need the first element of each.
-    return int(count[0][0])
 
 def configure_args():
 

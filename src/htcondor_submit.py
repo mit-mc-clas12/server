@@ -1,22 +1,22 @@
-#****************************************************************
+""" 
+
+Submit a job using htcondor. 
+
 """
-# This is actually submits a job on a computer pool running HTCondor
-"""
-#****************************************************************
 
 from __future__ import print_function
-import argparse, os, sqlite3, subprocess, sys, time
+
+import os
+import sys
 from subprocess import PIPE, Popen
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
-# Could also do the following, but then python has to search the
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import Submit_UserSubmission
-import fs, utils
+import fs
+import utils 
+import update_tables
 
-def htcondor_submit(args, scard, GcardID, file_extension, params):
-
-  """ if value in submission === not submitted"""
+def htcondor_submit(args, scard, GcardID, file_extension, params, db_conn, sql):
 
   # Need to add condition here in case path is different for non-jlab
   scripts_baseDir  = "/group/clas12/SubMit"
@@ -35,12 +35,6 @@ def htcondor_submit(args, scard, GcardID, file_extension, params):
   words = submission.split()
   node_number = words[len(words)-1] # This might only work on SubMIT
 
-  strn = "UPDATE FarmSubmissions SET run_status = 'submitted to pool' WHERE GcardID = '{0}';".format(GcardID)
-  utils.db_write(strn)
-
-  timestamp = utils.gettime() # Can modify this if need 10ths of seconds or more resolution
-  strn = "UPDATE FarmSubmissions SET submission_timestamp = '{0}' WHERE GcardID = '{1}';".format(timestamp, GcardID)
-  utils.db_write(strn)
-
-  strn = "UPDATE FarmSubmissions SET pool_node = '{0}' WHERE GcardID = '{1}';".format(node_number, GcardID)
-  utils.db_write(strn)
+  timestamp = utils.gettime()
+  update_tables.update_farm_submissions(GcardID, timestamp, node_number, 
+                                        db_conn, sql)
