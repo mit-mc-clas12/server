@@ -77,7 +77,9 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   scard_type = type_manager.manage_type(args, scard)
   sub_type = 'type_{}'.format(scard_type)
   print("sub_type is {0}".format(sub_type))
-  
+  logger.debug('Type manager has determined type is: {}'.format(
+    sub_type))
+
   # Dynamically load the script generation functions 
   # from the type{sub_type} folder. 
   script_set, script_set_funcs = load_script_generators(sub_type)
@@ -139,6 +141,8 @@ def load_script_generators(sub_type):
   """ Dynamically load script generation modules 
   from the directory structure.  """
 
+  logger = logging.getLogger('SubMit')
+
   # Creating an array of script generating functions.
   script_set = [fs.runscript_file_obj, fs.condor_file_obj, fs.run_job_obj]
   funcs_rs, funcs_condor, funcs_runjob = [], [], [] # initialize empty function arrays
@@ -148,11 +152,13 @@ def load_script_generators(sub_type):
   scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
 
   # Now we will loop through directories to import the script generation functions
+  logger.debug('Scripts = {}'.format(scripts))
   for index, script_dir in enumerate(scripts):
     top_dir = os.path.dirname(os.path.abspath(__file__))
-    script_path = os.path.abspath(top_dir + '/../submission_files/script_generators/' \
+    script_path = os.path.abspath(top_dir + '/../submission_files/script_generators/'
                                   + sub_type + script_dir)
-    
+    logger.debug('Working with script path: {}'.format(script_path))
+
     for function in os.listdir(script_path):
       if "init" not in function:
         if ".pyc" not in function:
@@ -161,8 +167,9 @@ def load_script_generators(sub_type):
                                  module_name)
           func = getattr(module, module_name)
           script_set_funcs[index].append(func)
-
-    return script_set, script_set_funcs
+          logger.debug('Importing {}, long name {}'.format(func.__name__, function))
+          
+  return script_set, script_set_funcs
 
 def set_scard_generator_options(scard, scard_type):
   """ Setup generator options for different types of 
