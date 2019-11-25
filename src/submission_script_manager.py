@@ -159,7 +159,7 @@ def load_script_generators(sub_type):
                                   + sub_type + script_dir)
     logger.debug('Working with script path: {}'.format(script_path))
 
-    for function in os.listdir(script_path):
+    for function in sorted(os.listdir(script_path)):
       if "init" not in function:
         if ".pyc" not in function:
           module_name = function[:-3]

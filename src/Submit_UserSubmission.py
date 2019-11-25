@@ -80,7 +80,7 @@ def Submit_UserSubmission(args):
     else:
         if args.submit:
             user_submissions = database.get_unsubmitted_jobs(sql)
-            logger.debug('Found unsubmitted jobs:', user_submissions)
+            logger.debug('Found unsubmitted jobs: {}'.format(user_submissions))
 
             if len(user_submissions) == 0:
                 print("There are no UserSubmissions which have not yet been submitted to a farm")
