@@ -26,7 +26,7 @@ def update_run_script(field_name, script_text, usub_id, db_conn, sql):
     """
     logger = logging.getLogger('SubMit')
 
-    strn = 'UPDATE submission SET {0} = "{1}" WHERE user_submission_id = {2};'.format(
+    strn = 'UPDATE submissions SET {0} = "{1}" WHERE user_submission_id = {2};'.format(
         field_name, script_text, usub_id)
     sql.execute(strn)
     logger.debug('Executing SQL statement: {}'.format(strn))
