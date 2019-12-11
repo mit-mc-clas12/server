@@ -15,7 +15,7 @@ import Submit_UserSubmission
 import fs, utils
 
 
-def slurm_submit(args,scard,GcardID,file_extension,params):
+def slurm_submit(args,scard,usub_id,file_extension,params):
 
   """ THIS CODE NEEDS TO BE CREATED """
 

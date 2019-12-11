@@ -27,7 +27,7 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
   gen_text = [f(params['scard'],
                 username=params['username'],
                 gcard_loc=params['gcard_loc'],
-                GcardID=params['GcardID'],
+                user_submission_id=params['UserSubmissionID']
                 database_filename=params['database_filename'],
                 file_extension=params['file_extension'],
                 runscript_filename=runscript_filename,
@@ -43,9 +43,9 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
                                 + params['file_extension']
                                 + script_obj.file_end)
 
-    utils.printer(("\tWriting submission file '{0}' based off of specs "
-                   "of UserSubmissionID = {1}, GcardID = {2}").format(
-                     filename, params['UserSubmissionID'], params['GcardID']))
+    #utils.printer(("\tWriting submission file '{0}' based off of specs "
+    #               "of UserSubmissionID = {1}, GcardID = {2}").format(
+    #                 filename, params['UserSubmissionID'], params['GcardID']))
 
     if not os.path.exists(os.path.normpath(script_obj.file_path)):
       utils.printer('Creating directory: {}'.format(script_obj.file_path))
@@ -69,6 +69,6 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
   #  script_obj.file_text_fieldname, str_script_db, params['GcardID'])
   #utils.db_write(strn)
   update_tables.update_run_script(
-    script_obj.file_text_fieldname, str_script_db, params['GcardID'],
+    script_obj.file_text_fieldname, str_script_db, params['UserSubmissionID'],
     db_conn, sql
   )

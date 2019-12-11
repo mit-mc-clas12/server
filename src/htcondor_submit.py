@@ -16,7 +16,7 @@ import fs
 import utils 
 import update_tables
 
-def htcondor_submit(args, scard, GcardID, file_extension, params, db_conn, sql):
+def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
 
   # Need to add condition here in case path is different for non-jlab
   scripts_baseDir  = "/group/clas12/SubMit"
@@ -27,7 +27,7 @@ def htcondor_submit(args, scard, GcardID, file_extension, params, db_conn, sql):
   # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
   # error: we really need to pass farmsubmissionID
   submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'], 
-                      str(GcardID), url], stdout=PIPE).communicate()[0]
+                      str(usub_id), url], stdout=PIPE).communicate()[0]
 
   print(submission)
 
@@ -36,5 +36,5 @@ def htcondor_submit(args, scard, GcardID, file_extension, params, db_conn, sql):
   node_number = words[len(words)-1] # This might only work on SubMIT
 
   timestamp = utils.gettime()
-  update_tables.update_farm_submissions(GcardID, timestamp, node_number, 
+  update_tables.update_farm_submissions(usub_id, timestamp, node_number, 
                                         db_conn, sql)

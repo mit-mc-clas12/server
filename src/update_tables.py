@@ -8,7 +8,7 @@ INSERT or UPDATE call on the server should be here.
 
 import logging
 
-def update_run_script(field_name, script_text, gcard_id, db_conn, sql):
+def update_run_script(field_name, script_text, usub_id, db_conn, sql):
     """ Update runscript text in the FarmSubmissions table.
 
     Inputs:
@@ -26,8 +26,8 @@ def update_run_script(field_name, script_text, gcard_id, db_conn, sql):
     """
     logger = logging.getLogger('SubMit')
 
-    strn = 'UPDATE FarmSubmissions SET {0} = "{1}" WHERE GcardID = {2};'.format(
-        field_name, script_text, gcard_id)
+    strn = 'UPDATE submission SET {0} = "{1}" WHERE user_submission_id = {2};'.format(
+        field_name, script_text, usub_id)
     sql.execute(strn)
     logger.debug('Executing SQL statement: {}'.format(strn))
     db_conn.commit()
@@ -49,7 +49,7 @@ def update_run_status(submission_string, usub_id, db_conn, sql):
     """
     logger = logging.getLogger('SubMit')
 
-    strn = "UPDATE FarmSubmissions SET run_status = '{0}' WHERE UserSubmissionID = {1};".format(
+    strn = "UPDATE submissions SET run_status = '{0}' WHERE user_submission_id = {1};".format(
         submission_string, usub_id)
     sql.execute(strn)
     logger.debug('Executing SQL statement: {}'.format(strn))
@@ -75,8 +75,8 @@ def update_users_statistics(scard, params, timestamp, db_conn, sql):
     logger = logging.getLogger('SubMit')
 
     query = """
-    SELECT Total_UserSubmissions FROM Users
-    WHERE User = '{}'
+    SELECT total_submissions FROM users
+    WHERE user = '{}'
     """.format(params['username'])
     logger.debug('Executing SQL command: {}'.format(query))
 
@@ -86,8 +86,8 @@ def update_users_statistics(scard, params, timestamp, db_conn, sql):
 
     # Update the total submissions for our user
     strn = """
-    UPDATE Users SET Total_UserSubmissions = '{0}'
-    WHERE User = '{1}';""".format(
+    UPDATE users SET total_submissions = '{0}'
+    WHERE user = '{1}';""".format(
         total, params['username'])
     logger.debug('Executing SQL command: {}'.format(strn))
 
@@ -95,28 +95,28 @@ def update_users_statistics(scard, params, timestamp, db_conn, sql):
 
     if 'nevents' in scard.data:
         query = """
-        SELECT Total_Events FROM Users
-        WHERE User = '{0}';""".format(params['username'])
+        SELECT total_events FROM users
+        WHERE user = '{0}';""".format(params['username'])
         sql.execute(query)
         events_total = sql.fetchall()[0][0]
         events_total += int(scard.data['jobs']) * int(scard.data['nevents'])
 
         strn = """
-        UPDATE Users SET Total_Events = '{0}'
-        WHERE User = '{1}';""".format(
+        UPDATE users SET total_events = '{0}'
+        WHERE user = '{1}';""".format(
             events_total, params['username'])
         logger.debug('Executing SQL command: {}'.format(strn))
         sql.execute(strn)
 
     strn = """
-    UPDATE Users SET Most_Recent_Active_Date = '{0}'
-    WHERE User = '{1}';""".format(
+    UPDATE users SET most_recent_active_date = '{0}'
+    WHERE user = '{1}';""".format(
         timestamp, params['username'])
     logger.debug('Executing SQL command: {}'.format(strn))
     sql.execute(strn)
     db_conn.commit()
 
-def update_farm_submissions(GcardID, timestamp, node_number, db_conn, sql):
+def update_farm_submissions(usub_id, timestamp, node_number, db_conn, sql):
     """ After submission, update FarmSubmissions
     with the node number and timestamp.
 
@@ -133,15 +133,15 @@ def update_farm_submissions(GcardID, timestamp, node_number, db_conn, sql):
     Nothing, the database is modified
 
     """
-    strn = ("UPDATE FarmSubmissions SET run_status "
-            "= 'submitted to pool' WHERE GcardID = '{0}';").format(GcardID)
+    strn = ("UPDATE submissions SET run_status "
+            "= 'submitted to pool' WHERE user_submission_id = '{0}';").format(usub_id)
     sql.execute(strn)
-    strn = ("UPDATE FarmSubmissions SET submission_timestamp"
-            " = '{0}' WHERE GcardID = '{1}';").format(timestamp, GcardID)
+    strn = ("UPDATE submissions SET submission_timestamp"
+            " = '{0}' WHERE user_submission_id = '{1}';").format(timestamp, usub_id)
     sql.execute(strn)
 
-    strn = ("UPDATE FarmSubmissions SET pool_node "
-            "= '{0}' WHERE GcardID = '{1}';").format(node_number, GcardID)
+    strn = ("UPDATE submissions SET pool_node "
+            "= '{0}' WHERE user_submission_id = '{1}';").format(node_number, usub_id)
     sql.execute(strn)
     db_conn.commit()
 
@@ -162,8 +162,8 @@ def count_user_submission_id(user_sub_id, sql):
     """
 
     query = """
-    SELECT COUNT(UserSubmissionID) FROM UserSubmissions
-        WHERE UserSubmissionID = {0};
+    SELECT COUNT(user_submission_id) FROM submissions
+        WHERE user_submission_id = {0};
     """.format(user_sub_id)
     sql.execute(query)
     count = sql.fetchall()[0][0]

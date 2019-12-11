@@ -182,14 +182,13 @@ def set_scard_generator_options(scard, scard_type):
     scard.data['genExecutable'] = "Null"
     scard.data['genOutput'] = "Null"
 
-def write_gcard(gcard_id, UserSubmissionID):
+def write_gcard(UserSubmissionID):
   """ Write the gcard and return the location.  This 
   will likely be removed in favor of downloading the 
   gcard before job submission (like lund files). """
 
   utils.printer('Writing gcard to local file')
-  newfile = "gcard_{0}_UserSubmission_{1}.gcard".format(
-    gcard_id, UserSubmissionID)
+  newfile = "UserSubmission_{}.gcard".format(UserSubmissionID)
   gfile = fs.sub_files_path + fs.gcards_dir + newfile
 
   if not os.path.exists(gfile):
