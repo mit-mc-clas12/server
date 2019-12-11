@@ -58,7 +58,7 @@ transfer_output_files = output
 # Queue starts "jobs" number of subjobs
 Arguments = {1} $(Process)
 Queue {0}
-""".format(scard.data['jobs'], kwargs['GcardID'])
+""".format(scard.data['jobs'], kwargs['user_submission_id'])
 
 
   return strnIO + strOUTPUT + arguQueue

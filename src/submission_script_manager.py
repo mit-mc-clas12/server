@@ -67,7 +67,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   fs.DEBUG = getattr(args, fs.debug_long)
 
   # Grabs UserSubmission and gcards as described in respective files
-  gcards = database.get_gcards_for_submission(UserSubmissionID, sql)
+  #gcards = database.get_gcards_for_submission(UserSubmissionID, sql)
   username = database.get_username_for_submission(UserSubmissionID, sql)
   scard = scard_helper.scard_class(database.get_scard_text_for_submission(
     UserSubmissionID, sql))
@@ -88,40 +88,28 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   # If external lund files are provided, we go get them.
   set_scard_generator_options(scard, scard_type)
 
-  # Now we create job submissions for all jobs that were recognized
-  # this needs to change,
-  for gcard_id, gcard_content in gcards:
+  if scard.data['gcards'] in fs.container_gcards:
+    gcard_loc = scard.data['gcards']
+  else:
+    print('No support for types 3/4 at the present time.')
+    exit()
 
-    # Ensure that the user supplied gcard exists in our container
-    # and if so, agree to use it.
-    if scard.data['gcards'] in fs.container_gcards:
-      gcard_loc = scard.data['gcards']
-    elif 'http' in  scard.data['gcards']:
-      gcard_loc = write_gcard(gcard_id, UserSubmissionID)
-    else:
-      print('gcard not recognized as default option or online repository, please inspect scard')
-      exit()
+  file_extension = "_UserSubmission_{0}".format(UserSubmissionID)
+  
+  if fs.use_mysql:
+    DB_path = fs.MySQL_DB_path
+  else:
+    DB_path = fs.SQLite_DB_path
 
-    file_extension = "_gcard_{0}_UserSubmission_{1}".format(gcard_id, UserSubmissionID)
+  params = {'table': 'Scards','UserSubmissionID': UserSubmissionID,
+            'database_filename': DB_path + fs.DB_name,
+            'username': username,'gcard_loc': gcard_loc,
+            'file_extension': file_extension,'scard': scard}
 
-    if fs.use_mysql:
-      DB_path = fs.MySQL_DB_path
-    else:
-      DB_path = fs.SQLite_DB_path
-
-    params = {'table': 'Scards','UserSubmissionID': UserSubmissionID,'GcardID': gcard_id,
-              'database_filename': DB_path + fs.DB_name,
-              'username': username,'gcard_loc': gcard_loc,
-              'file_extension': file_extension,'scard': scard}
-
-    # This is where we actually pass all arguements to write the scripts
-    for index, script in enumerate(script_set):
-      script_factory.script_factory(args, script, script_set_funcs[index], 
-                                    params, db_conn, sql)
-
-    print(("Successfully generated submission files for "
-           "UserSubmission {0} with GcardID {1}").format(
-             UserSubmissionID, gcard_id))
+  # This is where we actually pass all arguements to write the scripts
+  for index, script in enumerate(script_set):
+    script_factory.script_factory(args, script, script_set_funcs[index], 
+                                  params, db_conn, sql)
 
     submission_string = 'Submission scripts generated'
     update_tables.update_run_status(submission_string, UserSubmissionID,
@@ -129,12 +117,13 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
 
     if args.submit:
       print("Submitting jobs to {0} \n".format(scard.data['farm_name']))
-      farm_submission_manager.farm_submission_manager(args, gcard_id, 
+      farm_submission_manager.farm_submission_manager(args, UserSubmissionID, 
                                                       file_extension, scard, params, 
                                                       db_conn, sql)
       submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
       update_tables.update_run_status(submission_string, UserSubmissionID, 
                                       db_conn, sql)
+
 
 # Move to script factory
 def load_script_generators(sub_type):
