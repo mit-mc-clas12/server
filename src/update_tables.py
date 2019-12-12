@@ -169,3 +169,27 @@ def count_user_submission_id(user_sub_id, sql):
     count = sql.fetchall()[0][0]
 
     return int(count)
+
+def update_job_queue(db_conn, sql, user_id, n_jobs, timestamp):
+    """ Select and count instances of the UserSubmissionID and
+    return a count.
+
+    Inputs:
+    -------
+    - db_conn - database connection for committing changes 
+    - sql - cursor object to execute database query
+    - user_id - the user identification number for this entry 
+    - n_jobs - the number of jobs submitted 
+    - timestamp - the current time 
+
+    Returns:
+    --------
+    Nothing, the database is modified. 
+    """
+    insertion = """
+    INSERT INTO job_queue(user_id,n_jobs,timestamp)
+    VALUES ({0},{1},"{2}");
+    """.format(user_id, n_jobs, timestamp)
+
+    sql.execute(insertion)
+    db_conn.commit()

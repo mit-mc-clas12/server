@@ -67,8 +67,8 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   fs.DEBUG = getattr(args, fs.debug_long)
 
   # Grabs UserSubmission and gcards as described in respective files
-  #gcards = database.get_gcards_for_submission(UserSubmissionID, sql)
   username = database.get_username_for_submission(UserSubmissionID, sql)
+  user_id = database.get_user_id(username, sql)
   scard = scard_helper.scard_class(database.get_scard_text_for_submission(
     UserSubmissionID, sql))
   logging.debug('For UserSubmissionID = {}, user is {}'.format(
@@ -124,6 +124,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
       update_tables.update_run_status(submission_string, UserSubmissionID, 
                                       db_conn, sql)
 
+      update_tables.update_job_queue(db_conn, sql, user_id, 1, utils.gettime())
 
 # Move to script factory
 def load_script_generators(sub_type):
