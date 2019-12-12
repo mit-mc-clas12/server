@@ -187,7 +187,7 @@ def update_job_queue(db_conn, sql, user_id, n_jobs, timestamp):
     Nothing, the database is modified. 
     """
     insertion = """
-    INSERT INTO job_queue(user_id,n_jobs,timestamp)
+    INSERT INTO job_queue(user_id,n_jobs,update_time)
     VALUES ({0},{1},"{2}");
     """.format(user_id, n_jobs, timestamp)
 
