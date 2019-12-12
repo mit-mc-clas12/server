@@ -108,12 +108,12 @@ def update_users_statistics(scard, params, timestamp, db_conn, sql):
         logger.debug('Executing SQL command: {}'.format(strn))
         sql.execute(strn)
 
-    strn = """
-    UPDATE users SET most_recent_active_date = '{0}'
-    WHERE user = '{1}';""".format(
-        timestamp, params['username'])
-    logger.debug('Executing SQL command: {}'.format(strn))
-    sql.execute(strn)
+    #strn = """
+    #UPDATE users SET most_recent_active_date = '{0}'
+    #WHERE user = '{1}';""".format(
+    #    timestamp, params['username'])
+    #logger.debug('Executing SQL command: {}'.format(strn))
+    #sql.execute(strn)
     db_conn.commit()
 
 def update_farm_submissions(usub_id, timestamp, node_number, db_conn, sql):
@@ -136,7 +136,7 @@ def update_farm_submissions(usub_id, timestamp, node_number, db_conn, sql):
     strn = ("UPDATE submissions SET run_status "
             "= 'submitted to pool' WHERE user_submission_id = '{0}';").format(usub_id)
     sql.execute(strn)
-    strn = ("UPDATE submissions SET submission_timestamp"
+    strn = ("UPDATE submissions SET server_time"
             " = '{0}' WHERE user_submission_id = '{1}';").format(timestamp, usub_id)
     sql.execute(strn)
 
