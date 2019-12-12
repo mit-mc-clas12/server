@@ -66,6 +66,8 @@ def Submit_UserSubmission(args):
         hostname='jsubmit.jlab.org'
     )
 
+    purge_old_jobs(db_conn, sql, hours=1)
+
     if args.UserSubmissionID != 'none':
         if update_tables.count_user_submission_id(args.UserSubmissionID, sql) > 0:
             logger.debug('Processing {}'.format(args.UserSubmissionID))
@@ -138,6 +140,10 @@ def configure_args():
     fs.use_mysql = False if args.lite else True
 
     return args
+
+def purge_old_jobs(db_conn, sql, hours):
+    for job in database.get_old_jobs_from_queue(sql, hours):
+        update_tables.purge_job_from_queue(db_conn, sql, job)        
 
 if __name__ == "__main__":
     args = configure_args()

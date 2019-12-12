@@ -193,3 +193,13 @@ def update_job_queue(db_conn, sql, user_id, n_jobs, timestamp):
 
     sql.execute(insertion)
     db_conn.commit()
+
+def purge_old_job_from_queue(db_conn, sql, job):
+    """ Delete a job by entry. """
+
+    command = """
+    DELETE FROM job_queue
+    WHERE entry = {}
+    """.format(job)
+    sql.execute(command)
+    db_conn.commit()
