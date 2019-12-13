@@ -1,5 +1,5 @@
-"""
-
+B"""
+1;95;0c
 This file will query the command line to see what UserSubmissionID it should use,
 or if no arguement is given on the CL, the most recent UserSubmissionID will be used
 This UserSubmissionID is used to identify the proper scard and gcards, and then submission
@@ -143,7 +143,7 @@ def configure_args():
 
 def purge_old_jobs(db_conn, sql, hours):
     for job in database.get_old_jobs_from_queue(sql, hours):
-        update_tables.purge_job_from_queue(db_conn, sql, job)        
+        update_tables.purge_old_job_from_queue(db_conn, sql, job)        
 
 if __name__ == "__main__":
     args = configure_args()
