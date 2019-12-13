@@ -1,6 +1,6 @@
 """
 
-This file, currently under constriction, does most of the work
+This file, currently under construction, does most of the work
 involved in the submission process.  Here is an overview.
 
 1) Retrieve the gcard, username, and scard for this UserSubmissionID
@@ -80,6 +80,14 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   logger.debug('Type manager has determined type is: {}'.format(
     sub_type))
 
+  # Determine the number of jobs this submission
+  # will produce in total. 
+  njobs = 1 
+  if scard_type == 1:
+    njobs = int(scard.data['jobs'])
+  elif scard_type == 2:
+    njobs = lund_helper.count_files(scard.data['generator'])
+
   # Dynamically load the script generation functions 
   # from the type{sub_type} folder. 
   script_set, script_set_funcs = load_script_generators(sub_type)
@@ -124,7 +132,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
       update_tables.update_run_status(submission_string, UserSubmissionID, 
                                       db_conn, sql)
 
-      update_tables.update_job_queue(db_conn, sql, user_id, 1, utils.gettime())
+      update_tables.update_job_queue(db_conn, sql, user_id, njobs, utils.gettime())
 
 # Move to script factory
 def load_script_generators(sub_type):
