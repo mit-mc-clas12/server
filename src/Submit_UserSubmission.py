@@ -89,7 +89,7 @@ def Submit_UserSubmission(args):
             else:
                 for i, submission_id in enumerate(user_submissions):
                     logger.debug('Working on job {} of {}, user_submission_id = {}'.format(
-                        i, len(user_submissions), submission_id
+                        i + 1, len(user_submissions), submission_id
                     ))
                     submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
 
