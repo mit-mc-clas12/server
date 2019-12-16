@@ -87,9 +87,10 @@ def Submit_UserSubmission(args):
                 print("There are no UserSubmissions which have not yet been submitted to a farm")
 
             else:
-                for submission_id in user_submissions:
-                    utils.printer("Generating scripts for UserSubmission with UserSubmissionID = {0}".format(
-                        str(submission_id)))
+                for i, submission_id in enumerate(user_submissions):
+                    logger.debug('Working on job {} of {}, user_submission_id = {}'.format(
+                        i, len(user_submissions), submission_id
+                    ))
                     submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
 
     # Shutdown the database, we're done here.

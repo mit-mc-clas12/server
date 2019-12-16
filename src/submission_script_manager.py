@@ -119,18 +119,19 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
     script_factory.script_factory(args, script, script_set_funcs[index], 
                                   params, db_conn, sql)
 
-    submission_string = 'Submission scripts generated'
-    update_tables.update_run_status(submission_string, UserSubmissionID,
+  # Update entries in database
+  submission_string = 'Submission scripts generated'
+  update_tables.update_run_status(submission_string, UserSubmissionID,
                                     db_conn, sql)
 
-    if args.submit:
-      print("Submitting jobs to {0} \n".format(scard.data['farm_name']))
-      farm_submission_manager.farm_submission_manager(args, UserSubmissionID, 
-                                                      file_extension, scard, params, 
-                                                      db_conn, sql)
-      submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
-      update_tables.update_run_status(submission_string, UserSubmissionID, 
-                                      db_conn, sql)
+  if args.submit:
+    print("Submitting jobs to {0} \n".format(scard.data['farm_name']))
+    farm_submission_manager.farm_submission_manager(args, UserSubmissionID, 
+                                                    file_extension, scard, params, 
+                                                    db_conn, sql)
+    submission_string = 'Submitted to {0}'.format(scard.data['farm_name'])
+    update_tables.update_run_status(submission_string, UserSubmissionID, 
+                                    db_conn, sql)
 
 # Move to script factory
 def load_script_generators(sub_type):
