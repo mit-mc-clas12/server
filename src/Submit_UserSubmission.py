@@ -87,7 +87,8 @@ def server(args):
     db_conn.close()
 
 def configure_args():
-
+    """ Setup the parser and get the options 
+    this user has passed to us.  """
     parser = argparse.ArgumentParser()
     
     help_str = "Enter the ID# of the batch you want to submit (e.g. -b 23)"
@@ -124,14 +125,14 @@ def configure_args():
     parser.add_argument(fs.debug_short,fs.debug_longdash, 
                         default=fs.debug_default, help=help_str)
 
-    args = parser.parse_args()
-    
-    fs.DEBUG = getattr(args, fs.debug_long)
-    fs.use_mysql = False if args.lite else True
-
-    return args
+    return parser.parse_args()
 
 def setup_database(args):
+    """ Setup database connection based on command line 
+    options. 
+    """
+    logger = logging.getLogger('SubMit')
+
     cred_file = os.path.normpath(
         os.path.dirname(os.path.abspath(__file__)) + '/../../msqlrw.txt'
     )
@@ -160,5 +161,4 @@ def setup_database(args):
     return db_conn, sql
 
 if __name__ == "__main__":
-    args = configure_args()
-    server(args)
+    server(configure_args())
