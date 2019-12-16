@@ -90,7 +90,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
 
   # Dynamically load the script generation functions 
   # from the type{sub_type} folder. 
-  script_set, script_set_funcs = load_script_generators(sub_type)
+  script_set, script_set_funcs = script_factory.load_script_generators(sub_type)
 
   # Setup for different scard types the proper generation options.
   # If external lund files are provided, we go get them.
@@ -133,41 +133,6 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
     update_tables.update_run_status(submission_string, UserSubmissionID, 
                                     db_conn, sql)
 
-# Move to script factory
-def load_script_generators(sub_type):
-  """ Dynamically load script generation modules 
-  from the directory structure.  """
-
-  logger = logging.getLogger('SubMit')
-
-  # Creating an array of script generating functions.
-  script_set = [fs.runscript_file_obj, fs.condor_file_obj, fs.run_job_obj]
-  funcs_rs, funcs_condor, funcs_runjob = [], [], [] # initialize empty function arrays
-  script_set_funcs = [funcs_rs, funcs_condor, funcs_runjob]
-
-  # Please note, the ordering of this array must match the ordering of the above
-  scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
-
-  # Now we will loop through directories to import the script generation functions
-  logger.debug('Scripts = {}'.format(scripts))
-  for index, script_dir in enumerate(scripts):
-    top_dir = os.path.dirname(os.path.abspath(__file__))
-    script_path = os.path.abspath(top_dir + '/../submission_files/script_generators/'
-                                  + sub_type + script_dir)
-    logger.debug('Working with script path: {}'.format(script_path))
-
-    for function in sorted(os.listdir(script_path)):
-      if "init" not in function:
-        if ".pyc" not in function:
-          module_name = function[:-3]
-          module = import_module(sub_type + '.' + script_dir[1:-1] + '.' + module_name, 
-                                 module_name)
-          func = getattr(module, module_name)
-          script_set_funcs[index].append(func)
-          logger.debug('Importing {}, long name {}'.format(func.__name__, function))
-          
-  return script_set, script_set_funcs
-
 def set_scard_generator_options(scard, scard_type):
   """ Setup generator options for different types of 
   submissions. 
@@ -189,25 +154,3 @@ def set_scard_generator_options(scard, scard_type):
   elif scard_type in [2,4]:
     scard.data['genExecutable'] = "Null"
     scard.data['genOutput'] = "Null"
-
-def write_gcard(UserSubmissionID):
-  """ Write the gcard and return the location.  This 
-  will likely be removed in favor of downloading the 
-  gcard before job submission (like lund files). """
-
-  utils.printer('Writing gcard to local file')
-  newfile = "UserSubmission_{}.gcard".format(UserSubmissionID)
-  gfile = fs.sub_files_path + fs.gcards_dir + newfile
-
-  if not os.path.exists(gfile):
-    newdir = fs.sub_files_path + fs.gcards_dir
-
-    Popen(['mkdir','-p', newdir], stdout=PIPE)
-    Popen(['touch', gfile], stdout=PIPE)
-
-    # Write it out for later. 
-    with open(gfile,"w") as output_gcard_file: 
-      output_gcard_file.write(gcard_content)
-
-    gcard_loc = 'submission_files/gcards/' + newfile
-    return gcard_loc 

@@ -1,10 +1,8 @@
 """
-This file will query the command line to see what UserSubmissionID it should use,
-or if no arguement is given on the CL, the most recent UserSubmissionID will be used
-This UserSubmissionID is used to identify the proper scard and gcards, and then submission
-files corresponding to each gcard are generated and stored in the database, as
-well as written out to a file with a unique name. This latter part will be passed
-to the server side in the near future.
+
+The server handles the submission
+of unsubmitted jobs from the 
+database to the OSG.
 
 """
 
@@ -35,37 +33,29 @@ import update_tables
 import utils
 
 
-def Submit_UserSubmission(args):
+def server(args):
+    """ 
+    Server function to drive the submission process.  Two main modes 
+    of operation are present.  First, user submissions can be directly 
+    submitted with the -b flag.  This is mainly used for debugging.  
+    The main mode of operation is without the -b flag, where the server
+    will check the database for jobs that haven't been submitted and call
+    submission_script_manager for each.
 
+    Inputs:
+    ------
+    args - argparse arguments object that contains the database
+    configuration instructions as well as other options. 
+
+    Returns: 
+    --------
+    Nothing. For a more verbose output, use --debug=2 at the
+    runtime. 
+
+    """
+    
     logger = utils.configure_logger(args)
-
-    # Setup database authentication, connect to database.
-    cred_file = os.path.normpath(
-        os.path.dirname(os.path.abspath(__file__)) + '/../../msqlrw.txt'
-    )
-    username, password = database.load_database_credentials(cred_file)
-    use_mysql = False if args.lite else True
-
-    logger.debug('Connecting to MySQL: {}'.format(
-        use_mysql))
-
-    if args.lite is not None:
-        database_name = args.lite 
-    else:
-        if args.test_database:
-            database_name = "CLAS12TEST"
-        else:
-            database_name = "CLAS12OCR"
-
-    db_conn, sql = database.get_database_connection(
-        use_mysql=use_mysql,
-        database_name=database_name,
-        username=username,
-        password=password,
-        hostname='jsubmit.jlab.org'
-    )
-
-    # purge_old_jobs(db_conn, sql, hours=1)
+    db_conn, sql = setup_database(args)
 
     if args.UserSubmissionID != 'none':
         if update_tables.count_user_submission_id(args.UserSubmissionID, sql) > 0:
@@ -93,7 +83,7 @@ def Submit_UserSubmission(args):
                     ))
                     submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
 
-    # Shutdown the database, we're done here.
+    # Shutdown the database connection, we're done here.
     db_conn.close()
 
 def configure_args():
@@ -141,10 +131,34 @@ def configure_args():
 
     return args
 
-def purge_old_jobs(db_conn, sql, hours):
-    for job in database.get_old_jobs_from_queue(sql, hours):
-        update_tables.purge_old_job_from_queue(db_conn, sql, job)        
+def setup_database(args):
+    cred_file = os.path.normpath(
+        os.path.dirname(os.path.abspath(__file__)) + '/../../msqlrw.txt'
+    )
+    username, password = database.load_database_credentials(cred_file)
+    use_mysql = False if args.lite else True
+
+    logger.debug('Connecting to MySQL: {}'.format(
+        use_mysql))
+
+    if args.lite is not None:
+        database_name = args.lite 
+    else:
+        if args.test_database:
+            database_name = "CLAS12TEST"
+        else:
+            database_name = "CLAS12OCR"
+
+    db_conn, sql = database.get_database_connection(
+        use_mysql=use_mysql,
+        database_name=database_name,
+        username=username,
+        password=password,
+        hostname='jsubmit.jlab.org'
+    )
+
+    return db_conn, sql
 
 if __name__ == "__main__":
     args = configure_args()
-    Submit_UserSubmission(args)
+    server(args)

@@ -1,17 +1,36 @@
 """
-# Enter file description here
+
+This module provides functions that
+dynamically load the scripts from a
+directory or directry tree.
+
+It's used in the importation of type
+scripts (submission_script_manager.py).
+
 """
 
 from __future__ import print_function
-import os, sqlite3, subprocess, sys, time
+import logging
+import os
+import sqlite3
+import subprocess
+import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 import farm_submission_manager
-import utils, fs, scard_helper, lund_helper, get_args, update_tables
+import fs
+import get_args
+import lund_helper
+import scard_helper
+import update_tables
+import utils
 
 # Generates a script by appending functions that output strings
 # This function is called by submission_script_manager.py
 def script_factory(args, script_obj, script_functions, params, db_conn, sql):
+
+  logger = logging.getLogger('SubMit')
 
   runscript_filename = fs.runscript_file_obj.file_path + \
                        fs.runscript_file_obj.file_base
@@ -43,12 +62,12 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
                                 + params['file_extension']
                                 + script_obj.file_end)
 
-    #utils.printer(("\tWriting submission file '{0}' based off of specs "
-    #               "of UserSubmissionID = {1}, GcardID = {2}").format(
-    #                 filename, params['UserSubmissionID'], params['GcardID']))
+    logger.debug(("\tWriting submission file '{0}' based off of specs "
+                  "of UserSubmissionID = {1}, GcardID = {2}").format(
+                    filename, params['UserSubmissionID'], params['GcardID']))
 
     if not os.path.exists(os.path.normpath(script_obj.file_path)):
-      utils.printer('Creating directory: {}'.format(script_obj.file_path))
+      logger.debug('Creating directory: {}'.format(script_obj.file_path))
       subprocess.call(['mkdir','-p',script_obj.file_path],
                       stdout=subprocess.PIPE)
 
@@ -65,10 +84,41 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
   # For now, we can replace " with ', which works ok,
   # but IDK how it will run if the scripts were submitted to HTCondor
   str_script_db = script_text.replace('"',"'")
-  #strn = 'UPDATE FarmSubmissions SET {0} = "{1}" WHERE GcardID = {2};'.format(
-  #  script_obj.file_text_fieldname, str_script_db, params['GcardID'])
-  #utils.db_write(strn)
   update_tables.update_run_script(
     script_obj.file_text_fieldname, str_script_db, params['UserSubmissionID'],
     db_conn, sql
   )
+
+def load_script_generators(sub_type):
+  """ Dynamically load script generation modules
+  from the directory structure.  """
+
+  logger = logging.getLogger('SubMit')
+
+  # Creating an array of script generating functions.
+  script_set = [fs.runscript_file_obj, fs.condor_file_obj, fs.run_job_obj]
+  funcs_rs, funcs_condor, funcs_runjob = [], [], [] # initialize empty function arrays
+  script_set_funcs = [funcs_rs, funcs_condor, funcs_runjob]
+
+  # Please note, the ordering of this array must match the ordering of the above
+  scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
+
+  # Now we will loop through directories to import the script generation functions
+  logger.debug('Scripts = {}'.format(scripts))
+  for index, script_dir in enumerate(scripts):
+    top_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.abspath(top_dir + '/../submission_files/script_generators/'
+                                  + sub_type + script_dir)
+    logger.debug('Working with script path: {}'.format(script_path))
+
+    for function in sorted(os.listdir(script_path)):
+      if "init" not in function:
+        if ".pyc" not in function:
+          module_name = function[:-3]
+          module = import_module(sub_type + '.' + script_dir[1:-1] + '.' + module_name,
+                                 module_name)
+          func = getattr(module, module_name)
+          script_set_funcs[index].append(func)
+          logger.debug('Importing {}, long name {}'.format(func.__name__, function))
+
+  return script_set, script_set_funcs
