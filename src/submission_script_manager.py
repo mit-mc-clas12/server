@@ -132,8 +132,6 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
       update_tables.update_run_status(submission_string, UserSubmissionID, 
                                       db_conn, sql)
 
-      update_tables.update_job_queue(db_conn, sql, user_id, njobs, utils.gettime())
-
 # Move to script factory
 def load_script_generators(sub_type):
   """ Dynamically load script generation modules 
