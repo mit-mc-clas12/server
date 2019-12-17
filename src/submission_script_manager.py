@@ -26,7 +26,6 @@ import subprocess
 import sys
 import time
 
-from importlib import import_module
 from subprocess import PIPE, Popen
 
 # local libraries 

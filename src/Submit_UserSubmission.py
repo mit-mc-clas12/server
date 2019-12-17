@@ -10,6 +10,7 @@ from __future__ import print_function
 
 # python standard lib
 import argparse
+import logging
 import os
 import sqlite3
 import subprocess

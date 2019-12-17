@@ -16,6 +16,7 @@ import sqlite3
 import subprocess
 import sys
 import time
+from importlib import import_module
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 import farm_submission_manager
