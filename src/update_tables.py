@@ -55,69 +55,6 @@ def update_run_status(submission_string, usub_id, db_conn, sql):
     logger.debug('Executing SQL statement: {}'.format(strn))
     db_conn.commit()
 
-
-# this not used anymore, should be removed?
-def update_users_statistics(scard, params, timestamp, db_conn, sql):
-    """ After submission, the user statistics from the Users
-    table are updated.
-
-    Inputs:
-    -------
-    - scard - (scard_class) The current submission card
-    - params - (dict) parameters of the current submission
-    - db_conn - database connection, for committing changes
-    - sql - database cursor, for execution of statements
-
-    Returns:
-    --------
-    - Nothing, the database is modified
-
-    """
-
-    logger = logging.getLogger('SubMit')
-
-    query = """
-    SELECT total_submissions FROM users
-    WHERE user = '{}'
-    """.format(params['username'])
-    logger.debug('Executing SQL command: {}'.format(query))
-
-    sql.execute(query)
-    total = sql.fetchall()[0][0]
-    total += 1
-
-    # Update the total submissions for our user
-    strn = """
-    UPDATE users SET total_submissions = '{0}'
-    WHERE user = '{1}';""".format(
-        total, params['username'])
-    logger.debug('Executing SQL command: {}'.format(strn))
-
-    sql.execute(strn)
-
-    if 'nevents' in scard.data:
-        query = """
-        SELECT total_events FROM users
-        WHERE user = '{0}';""".format(params['username'])
-        sql.execute(query)
-        events_total = sql.fetchall()[0][0]
-        events_total += int(scard.data['jobs']) * int(scard.data['nevents'])
-
-        strn = """
-        UPDATE users SET total_events = '{0}'
-        WHERE user = '{1}';""".format(
-            events_total, params['username'])
-        logger.debug('Executing SQL command: {}'.format(strn))
-        sql.execute(strn)
-
-    #strn = """
-    #UPDATE users SET most_recent_active_date = '{0}'
-    #WHERE user = '{1}';""".format(
-    #    timestamp, params['username'])
-    #logger.debug('Executing SQL command: {}'.format(strn))
-    #sql.execute(strn)
-    db_conn.commit()
-
 def update_farm_submissions(usub_id, timestamp, node_number, db_conn, sql):
     """ After submission, update FarmSubmissions
     with the node number and timestamp.
@@ -171,37 +108,3 @@ def count_user_submission_id(user_sub_id, sql):
     count = sql.fetchall()[0][0]
 
     return int(count)
-
-def update_job_queue(db_conn, sql, user_id, n_jobs, timestamp):
-    """ Select and count instances of the UserSubmissionID and
-    return a count.
-
-    Inputs:
-    -------
-    - db_conn - database connection for committing changes 
-    - sql - cursor object to execute database query
-    - user_id - the user identification number for this entry 
-    - n_jobs - the number of jobs submitted 
-    - timestamp - the current time 
-
-    Returns:
-    --------
-    Nothing, the database is modified. 
-    """
-    insertion = """
-    INSERT INTO job_queue(user_id,n_jobs,update_time)
-    VALUES ({0},{1},"{2}");
-    """.format(user_id, n_jobs, timestamp)
-
-    sql.execute(insertion)
-    db_conn.commit()
-
-def purge_old_job_from_queue(db_conn, sql, job):
-    """ Delete a job by entry. """
-
-    command = """
-    DELETE FROM job_queue
-    WHERE entry = {}
-    """.format(job)
-    sql.execute(command)
-    db_conn.commit()
