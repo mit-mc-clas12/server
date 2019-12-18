@@ -55,6 +55,8 @@ def update_run_status(submission_string, usub_id, db_conn, sql):
     logger.debug('Executing SQL statement: {}'.format(strn))
     db_conn.commit()
 
+
+# this not used anymore, should be removed?
 def update_users_statistics(scard, params, timestamp, db_conn, sql):
     """ After submission, the user statistics from the Users
     table are updated.

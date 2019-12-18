@@ -37,8 +37,8 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
                        fs.runscript_file_obj.file_base
   runscript_filename += params['file_extension'] + \
                         fs.runscript_file_obj.file_end
-  runjob_filename = fs.run_job_obj.file_path + fs.run_job_obj.file_base
-  runjob_filename = runjob_filename + params['file_extension'] + \
+  #runjob_filename = fs.run_job_obj.file_path + fs.run_job_obj.file_base
+  #runjob_filename = runjob_filename + params['file_extension'] + \
                     fs.run_job_obj.file_end
 
   # In the below for loop, we loop through all script_generators
@@ -51,7 +51,7 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
                 database_filename=params['database_filename'],
                 file_extension=params['file_extension'],
                 runscript_filename=runscript_filename,
-                runjob_filename=runjob_filename,
+                #runjob_filename=runjob_filename,
                 using_sqlite=args.lite,) for f in script_functions]
 
   script_text = "".join(gen_text)
@@ -97,12 +97,14 @@ def load_script_generators(sub_type):
   logger = logging.getLogger('SubMit')
 
   # Creating an array of script generating functions.
-  script_set = [fs.runscript_file_obj, fs.condor_file_obj, fs.run_job_obj]
+  script_set = [fs.runscript_file_obj, fs.condor_file_obj]
+#  script_set = [fs.runscript_file_obj, fs.condor_file_obj, fs.run_job_obj]
   funcs_rs, funcs_condor, funcs_runjob = [], [], [] # initialize empty function arrays
   script_set_funcs = [funcs_rs, funcs_condor, funcs_runjob]
 
   # Please note, the ordering of this array must match the ordering of the above
-  scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
+  scripts = ["/runscript_generators/","/clas12condor_generators/"]
+#  scripts = ["/runscript_generators/","/clas12condor_generators/","/run_job_generators/"]
 
   # Now we will loop through directories to import the script generation functions
   logger.debug('Scripts = {}'.format(scripts))
