@@ -39,7 +39,7 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
                         fs.runscript_file_obj.file_end
   #runjob_filename = fs.run_job_obj.file_path + fs.run_job_obj.file_base
   #runjob_filename = runjob_filename + params['file_extension'] + \
-                    fs.run_job_obj.file_end
+  #                  fs.run_job_obj.file_end
 
   # In the below for loop, we loop through all script_generators
   # for a certain submission script, appending the output of each
