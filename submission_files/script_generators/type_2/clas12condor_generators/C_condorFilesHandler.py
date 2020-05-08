@@ -24,10 +24,10 @@ def C_condorFilesHandler(scard,**kwargs):
 
   # handling mysql or sqlite
   if kwargs['using_sqlite']:
-    transfer_input_files = transfer_input_files + "../utils/database/CLAS12_OCRDB.db"
+    transfer_input_files = transfer_input_files + "../utils/database/CLAS12_OCRDB.db, "
 
   # remaining files
-  transfer_input_files = transfer_input_files + ", run.sh, nodeScript.sh, job.gcard"
+  transfer_input_files = transfer_input_files + "run.sh, nodeScript.sh, job.gcard"
 
   # MIT Farm: condor wrapper is needed. Notice, path is needed? Can we assume this
   if farm_name == 'MIT_Tier2':
