@@ -1,7 +1,7 @@
 """
 
 The server handles the submission
-of unsubmitted jobs from the 
+of unsubmitted jobs from the
 database to the OSG.
 
 """
@@ -28,6 +28,7 @@ import fs
 import get_args
 import lund_helper
 import scard_helper
+import scard_helper_new
 import script_factory
 import submission_script_manager
 import update_tables
@@ -35,10 +36,10 @@ import utils
 
 
 def server(args):
-    """ 
-    Server function to drive the submission process.  Two main modes 
-    of operation are present.  First, user submissions can be directly 
-    submitted with the -b flag.  This is mainly used for debugging.  
+    """
+    Server function to drive the submission process.  Two main modes
+    of operation are present.  First, user submissions can be directly
+    submitted with the -b flag.  This is mainly used for debugging.
     The main mode of operation is without the -b flag, where the server
     will check the database for jobs that haven't been submitted and call
     submission_script_manager for each.
@@ -46,15 +47,15 @@ def server(args):
     Inputs:
     ------
     args - argparse arguments object that contains the database
-    configuration instructions as well as other options. 
+    configuration instructions as well as other options.
 
-    Returns: 
+    Returns:
     --------
     Nothing. For a more verbose output, use --debug=2 at the
-    runtime. 
+    runtime.
 
     """
-    
+
     logger = utils.configure_logger(args)
     db_conn, sql = setup_database(args)
 
@@ -88,10 +89,10 @@ def server(args):
     db_conn.close()
 
 def configure_args():
-    """ Setup the parser and get the options 
+    """ Setup the parser and get the options
     this user has passed to us.  """
     parser = argparse.ArgumentParser()
-    
+
     help_str = "Enter the ID# of the batch you want to submit (e.g. -b 23)"
     parser.add_argument('-b','--UserSubmissionID', default='none', help=help_str)
 
@@ -104,7 +105,7 @@ def configure_args():
 
     help_str = ("Use this flag (no arguments) if you want submission "
                 "files to be written out to text files")
-    parser.add_argument('-w','--write_files', help=help_str, 
+    parser.add_argument('-w','--write_files', help=help_str,
                         action='store_true')
 
     help_str = "Enter scard type (e.g. -y 1 for submitting type 1 scards)"
@@ -119,18 +120,18 @@ def configure_args():
     parser.add_argument('-o','--OutputDir', default='none', help=help_str)
 
     help_str = "Use testing database (MySQL)"
-    parser.add_argument('--test_database', action='store_true', 
+    parser.add_argument('--test_database', action='store_true',
                         default=False, help=help_str)
 
     help_str = fs.debug_help
-    parser.add_argument(fs.debug_short,fs.debug_longdash, 
+    parser.add_argument(fs.debug_short,fs.debug_longdash,
                         default=fs.debug_default, help=help_str)
 
     return parser.parse_args()
 
 def setup_database(args):
-    """ Setup database connection based on command line 
-    options. 
+    """ Setup database connection based on command line
+    options.
     """
     logger = logging.getLogger('SubMit')
 
@@ -144,7 +145,7 @@ def setup_database(args):
         use_mysql))
 
     if args.lite is not None:
-        database_name = args.lite 
+        database_name = args.lite
     else:
         if args.test_database:
             database_name = "CLAS12TEST"

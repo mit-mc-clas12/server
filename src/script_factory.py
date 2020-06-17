@@ -116,12 +116,13 @@ def load_script_generators(sub_type):
 
     for function in sorted(os.listdir(script_path)):
       if "init" not in function:
-        if ".pyc" not in function:
-          module_name = function[:-3]
-          module = import_module(sub_type + '.' + script_dir[1:-1] + '.' + module_name,
-                                 module_name)
-          func = getattr(module, module_name)
-          script_set_funcs[index].append(func)
-          logger.debug('Importing {}, long name {}'.format(func.__name__, function))
+          if "__pycache__" not in function:
+            if ".pyc" not in function:
+              module_name = function[:-3]
+              module = import_module(sub_type + '.' + script_dir[1:-1] + '.' + module_name,
+                                     module_name)
+              func = getattr(module, module_name)
+              script_set_funcs[index].append(func)
+              logger.debug('Importing {}, long name {}'.format(func.__name__, function))
 
   return script_set, script_set_funcs
