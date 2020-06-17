@@ -21,7 +21,8 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
   # Need to add condition here in case path is different for non-jlab
   scripts_baseDir  = "/group/clas12/SubMit"
   condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
-  jobOutputDir     = "/volatile/clas12/osg"
+  #jobOutputDir     = "/volatile/clas12/osg"
+  jobOutputDir = "/u/home/robertej"
   url = scard.data['generator'] if scard.data['genExecutable'] == "Null" else 'no_download'
 
   # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
