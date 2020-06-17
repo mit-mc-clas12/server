@@ -28,7 +28,7 @@ def farm_submission_manager(args, usub_id, file_extension,
   timestamp = utils.gettime()
   if scard.farm_name == "OSG":
     utils.printer("Passing to htcondor_submit")
-    htcondor_submit.htcondor_submit(args,scard,usub_id,file_extension,params,
+    htcondor_submit_new.htcondor_submit(args,scard,usub_id,file_extension,params,
                                     db_conn, sql)
   else:
     raise ValueError('Unable to submit for {}'.format(
