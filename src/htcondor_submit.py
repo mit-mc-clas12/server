@@ -1,6 +1,6 @@
-""" 
+"""
 
-Submit a job using htcondor. 
+Submit a job using htcondor.
 
 """
 
@@ -13,7 +13,7 @@ from subprocess import PIPE, Popen
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
 import fs
-import utils 
+import utils
 import update_tables
 
 def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
@@ -26,7 +26,8 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
 
   # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
   # error: we really need to pass farmsubmissionID
-  submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'], 
+  print("trying to submit job now")
+  submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
                       str(usub_id), url], stdout=PIPE).communicate()[0]
 
   print(submission)
@@ -36,5 +37,5 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
   node_number = words[len(words)-1] # This might only work on SubMIT
 
   timestamp = utils.gettime()
-  update_tables.update_farm_submissions(usub_id, timestamp, node_number, 
+  update_tables.update_farm_submissions(usub_id, timestamp, node_number,
                                         db_conn, sql)
