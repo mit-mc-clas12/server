@@ -19,7 +19,7 @@
 
 def C_condorFilesHandler(scard,**kwargs):
 
-  farm_name = scard.data.get('farm_name')
+  farm_name = scard.farm_name
   transfer_input_files = ""
 
   # handling mysql or sqlite

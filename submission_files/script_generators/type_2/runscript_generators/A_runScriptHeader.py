@@ -36,6 +36,6 @@ echo
 # End of Run Script Header
 # ------------------------
 
-""".format(kwargs['username'], scard.data['group_name'])
-	
+""".format(kwargs['username'], scard.group_name)
+
 	return headerSTR

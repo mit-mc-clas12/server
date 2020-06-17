@@ -19,7 +19,7 @@
 
 def C_condorFilesHandler(scard,**kwargs):
 
-  farm_name = scard.data.get('farm_name')
+  farm_name = scard.farm_name
   transfer_input_files = ""
 
   # handling mysql or sqlite
@@ -58,7 +58,7 @@ transfer_output_files = output
 # Queue starts "jobs" number of subjobs
 Arguments = {1} $(Process)
 Queue {0}
-""".format(scard.data['jobs'], kwargs['user_submission_id'])
+""".format(scard.jobs, kwargs['user_submission_id'])
 
 
   return strnIO + strOUTPUT + arguQueue

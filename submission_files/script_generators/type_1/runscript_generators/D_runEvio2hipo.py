@@ -5,7 +5,7 @@
 
 def D_runEvio2hipo(scard, **kwargs):
 
-  gcard = scard.data['gcards'].split('/')[-1]
+  gcard = scard.gcards.split('/')[-1]
   lim = gcard.find(".")
   configuration = gcard[0:lim]
 
