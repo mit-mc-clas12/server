@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files')
-import htcondor_submit
+import htcondor_submit_new
 import update_tables
 import utils
 
