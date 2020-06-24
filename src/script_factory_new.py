@@ -64,8 +64,8 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
                                 + script_obj.file_end)
 
     logger.debug(("\tWriting submission file '{0}' based off of specs "
-                  "of UserSubmissionID = {1}, GcardID = {2}").format(
-                    filename, params['UserSubmissionID'], params['GcardID']))
+                  "of UserSubmissionID = {1}").format(
+                    filename, params['UserSubmissionID']))
 
     if not os.path.exists(os.path.normpath(script_obj.file_path)):
       logger.debug('Creating directory: {}'.format(script_obj.file_path))
