@@ -28,6 +28,8 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
     # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
     # error: we really need to pass farmsubmissionID
     print("trying to submit job now")
+    print([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
+                      str(usub_id), url])
     submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
                       str(usub_id), url], stdout=PIPE).communicate()[0]
 
