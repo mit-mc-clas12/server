@@ -60,7 +60,7 @@ def server(args):
     if args.UserSubmissionID != 'none':
         if update_tables.count_user_submission_id(args.UserSubmissionID, sql) > 0:
             logger.debug('Processing {}'.format(args.UserSubmissionID))
-            submission_script_manager.process_jobs(args, args.UserSubmissionID, db_conn, sql)
+            submission_script_manager_new.process_jobs(args, args.UserSubmissionID, db_conn, sql)
         else:
             print("The selected UserSubmission (UserSubmissionID = {0}) does not exist, exiting".format(
                 args.UserSubmissionID))
@@ -81,7 +81,7 @@ def server(args):
                     logger.debug('Working on job {} of {}, user_submission_id = {}'.format(
                         i + 1, len(user_submissions), submission_id
                     ))
-                    submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
+                    submission_script_manager_new.process_jobs(args, submission_id, db_conn, sql)
 
     # Shutdown the database connection, we're done here.
     db_conn.close()
