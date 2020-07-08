@@ -9,10 +9,10 @@ def C_runGemc(scard, **kwargs):
 
 	gemcInputOptions = ""
 
-	if scard.data['genExecutable'] == 'gemc':
-		gemcInputOptions = scard.data['genOptions']
+	if scard.genExecutable == 'gemc':
+		gemcInputOptions = scard.genOptions
 	else:
-		gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.data['genOutput'])
+		gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
 
 
 	runGemc = """
@@ -38,6 +38,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.data['nevents'], gemcInputOptions)
+""".format(scard.nevents, gemcInputOptions)
 
 	return runGemc

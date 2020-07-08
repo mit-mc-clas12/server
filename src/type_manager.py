@@ -52,9 +52,9 @@ def manage_type(args, scard):
   scard_type = 1
   lund_type_mod, gcard_type_mod = 0, 0
 
-  if scard.data['generator'] not in fs.genExecutable:
+  if scard.generator not in fs.genExecutable:
     lund_type_mod = 1
-  if custom_gcard_identifier in scard.data['gcards']:
+  if custom_gcard_identifier in scard.gcards:
     gcard_type_mod = 2
 
   return (scard_type + lund_type_mod + gcard_type_mod)

@@ -10,30 +10,29 @@ def F_runScriptFooter(scard,**kwargs):
 	reconstruction = ""
 	dst = ""
 
-
 	# removing gemc output if not needed
-	if scard.data.get('gemcEvioOUT', 'yes') == "no":
+	if scard.gemcEvioOUT == "no":
 		gemc_evio = """
 echo Removing gemc evio file
 rm gemc.evio
 """
 
 	# removing gemc decoded hipo if not needed
-	if scard.data.get('gemcHipoOUT', 'yes') == "no":
+	if scard.gemcHipoOUT == "no":
 		gemc_hipo = """
 echo Removing gemc hipo file
 rm gemc.hipo
 """
 
 	# creating the DST if requested
-	if scard.data.get('dstOUT', 'yes') == "yes":
+	if scard.dstOUT == "yes":
 		dst = """
 echo Creating the DST
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::*' -merge -o dst.hipo recon.hipo
 """
 
 	# removing reconstruction output
-	if scard.data.get('reconstructionOUT', 'yes') == "no":
+	if scard.reconstructionOUT == "no":
 		reconstruction = """
 echo Removing reconstructed file
 rm recon.hipo

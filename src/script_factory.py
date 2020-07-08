@@ -64,8 +64,8 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
                                 + script_obj.file_end)
 
     logger.debug(("\tWriting submission file '{0}' based off of specs "
-                  "of UserSubmissionID = {1}, GcardID = {2}").format(
-                    filename, params['UserSubmissionID'], params['GcardID']))
+                  "of UserSubmissionID = {1}").format(
+                    filename, params['UserSubmissionID']))
 
     if not os.path.exists(os.path.normpath(script_obj.file_path)):
       logger.debug('Creating directory: {}'.format(script_obj.file_path))
@@ -116,12 +116,13 @@ def load_script_generators(sub_type):
 
     for function in sorted(os.listdir(script_path)):
       if "init" not in function:
-        if ".pyc" not in function:
-          module_name = function[:-3]
-          module = import_module(sub_type + '.' + script_dir[1:-1] + '.' + module_name,
-                                 module_name)
-          func = getattr(module, module_name)
-          script_set_funcs[index].append(func)
-          logger.debug('Importing {}, long name {}'.format(func.__name__, function))
+          if "__pycache__" not in function:
+            if ".pyc" not in function:
+              module_name = function[:-3]
+              module = import_module(sub_type + '.' + script_dir[1:-1] + '.' + module_name,
+                                     module_name)
+              func = getattr(module, module_name)
+              script_set_funcs[index].append(func)
+              logger.debug('Importing {}, long name {}'.format(func.__name__, function))
 
   return script_set, script_set_funcs
