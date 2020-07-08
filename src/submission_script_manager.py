@@ -68,12 +68,12 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   # Grabs UserSubmission and gcards as described in respective files
   username = database.get_username_for_submission(UserSubmissionID, sql)
   user_id = database.get_user_id(username, sql)
-  scard = scard_helper_new.scard_class(database.get_scard_text_for_submission(
+  scard = scard_helper.scard_class(database.get_scard_text_for_submission(
     UserSubmissionID, sql))
   logging.debug('For UserSubmissionID = {}, user is {}'.format(
     UserSubmissionID, username))
 
-  scard_type = type_manager_new.manage_type(args, scard)
+  scard_type = type_manager.manage_type(args, scard)
   sub_type = 'type_{}'.format(scard_type)
   print("sub_type is {0}".format(sub_type))
   logger.debug('Type manager has determined type is: {}'.format(
@@ -89,7 +89,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
 
   # Dynamically load the script generation functions
   # from the type{sub_type} folder.
-  script_set, script_set_funcs = script_factory_new.load_script_generators(sub_type)
+  script_set, script_set_funcs = script_factory.load_script_generators(sub_type)
 
   # Setup for different scard types the proper generation options.
   # If external lund files are provided, we go get them.
@@ -115,7 +115,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
 
   # This is where we actually pass all arguements to write the scripts
   for index, script in enumerate(script_set):
-    script_factory_new.script_factory(args, script, script_set_funcs[index],
+    script_factory.script_factory(args, script, script_set_funcs[index],
                                   params, db_conn, sql)
 
   # Update entries in database
@@ -125,7 +125,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
 
   if args.submit:
     print("Submitting jobs to {0} \n".format(scard.farm_name))
-    farm_submission_manager_new.farm_submission_manager(args, UserSubmissionID,
+    farm_submission_manager.farm_submission_manager(args, UserSubmissionID,
                                                     file_extension, scard, params,
                                                     db_conn, sql)
     submission_string = 'Submitted to {0}'.format(scard.farm_name)
