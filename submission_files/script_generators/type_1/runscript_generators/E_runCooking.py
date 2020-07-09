@@ -6,9 +6,8 @@
 def E_runCooking(scard, **kwargs):
 
   # gcard with path
-  gcard = scard.gcards
-  lim = gcard.find(".")
-  configuration = gcard[0:lim]
+
+  configuration = scard.configuration
   YAMLFILE = configuration + ".yaml"
 
   strn = """
