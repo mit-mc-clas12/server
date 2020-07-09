@@ -70,6 +70,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   user_id = database.get_user_id(username, sql)
   scard = scard_helper.scard_class(database.get_scard_text_for_submission(
     UserSubmissionID, sql))
+
   logging.debug('For UserSubmissionID = {}, user is {}'.format(
     UserSubmissionID, username))
 
