@@ -44,6 +44,7 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
   # In the below for loop, we loop through all script_generators
   # for a certain submission script, appending the output of each
   # function to a string
+
   gen_text = [f(params['scard'],
                 username=params['username'],
                 gcard_loc=params['gcard_loc'],

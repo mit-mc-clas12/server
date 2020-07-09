@@ -54,7 +54,7 @@ def manage_type(args, scard):
 
   if scard.generator not in fs.genExecutable:
     lund_type_mod = 1
-  if custom_gcard_identifier in scard.gcards:
-    gcard_type_mod = 2
+  #if custom_gcard_identifier in scard.configuration:
+   # gcard_type_mod = 2
 
   return (scard_type + lund_type_mod + gcard_type_mod)

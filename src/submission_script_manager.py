@@ -70,6 +70,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   user_id = database.get_user_id(username, sql)
   scard = scard_helper.scard_class(database.get_scard_text_for_submission(
     UserSubmissionID, sql))
+
   logging.debug('For UserSubmissionID = {}, user is {}'.format(
     UserSubmissionID, username))
 
@@ -95,11 +96,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   # If external lund files are provided, we go get them.
   set_scard_generator_options(scard, scard_type)
 
-  if scard.gcards in fs.container_gcards:
-    gcard_loc = scard.gcards
-  else:
-    print('No support for types 3/4 at the present time.')
-    exit()
+  gcard_loc = scard.configuration
 
   file_extension = "_UserSubmission_{0}".format(UserSubmissionID)
 
