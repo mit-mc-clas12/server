@@ -18,24 +18,43 @@ import update_tables
 
 def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
 
-    # Need to add condition here in case path is different for non-jlab
-    scripts_baseDir  = "/group/clas12/SubMit"
-    condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
+
+    jobOutputDir = args.OutputDir
+
+    if args.test_condorscript:
+        scripts_baseDir  = os.path.dirname(os.path.abspath(__file__))+'/../..'
+        condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
+        jobOutputDir = scripts_baseDir
+    else:
+        # Need to add condition here in case path is different for non-jlab
+        scripts_baseDir  = "/group/clas12/SubMit"
+        condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
 
 
+
+    if args.lite:
+        dbType = "Test SQLite DB"
+        dbName = args.lite
+    elif args.test_database:
+        dbType = "Test MySQL DB"
+        dbType = fs.MySQL_Test_DB_Name
+    else:
+        dbType = "Production MySQL DB"
+        dbType = fs.MySQL_Prod_DB_Name
     
-    jobsOutputDir = args.OutputDir
+    print(dbType)
+    print(dbName)
 
-    print("submitting job, output going to {0}".format(jobsOutputDir))
+    print("submitting job, output going to {0}".format(jobOutputDir))
     url = scard.generator if scard.genExecutable == "Null" else 'no_download'
 
     # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
     # error: we really need to pass farmsubmissionID
     print("trying to submit job now")
-    print([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
-                      str(usub_id), url])
+    #print([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
+    #                 str(usub_id), url, dbType, dbName])
     submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
-                      str(usub_id), url], stdout=PIPE).communicate()[0]
+                      str(usub_id), url, dbType, dbName], stdout=PIPE).communicate()[0]
 
     print(submission)
 

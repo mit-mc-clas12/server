@@ -102,7 +102,7 @@ def configure_args():
 
     help_str = ("Use this flag (no arguments) if you are NOT on a farm"
                 " node and want to test the submission flag (-s)")
-    parser.add_argument('-t', '--test', help = help_str, action = 'store_true')
+    parser.add_argument('-t', '--test_condorscript', help = help_str, action = 'store_true')
 
     help_str = "Use this flag (no arguments) if you want to submit the job"
     parser.add_argument('-s', '--submit', help=help_str, action='store_true')
