@@ -3,7 +3,6 @@
 # For HTCondor FarmSubmissions
 # This script is called in server/src/htcondor_submit.py
 
-echo 'in the bash script'
 scripts_baseDir=$1
 jobOutputDir=$2
 username=$3
@@ -22,10 +21,7 @@ rm -rf *
 mkdir -p log
 
 cp $scripts_baseDir/server/run.sh .
-cp $scripts_baseDir/msql_conn.txt .
 
-
-echo Trying to submit
 
 # Downloading files for the run
 
@@ -38,10 +34,12 @@ if [ "$dbType" = "Test SQLite DB" ] ; then
     sqlite3 "$dbName" "SELECT runscript_text FROM submissions WHERE user_submission_id=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
     sqlite3 "$dbName" "SELECT scard FROM submissions where user_submission_id=$submissionID;"    | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | grep gcards | awk '{print $2}' > job.gcard
 elif [ "$dbType" = "Test MySQL DB" ] ; then
+    cp $scripts_baseDir/msql_conn_test.txt .
     mysql --defaults-extra-file=msql_conn_test.txt -N -s --execute="SELECT clas12_condor_text FROM submissions WHERE user_submission_id=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed s/\'\'/\"/g > clas12.condor
     mysql --defaults-extra-file=msql_conn_test.txt -N -s --execute="SELECT runscript_text FROM submissions WHERE user_submission_id=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
     mysql --defaults-extra-file=msql_conn_test.txt -N -s --execute="SELECT scard from CLAS12OCR.submissions where user_submission_id=$submissionID;"    | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | grep gcards | awk '{print $2}' > job.gcard
 elif [ "$dbType" = "Production MySQL DB" ] ; then
+    cp $scripts_baseDir/msql_conn.txt .
     mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT clas12_condor_text FROM submissions WHERE user_submission_id=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed s/\'\'/\"/g > clas12.condor
     mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM submissions WHERE user_submission_id=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
     mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT scard from CLAS12OCR.submissions where user_submission_id=$submissionID;"    | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | grep gcards | awk '{print $2}' > job.gcard
