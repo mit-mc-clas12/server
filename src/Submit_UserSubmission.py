@@ -59,11 +59,11 @@ def server(args):
 
     if args.UserSubmissionID != 'none':
         if update_tables.count_user_submission_id(args.UserSubmissionID, sql) > 0:
-            if args.submit:     
+            #if args.submit:     
                 logger.debug('Processing {}'.format(args.UserSubmissionID))
                 submission_script_manager.process_jobs(args, args.UserSubmissionID, db_conn, sql)
-            else:
-                print("-s option not selected, not submitting jobs through submission_script_manager")
+            #else:
+                #print("-s option not selected, not submitting jobs through submission_script_manager")
         else:
             print("The selected UserSubmission (UserSubmissionID = {0}) does not exist, exiting".format(
                 args.UserSubmissionID))
@@ -72,7 +72,7 @@ def server(args):
     # No UserSubmissionID specified, send all
     # that haven't been sent already.
     else:
-        if args.submit:
+        #if args.submit:
             user_submissions = database.get_unsubmitted_jobs(sql)
             logger.debug('Found unsubmitted jobs: {}'.format(user_submissions))
 
@@ -86,8 +86,8 @@ def server(args):
                     ))
                     submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
 
-        else:
-            print("-s option not selected, not submitting jobs through submission_script_manager")
+        #else:
+            #rpint("-s option not selected, not submitting jobs through submission_script_manager")
 
     # Shutdown the database connection, we're done here.
     db_conn.close()
