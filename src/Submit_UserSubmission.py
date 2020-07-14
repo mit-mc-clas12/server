@@ -121,7 +121,7 @@ def configure_args():
 
     help_str =  ("Enter full path of your desired output directory, "
                  "e.g. /u/home/robertej")
-    parser.add_argument('-o','--OutputDir', default='none', help=help_str)
+    parser.add_argument('-o','--OutputDir', default="/volatile/clas12/osg", help=help_str)
 
     help_str = "Use testing database (MySQL)"
     parser.add_argument('--test_database', action='store_true',

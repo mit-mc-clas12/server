@@ -22,11 +22,10 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
     scripts_baseDir  = "/group/clas12/SubMit"
     condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
 
-    if args.OutputDir:
-        jobsOutputDir = args.OutputDir
-    else:
-    jobOutputDir     = "/volatile/clas12/osg"
-    #jobOutputDir = "/u/home/robertej"
+
+    
+    jobsOutputDir = args.OutputDir
+
     print("submitting job, output going to {0}".format(jobsOutputDir))
     url = scard.generator if scard.genExecutable == "Null" else 'no_download'
 
@@ -38,10 +37,8 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
     submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
                       str(usub_id), url], stdout=PIPE).communicate()[0]
 
-    print("sub is")
     print(submission)
-    print("end sub")
-    # what is this?
+
     words = submission.split()
     node_number = words[len(words)-1] # This might only work on SubMIT
 
