@@ -139,10 +139,23 @@ def setup_database(args):
     """
     logger = logging.getLogger('SubMit')
 
-    cred_file = os.path.normpath(
-        os.path.dirname(os.path.abspath(__file__)) + '/../../msqlrw.txt'
-    )
-    username, password = database.load_database_credentials(cred_file)
+
+    if not args.lite:
+        cred_file = os.path.dirname(os.path.abspath(__file__)) + \
+                    '/../../msqlrw.txt'
+        cred_file = os.path.normpath(cred_file)
+        username, password = database.load_database_credentials(cred_file)
+    else:
+        username, password = "none", "none"
+
+
+    #cred_file = os.path.normpath(
+    #    os.path.dirname(os.path.abspath(__file__)) + '/../../msqlrw.txt'
+    #)
+    #username, password = database.load_database_credentials(cred_file)
+
+
+
     use_mysql = False if args.lite else True
 
     logger.debug('Connecting to MySQL: {}'.format(
