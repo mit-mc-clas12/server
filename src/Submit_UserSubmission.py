@@ -59,8 +59,11 @@ def server(args):
 
     if args.UserSubmissionID != 'none':
         if update_tables.count_user_submission_id(args.UserSubmissionID, sql) > 0:
-            logger.debug('Processing {}'.format(args.UserSubmissionID))
-            submission_script_manager.process_jobs(args, args.UserSubmissionID, db_conn, sql)
+            #if args.submit:     
+                logger.debug('Processing {}'.format(args.UserSubmissionID))
+                submission_script_manager.process_jobs(args, args.UserSubmissionID, db_conn, sql)
+            #else:
+                #print("-s option not selected, not submitting jobs through submission_script_manager")
         else:
             print("The selected UserSubmission (UserSubmissionID = {0}) does not exist, exiting".format(
                 args.UserSubmissionID))
@@ -69,7 +72,7 @@ def server(args):
     # No UserSubmissionID specified, send all
     # that haven't been sent already.
     else:
-        if args.submit:
+        #if args.submit:
             user_submissions = database.get_unsubmitted_jobs(sql)
             logger.debug('Found unsubmitted jobs: {}'.format(user_submissions))
 
@@ -82,6 +85,9 @@ def server(args):
                         i + 1, len(user_submissions), submission_id
                     ))
                     submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
+
+        #else:
+            #rpint("-s option not selected, not submitting jobs through submission_script_manager")
 
     # Shutdown the database connection, we're done here.
     db_conn.close()
@@ -96,7 +102,7 @@ def configure_args():
 
     help_str = ("Use this flag (no arguments) if you are NOT on a farm"
                 " node and want to test the submission flag (-s)")
-    parser.add_argument('-t', '--test', help = help_str, action = 'store_true')
+    parser.add_argument('-t', '--test_condorscript', help = help_str, action = 'store_true')
 
     help_str = "Use this flag (no arguments) if you want to submit the job"
     parser.add_argument('-s', '--submit', help=help_str, action='store_true')
@@ -115,7 +121,7 @@ def configure_args():
 
     help_str =  ("Enter full path of your desired output directory, "
                  "e.g. /u/home/robertej")
-    parser.add_argument('-o','--OutputDir', default='none', help=help_str)
+    parser.add_argument('-o','--OutputDir', default="/volatile/clas12/osg", help=help_str)
 
     help_str = "Use testing database (MySQL)"
     parser.add_argument('--test_database', action='store_true',
@@ -133,10 +139,23 @@ def setup_database(args):
     """
     logger = logging.getLogger('SubMit')
 
-    cred_file = os.path.normpath(
-        os.path.dirname(os.path.abspath(__file__)) + '/../../msqlrw.txt'
-    )
-    username, password = database.load_database_credentials(cred_file)
+
+    if not args.lite:
+        cred_file = os.path.dirname(os.path.abspath(__file__)) + \
+                    '/../../msqlrw.txt'
+        cred_file = os.path.normpath(cred_file)
+        username, password = database.load_database_credentials(cred_file)
+    else:
+        username, password = "none", "none"
+
+
+    #cred_file = os.path.normpath(
+    #    os.path.dirname(os.path.abspath(__file__)) + '/../../msqlrw.txt'
+    #)
+    #username, password = database.load_database_credentials(cred_file)
+
+
+
     use_mysql = False if args.lite else True
 
     logger.debug('Connecting to MySQL: {}'.format(

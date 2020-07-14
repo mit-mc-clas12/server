@@ -121,13 +121,16 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
                                     db_conn, sql)
 
   if args.submit:
-    print("Submitting jobs to {0} \n".format(scard.farm_name))
+    print("Submitting jobs to {0} \n".format("OSG")) #Hardcoded for this moment as we removed farm_name from scard
     farm_submission_manager.farm_submission_manager(args, UserSubmissionID,
                                                     file_extension, scard, params,
                                                     db_conn, sql)
     submission_string = 'Submitted to {0}'.format(scard.farm_name)
     update_tables.update_run_status(submission_string, UserSubmissionID,
                                     db_conn, sql)
+  else:
+    print("-s option not selected, not submitting jobs through submission_script_manager")
+
 
 def set_scard_generator_options(scard, scard_type):
   """ Setup generator options for different types of

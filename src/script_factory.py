@@ -57,7 +57,7 @@ def script_factory(args, script_obj, script_functions, params, db_conn, sql):
 
   script_text = "".join(gen_text)
 
-  # Write files to a local diretory
+  # Write files to a local directory
   if args.write_files:
     filename = os.path.normpath(script_obj.file_path
                                 + script_obj.file_base
