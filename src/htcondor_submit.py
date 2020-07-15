@@ -38,10 +38,10 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
         dbName = "../../utils/CLAS12OCR.db"
     elif args.test_database:
         dbType = "Test MySQL DB"
-        dbType = fs.MySQL_Test_DB_Name
+        dbName = fs.MySQL_Test_DB_Name
     else:
         dbType = "Production MySQL DB"
-        dbType = fs.MySQL_Prod_DB_Name
+        dbName = fs.MySQL_Prod_DB_Name
     
     print(dbType)
     print(dbName)
