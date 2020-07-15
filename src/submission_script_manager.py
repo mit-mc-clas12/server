@@ -106,7 +106,6 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
     DB_path = fs.SQLite_DB_path
 
   params = {'table': 'Scards','UserSubmissionID': UserSubmissionID,
-            'database_filename': DB_path + fs.DB_name,
             'username': username,'gcard_loc': gcard_loc,
             'file_extension': file_extension,'scard': scard}
 

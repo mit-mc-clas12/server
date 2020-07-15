@@ -32,15 +32,16 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
 
 
 
+
     if args.lite:
         dbType = "Test SQLite DB"
-        dbName = args.lite
+        dbName = "../../utils/CLAS12OCR.db"
     elif args.test_database:
         dbType = "Test MySQL DB"
-        dbType = fs.MySQL_Test_DB_Name
+        dbName = fs.MySQL_Test_DB_Name
     else:
         dbType = "Production MySQL DB"
-        dbType = fs.MySQL_Prod_DB_Name
+        dbName = fs.MySQL_Prod_DB_Name
     
     print(dbType)
     print(dbName)
@@ -48,13 +49,27 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
     print("submitting job, output going to {0}".format(jobOutputDir))
     url = scard.generator if scard.genExecutable == "Null" else 'no_download'
 
+
+    #The following is useful for testing on locations which do not have htcondor installed
+    #This allows us to go all the way through with condor_submit.sh even if htcondor does not exist
+    htcondor_version = Popen(['which', 'condor_submit'], stdout=PIPE).communicate()[0]
+    if not htcondor_version:
+        htcondor_present="no"
+    else:
+        htcondor_present="yes"
+
+    print(htcondor_present)
+
     # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
     # error: we really need to pass farmsubmissionID
     print("trying to submit job now")
     #print([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
     #                 str(usub_id), url, dbType, dbName])
+    #Note: Popen array arguements must only contain strings
     submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
-                      str(usub_id), url, dbType, dbName], stdout=PIPE).communicate()[0]
+                      str(usub_id), url, dbType, dbName, str(htcondor_present)], stdout=PIPE).communicate()[0]
+
+
 
     print(submission)
 
