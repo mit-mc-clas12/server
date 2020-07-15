@@ -32,9 +32,10 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
 
 
 
+
     if args.lite:
         dbType = "Test SQLite DB"
-        dbName = args.lite
+        dbName = "../../utils/CLAS12OCR.db"
     elif args.test_database:
         dbType = "Test MySQL DB"
         dbType = fs.MySQL_Test_DB_Name
@@ -48,6 +49,9 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
     print("submitting job, output going to {0}".format(jobOutputDir))
     url = scard.generator if scard.genExecutable == "Null" else 'no_download'
 
+
+    #which condor_submit if val = 0, do not submit, print not found message
+
     # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
     # error: we really need to pass farmsubmissionID
     print("trying to submit job now")
@@ -55,6 +59,8 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
     #                 str(usub_id), url, dbType, dbName])
     submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
                       str(usub_id), url, dbType, dbName], stdout=PIPE).communicate()[0]
+
+
 
     print(submission)
 

@@ -61,6 +61,10 @@ def server(args):
         if update_tables.count_user_submission_id(args.UserSubmissionID, sql) > 0:
             #if args.submit:     
                 logger.debug('Processing {}'.format(args.UserSubmissionID))
+
+                #Need to remove any whitespace
+                USID = args.UserSubmissionID.replace(" ","")
+
                 submission_script_manager.process_jobs(args, args.UserSubmissionID, db_conn, sql)
             #else:
                 #print("-s option not selected, not submitting jobs through submission_script_manager")
