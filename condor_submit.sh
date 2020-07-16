@@ -76,7 +76,7 @@ elif [ "$dbType" = "Test MySQL DB" ] ; then
     condor_submit clas12.condor 2> condorSubmissionError.txt
 
     # Clean up 
-    rm msql_conn.txt
+    rm msql_conn_test.txt
 
 elif [ "$dbType" = "Production MySQL DB" ] ; then
     cp $scripts_baseDir/msql_conn.txt .
