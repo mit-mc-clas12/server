@@ -144,7 +144,7 @@ def setup_database(args):
     logger = logging.getLogger('SubMit')
 
 
-     if args.lite:
+    if args.lite:
         use_mysql = False
         username, password = "none", "none"
         database_name = args.lite
