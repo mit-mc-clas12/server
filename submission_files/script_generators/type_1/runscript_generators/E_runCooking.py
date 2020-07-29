@@ -1,7 +1,4 @@
 # Runs reconstruction (with clara) on gemc.hipo
-#
-# Input:  gemc.hipo
-# Output: recon.hipo
 
 def E_runCooking(scard, **kwargs):
 

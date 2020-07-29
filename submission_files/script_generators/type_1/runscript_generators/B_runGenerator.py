@@ -1,9 +1,6 @@
 # Runs the chosen generator with its options
-#
-# Input:  scard.data['genExecutable'], number of events, scard.data['genOptions']
-# Output: scard.data['genOutput']
 
-def B_runGenerator(scard,**kwargs):
+def B_runGenerator(scard, **kwargs):
 
     strGeneratorHeader = ""
 
@@ -25,7 +22,6 @@ def B_runGenerator(scard,**kwargs):
 
 # saving date for bookmarking purposes:
 set generatorDate = `date`
-
 
 echo
 printf "Running {1} events with generator >{0}< with options: {2}"

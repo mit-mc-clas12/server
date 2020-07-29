@@ -23,8 +23,6 @@ set startDate = `date`
 echo Running directory: `pwd`
 
 printf "Job submitted by: {0}"
-printf "Job Project: {1}"
-echo
 printf "Job Start time: "; /bin/date
 printf "Job is running on node: "; /bin/hostname
 echo
@@ -36,6 +34,6 @@ echo
 # End of Run Script Header
 # ------------------------
 
-""".format(kwargs['username'], scard.group_name)
+""".format(kwargs['username'])
 
 	return headerSTR

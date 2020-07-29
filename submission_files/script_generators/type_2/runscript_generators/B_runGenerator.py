@@ -2,6 +2,7 @@
 #
 # The  $lundFile is copied to the harcoded name lund.dat because
 # of quotes complications (conversion double to single due to mysql)
+
 def B_runGenerator(scard,**kwargs):
 
   strGeneratorHeader = """

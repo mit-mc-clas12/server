@@ -1,8 +1,4 @@
 # Runs GEMC using the gcard, on LUND generated events.
-#
-# Input:  number of events, scard.data['genOutput']
-# Output: gemc.evio
-# Type 1 store the name of the gcard in the file "job.gcard"
 
 
 def C_runGemc(scard, **kwargs):
@@ -22,8 +18,8 @@ def C_runGemc(scard, **kwargs):
 # saving date for bookmarking purposes:
 set gemcDate = `date`
 
-# copying gcard to gemc.gcard
-cp `cat job.gcard` gemc.gcard
+# copying the gcard to gemc.gcard
+cp /jlab/clas12Tags/$CLAS12TAG/config/{2}".gcard" gemc.gcard
 
 echo
 echo GEMC executable: `which gemc`
@@ -38,6 +34,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.nevents, gemcInputOptions)
+""".format(scard.nevents, gemcInputOptions, scard.configuration)
 
 	return runGemc

@@ -1,8 +1,5 @@
 # Runs GEMC using the gcard, on LUND generated events.
 #
-# Input:  scard.data['genOutput']
-# Output: gemc.evio
-# Type 2 store the name of the gcard in the file "job.gcard"
 # The variable $lundFile is passed by run.sh to this script (nodescript.sh)
 # N is passed as 0 to gemc to process all events in the LUND file
 
@@ -15,8 +12,8 @@ def C_runGemc(scard, **kwargs):
 # saving date for bookmarking purposes:
 set gemcDate = `date`
 
-# copying gcard to gemc.gcard
-cp `cat job.gcard` gemc.gcard
+# copying the gcard to gemc.gcard
+cp /jlab/clas12Tags/$CLAS12TAG/config/{0}".gcard" gemc.gcard
 
 echo
 echo GEMC executable: `which gemc`
@@ -31,6 +28,6 @@ echo
 # End of GEMC
 # -----------
 
-"""
+""".format(scard.configuration)
 
 	return runGemc

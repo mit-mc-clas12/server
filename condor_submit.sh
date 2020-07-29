@@ -27,30 +27,14 @@ cp $scripts_baseDir/server/run.sh .
 
 # Downloading files for the run
 
-rm -f clas12.condor nodeScript.sh job.gcard
-
-
-# Get lund files and send job 
-#if [ "$htcondor" = "yes"] ; then
-#    echo 1
-#    
-#elif [ "$htcondor" = "no"] ; then
-#    echo 2
-#
-#else
-#    echo "indeterminate htcondor value, inspect server code"
-#
-#fi
-
-
+rm -f clas12.condor nodeScript.sh
 
 
 if [ "$dbType" = "Test SQLite DB" ] ; then
     sqlite3 "$dbName" "SELECT clas12_condor_text FROM submissions WHERE user_submission_id=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed s/\'\'/\"/g > clas12.condor
     sqlite3 "$dbName" "SELECT runscript_text FROM submissions WHERE user_submission_id=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
-    sqlite3 "$dbName" "SELECT scard FROM submissions where user_submission_id=$submissionID;"    | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | grep gcards | awk '{print $2}' > job.gcard
 
-
+    # Get lund files and send job
     python $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
 
     if [ "$htcondor" = "yes" ] ; then
@@ -63,13 +47,10 @@ if [ "$dbType" = "Test SQLite DB" ] ; then
     fi
 
 
-
-
 elif [ "$dbType" = "Test MySQL DB" ] ; then
     cp $scripts_baseDir/msql_conn_test.txt .
     mysql --defaults-extra-file=msql_conn_test.txt -N -s --execute="SELECT clas12_condor_text FROM submissions WHERE user_submission_id=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed s/\'\'/\"/g > clas12.condor
     mysql --defaults-extra-file=msql_conn_test.txt -N -s --execute="SELECT runscript_text FROM submissions WHERE user_submission_id=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
-    mysql --defaults-extra-file=msql_conn_test.txt -N -s --execute="SELECT scard from CLAS12OCR.submissions where user_submission_id=$submissionID;"    | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | grep gcards | awk '{print $2}' > job.gcard
 
     # Get lund files and send job 
     python $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
@@ -78,11 +59,11 @@ elif [ "$dbType" = "Test MySQL DB" ] ; then
     # Clean up 
     rm msql_conn_test.txt
 
+
 elif [ "$dbType" = "Production MySQL DB" ] ; then
     cp $scripts_baseDir/msql_conn.txt .
     mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT clas12_condor_text FROM submissions WHERE user_submission_id=$submissionID;" | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | sed s/\'\'/\"/g > clas12.condor
     mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM submissions WHERE user_submission_id=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
-    mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT scard from CLAS12OCR.submissions where user_submission_id=$submissionID;"    | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' | grep gcards | awk '{print $2}' > job.gcard
 
     # Get lund files and send job 
     python $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
