@@ -24,7 +24,6 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
     if args.test_condorscript:
         scripts_baseDir  = os.path.dirname(os.path.abspath(__file__))+'/../..'
         condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
-        jobOutputDir = scripts_baseDir
     else:
         # Need to add condition here in case path is different for non-jlab
         scripts_baseDir  = "/group/clas12/SubMit"
