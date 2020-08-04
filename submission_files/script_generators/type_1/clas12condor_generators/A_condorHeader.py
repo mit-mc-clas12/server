@@ -18,8 +18,8 @@ def A_condorHeader(scard, **kwargs):
 Universe = vanilla
 
 # singularity image and CVMFS binding
-+SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12software:production"
-"""
++SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12software:{0}"
+""".format(scard.submission)
 
   # OSG Farm Requirements
   requirementsStr = """

@@ -76,22 +76,18 @@ def server(args):
     # No UserSubmissionID specified, send all
     # that haven't been sent already.
     else:
-        #if args.submit:
-            user_submissions = database.get_unsubmitted_jobs(sql)
-            logger.debug('Found unsubmitted jobs: {}'.format(user_submissions))
+        user_submissions = database.get_unsubmitted_jobs(sql)
+        logger.debug('Found unsubmitted jobs: {}'.format(user_submissions))
 
-            if len(user_submissions) == 0:
-                print("There are no UserSubmissions which have not yet been submitted to a farm")
+        if len(user_submissions) == 0:
+            print("There are no UserSubmissions which have not yet been submitted to a farm")
 
-            else:
-                for i, submission_id in enumerate(user_submissions):
-                    logger.debug('Working on job {} of {}, user_submission_id = {}'.format(
-                        i + 1, len(user_submissions), submission_id
-                    ))
-                    submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
-
-        #else:
-            #rpint("-s option not selected, not submitting jobs through submission_script_manager")
+        else:
+            for i, submission_id in enumerate(user_submissions):
+                logger.debug('Working on job {} of {}, user_submission_id = {}'.format(
+                    i + 1, len(user_submissions), submission_id
+                ))
+                submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
 
     # Shutdown the database connection, we're done here.
     db_conn.close()

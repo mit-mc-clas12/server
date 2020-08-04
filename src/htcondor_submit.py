@@ -21,6 +21,10 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
 
     jobOutputDir = args.OutputDir
 
+    if args.OutputDir == "TestOutputDir":
+        print("Test output dir specified")
+        jobOutputDir = os.path.dirname(os.path.abspath(__file__))+'/../..'
+
     if args.test_condorscript:
         scripts_baseDir  = os.path.dirname(os.path.abspath(__file__))+'/../..'
         condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
@@ -59,22 +63,27 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
 
     print(htcondor_present)
 
-    # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
-    # error: we really need to pass farmsubmissionID
-    print("trying to submit job now")
-    #print([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
-    #                 str(usub_id), url, dbType, dbName])
-    #Note: Popen array arguements must only contain strings
-    submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
-                      str(usub_id), url, dbType, dbName, str(htcondor_present)], stdout=PIPE).communicate()[0]
+    if args.submit:
+
+        # don't know how to pass farmsubmissionID (4th argument), passing GcardID for now (it may be the same)
+        # error: we really need to pass farmsubmissionID
+        print("trying to submit job now")
+        #print([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
+        #                 str(usub_id), url, dbType, dbName])
+        #Note: Popen array arguements must only contain strings
+        submission = Popen([condor_exec, scripts_baseDir, jobOutputDir, params['username'],
+                        str(usub_id), url, dbType, dbName, str(htcondor_present)], stdout=PIPE).communicate()[0]
 
 
 
-    print(submission)
+        print(submission)
 
-    words = submission.split()
-    node_number = words[len(words)-1] # This might only work on SubMIT
+        words = submission.split()
+        node_number = words[len(words)-1] # This might only work on SubMIT
 
-    timestamp = utils.gettime()
-    update_tables.update_farm_submissions(usub_id, timestamp, node_number,
-                                        db_conn, sql)
+        timestamp = utils.gettime()
+        update_tables.update_farm_submissions(usub_id, timestamp, node_number,
+                                            db_conn, sql)
+
+    else:
+        print("-s option not selected, not passing jobs to condor_submit.sh")
