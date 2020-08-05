@@ -29,14 +29,14 @@ echo Running inside `pwd`
 echo Directory content at start:
 \ls -l
 echo
-echo Now running $nodeScript with FarmSubmissionID: $FarmSubmissionID
 
 chmod +x $nodeScript
 
 if [ $# == 3 ]; then
-	echo LUND filename passed by condor: $lundFile
+	echo "Now running nodeScript with options FarmSubmissionID: "$FarmSubmissionID",  lundFile: " $lundFile
 	./$nodeScript $FarmSubmissionID $lundFile
 else
+	echo "Now running nodeScript with options FarmSubmissionID: "$FarmSubmissionID
 	./$nodeScript $FarmSubmissionID
 fi
 
