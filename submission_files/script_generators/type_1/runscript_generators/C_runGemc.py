@@ -19,7 +19,7 @@ def C_runGemc(scard, **kwargs):
 set gemcDate = `date`
 
 # copying the gcard to gemc.gcard
-cp /jlab/clas12Tags/$CLAS12TAG/config/{2}".gcard" gemc.gcard
+cp /jlab/clas12Tags/$CLAS12TAG/config/{2}.gcard gemc.gcard
 
 echo
 echo GEMC executable: `which gemc`

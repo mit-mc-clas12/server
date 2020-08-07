@@ -1,5 +1,6 @@
 # Runs evio2hipo on the gemc output
-
+# To read files from xrootd:
+# setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
 def D_runEvio2hipo(scard, **kwargs):
 
   gcard = scard.gcards.split('/')[-1]

@@ -1,5 +1,6 @@
 # Runs evio2hipo on the gemc output
-
+# To read files from xrootd:
+# setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
 def D_runEvio2hipo(scard, **kwargs):
 
   configuration = scard.configuration
@@ -35,6 +36,28 @@ echo
 
 # End of evio2hipo
 # ----------------
+
+
+
+# Run background merging
+# ----------------------
+
+echo "Directory Content Before Background Merging:"
+ls -l
+
+setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
+
+
+
+unsetenv LD_PRELOAD
+
+echo "Directory Content After Background Merging:"
+ls -l
+
+
+# End ofbackground merging
+# ------------------------
+
 
 """.format(torusField, solenField)
   return strn
