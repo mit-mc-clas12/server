@@ -3,14 +3,8 @@
 # setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
 def D_runEvio2hipo(scard, **kwargs):
 
-  configuration = scard.configuration
-
-  torusField = -1
-  solenField = -1
-
-  if configuration == "rgk-fall2018":
-    torusField = 1
-
+  torusField = scard.torus
+  solenField = scard.solenoid
 
   strn = """
 

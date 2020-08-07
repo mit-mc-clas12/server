@@ -5,7 +5,11 @@
 
 def C_runGemc(scard, **kwargs):
 
-	clastag = $CLAS12TAG
+
+
+
+
+
 
 	runGemc = """
 # Run GEMC
@@ -15,10 +19,14 @@ def C_runGemc(scard, **kwargs):
 set gemcDate = `date`
 
 # copying the gcard to gemc.gcard
-cp /jlab/clas12Tags/{1}/config/{0}.gcard gemc.gcard
+cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0}".gcard" gemc.gcard
 
 echo
 echo GEMC executable: `which gemc`
+
+echo "Directory Content before GEMC"
+ls -l
+
 gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=0 -INPUT_GEN_FILE="lund, lund.dat" gemc.gcard
 echo
 printf "GEMC Completed on: "; /bin/date
@@ -30,6 +38,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.configuration, clastag)
+""".format(scard.configuration)
 
 	return runGemc

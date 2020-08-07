@@ -3,16 +3,8 @@
 # setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
 def D_runEvio2hipo(scard, **kwargs):
 
-  gcard = scard.gcards.split('/')[-1]
-  lim = gcard.find(".")
-  configuration = gcard[0:lim]
-
-  torusField = -1
-  solenField = -1
-
-  if configuration == "rgk-fall2018":
-    torusField = 1
-
+  torusField = scard.torus
+  solenField = scard.solenoid
 
   strn = """
 
@@ -38,6 +30,28 @@ echo
 
 # End of evio2hipo
 # ----------------
+
+
+
+# Run background merging
+# ----------------------
+
+echo "Directory Content Before Background Merging:"
+ls -l
+
+setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
+
+
+
+unsetenv LD_PRELOAD
+
+echo "Directory Content After Background Merging:"
+ls -l
+
+
+# End ofbackground merging
+# ------------------------
+
 
 """.format(torusField, solenField)
   return strn

@@ -23,6 +23,10 @@ cp /jlab/clas12Tags/$CLAS12TAG"/config/"{2}".gcard" gemc.gcard
 
 echo
 echo GEMC executable: `which gemc`
+
+echo "Directory Content before GEMC"
+ls -l
+
 gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} {1} gemc.gcard
 echo
 printf "GEMC Completed on: "; /bin/date

@@ -1,11 +1,10 @@
-# Runs reconstruction (with clara) on gemc.hipo
+# Runs reconstruction recon-util on gemc.hipo
 
 def E_runCooking(scard, **kwargs):
 
-  # gcard with path
-  gcard = scard.gcards
-  lim = gcard.find(".")
-  configuration = gcard[0:lim]
+  # yaml with path
+
+  configuration = scard.configuration
   YAMLFILE = configuration + ".yaml"
 
   strn = """
@@ -15,6 +14,9 @@ def E_runCooking(scard, **kwargs):
 
 # saving date for bookmarking purposes:
 set reconstructionDate = `date`
+
+# copying the yaml file to recon.yaml
+cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0} {0}
 
 set configuration = `echo YAML file: {0}`
 echo
