@@ -34,6 +34,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.nevents, gemcInputOptions, scard.configuration, clastag)
+""".format(scard.nevents, gemcInputOptions, scard.configuration)
 
 	return runGemc
