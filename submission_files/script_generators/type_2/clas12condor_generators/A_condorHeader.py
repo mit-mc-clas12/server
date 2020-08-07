@@ -19,6 +19,8 @@ Universe = vanilla
 
 # singularity image and CVMFS binding
 +SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12software:{0}"
++SingularityBindCVMFS = True
+
 """.format(scard.submission)
 
   # OSG Farm Requirements

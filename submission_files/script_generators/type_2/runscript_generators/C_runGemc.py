@@ -5,6 +5,8 @@
 
 def C_runGemc(scard, **kwargs):
 
+	clastag = $CLAS12TAG
+
 	runGemc = """
 # Run GEMC
 # --------
@@ -13,7 +15,7 @@ def C_runGemc(scard, **kwargs):
 set gemcDate = `date`
 
 # copying the gcard to gemc.gcard
-cp /jlab/clas12Tags/$CLAS12TAG/config/{0}.gcard gemc.gcard
+cp /jlab/clas12Tags/{1}/config/{0}.gcard gemc.gcard
 
 echo
 echo GEMC executable: `which gemc`
@@ -28,6 +30,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.configuration)
+""".format(scard.configuration, clastag)
 
 	return runGemc
