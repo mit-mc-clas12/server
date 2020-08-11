@@ -16,7 +16,7 @@ set evio2hipoDate = `date`
 
 
 echo
-printf "Running evio2hipo with torus current scale:  $torusField and solenoid current scale: $solenField"
+printf "Running evio2hipo with torus current scale: {0} and solenoid current scale: {1}"
 echo
 echo
 echo executing: evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
@@ -41,6 +41,7 @@ ls -l
 
 setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
 
+ls xroot://sci-xrootd-ib//osgpool/hallb/clas12/backgroundfiles/{2}/
 
 
 unsetenv LD_PRELOAD
@@ -53,5 +54,5 @@ ls -l
 # ------------------------
 
 
-""".format(torusField, solenField)
+""".format(torusField, solenField, scard.configuration)
   return strn
