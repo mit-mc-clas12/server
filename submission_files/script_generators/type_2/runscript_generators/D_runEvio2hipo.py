@@ -54,5 +54,5 @@ ls -l
 # End ofbackground merging
 # ------------------------
 
-""".format(torusField, solenField, scard.configuration, scard.fields, scard.backgroundMerging)
+""".format(torusField, solenField, scard.configuration, scard.fields, scard.bkmerging)
   return strn
