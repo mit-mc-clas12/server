@@ -41,8 +41,9 @@ ls -l
 
 setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
 
-ls xroot://sci-xrootd-ib//osgpool/hallb/clas12/backgroundfiles/{2}/
+echo xrootd file to load:
 
+ls xroot://sci-xrootd-ib//osgpool/hallb/clas12/backgroundfiles/{2}/{3}/{4}/10k
 
 unsetenv LD_PRELOAD
 
@@ -53,6 +54,5 @@ ls -l
 # End ofbackground merging
 # ------------------------
 
-
-""".format(torusField, solenField, scard.configuration)
+""".format(torusField, solenField, scard.configuration, scard.fields, scard.backgroundMerging)
   return strn
