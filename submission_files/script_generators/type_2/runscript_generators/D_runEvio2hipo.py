@@ -59,4 +59,4 @@ ls -l
 
 """.format(scard.configuration, scard.fields, scard.bkmerging)
 
- return evio2hipo + mergeBackground
+  return evio2hipo + mergeBackground
