@@ -45,7 +45,9 @@ echo
 echo "Directory Content Before Background Merging:"
 ls -l
 
-set bgFile = `bgMerginFilename.sh {0} {1} {2} get | awk -F/ '{print $NF}`
+bgMerginFilename.sh {0} {1} {2} get
+
+set bgFile = `ls 0*.hipo`
 
 echo xrootd file to load: $bgFile
 
