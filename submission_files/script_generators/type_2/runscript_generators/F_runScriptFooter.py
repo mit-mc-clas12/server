@@ -4,11 +4,18 @@
 
 def F_runScriptFooter(scard,**kwargs):
 
-
+	generator = ""
 	gemc_evio = ""
 	gemc_hipo = ""
 	reconstruction = ""
 	dst = ""
+
+	# removing generator output if not needed
+	if scard.generatorOUT == "no" and scard.genExecutable != 'gemc':
+		generator = """
+echo Removing generated events file
+rm lund.dat
+"""
 
 	# removing gemc output if not needed
 	if scard.gemcEvioOUT == "no":
@@ -22,6 +29,8 @@ rm gemc.evio
 		gemc_hipo = """
 echo Removing gemc hipo file
 rm gemc.hipo
+rm gemc.merged.hipo
+rm 0*.hipo
 """
 
 	# creating the DST if requested
@@ -46,6 +55,7 @@ rm recon.hipo
 {1}
 {2}
 {3}
+{4}
 
 # Run Script Footer
 # -----------------
@@ -53,6 +63,7 @@ rm recon.hipo
 set endDate = `date`
 
 echo ==== SubMit-Job === Job Start: $startDate
+echo ==== SubMit-Job === Generator Start: $generatorDate
 echo ==== SubMit-Job === GEMC Start: $gemcDate
 echo ==== SubMit-Job === evio2hipoDate Start: $evio2hipoDate
 echo ==== SubMit-Job === Reconstruction Start: $reconstructionDate
@@ -63,4 +74,4 @@ echo ==== SubMit-Job === Job End: $endDate
 
 """
 
-	return strn.format(gemc_evio, gemc_hipo, dst, reconstruction)
+	return strn.format(generator, gemc_evio, gemc_hipo, dst, reconstruction)

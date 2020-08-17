@@ -10,8 +10,6 @@ def F_runScriptFooter(scard,**kwargs):
 	reconstruction = ""
 	dst = ""
 
-	# Try getting these options from the scard, if they don't
-	# exist, return the default value (yes).
 	# removing generator output if not needed
 	if scard.generatorOUT == "no" and scard.genExecutable != 'gemc':
 		generator = """
@@ -31,6 +29,8 @@ rm gemc.evio
 		gemc_hipo = """
 echo Removing gemc hipo file
 rm gemc.hipo
+rm gemc.merged.hipo
+rm 0*.hipo
 """
 
 	# creating the DST if requested

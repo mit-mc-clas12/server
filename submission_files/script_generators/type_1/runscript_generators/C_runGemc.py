@@ -18,8 +18,8 @@ def C_runGemc(scard, **kwargs):
 # saving date for bookmarking purposes:
 set gemcDate = `date`
 
-# copying the gcard to gemc.gcard
-cp /jlab/clas12Tags/$CLAS12TAG"/config/"{2}".gcard" gemc.gcard
+# copying the gcard to <conf>.gcard
+cp /jlab/clas12Tags/$CLAS12TAG"/config/"{2}".gcard" {2}.gcard
 
 echo
 echo GEMC executable: `which gemc`
@@ -27,7 +27,7 @@ echo GEMC executable: `which gemc`
 echo "Directory Content before GEMC"
 ls -l
 
-gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} {1} gemc.gcard
+gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} {1} {2}.gcard
 echo
 printf "GEMC Completed on: "; /bin/date
 echo
