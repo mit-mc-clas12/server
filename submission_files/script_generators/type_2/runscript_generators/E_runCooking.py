@@ -7,6 +7,13 @@ def E_runCooking(scard, **kwargs):
   configuration = scard.configuration
   YAMLFILE = configuration + ".yaml"
 
+  inputFile = "gemc.hipo"
+
+  if scard.bkmerging != 'no':
+
+    inputFile = "gemc.merged.hipo"
+
+
   strn = """
 
 # Run Reconstruction
@@ -21,8 +28,8 @@ cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0} {0}
 set configuration = `echo YAML file: {0}`
 echo
 echo
-echo executing: recon-util -y {0} -i gemc.hipo -o recon.hipo
-recon-util -y {0} -i gemc.hipo -o recon.hipo
+echo executing: recon-util -y {0} -i {1} -o recon.hipo
+recon-util -y {0} -i {1} -o recon.hipo
 echo
 printf "recon-util Completed on: "; /bin/date
 echo
@@ -34,4 +41,4 @@ echo
 # ---------------------
 
 """
-  return strn.format(YAMLFILE)
+  return strn.format(YAMLFILE, inputFile)
