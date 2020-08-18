@@ -11,7 +11,7 @@ def B_runGenerator(scard,**kwargs):
 
 echo
 echo LUND Event File: $lundFile
-cp $lundFile lund.dat
+mv $lundFile lund.dat
 echo
 
 # End of Run Generator
