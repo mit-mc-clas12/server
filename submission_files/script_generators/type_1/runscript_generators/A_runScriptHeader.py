@@ -14,6 +14,9 @@ def A_runScriptHeader(scard, **kwargs):
 source /etc/profile.d/environment.csh
 setenv RCDB_CONNECTION mysql://null
 
+module unload coatjava
+module load coatjava/{1}
+
 set submissionID=$1
 
 
@@ -34,6 +37,6 @@ echo
 # End of Run Script Header
 # ------------------------
 
-""".format(kwargs['username'])
+""".format(kwargs['username'], scard.coatjavaVersion)
 
 	return headerSTR
