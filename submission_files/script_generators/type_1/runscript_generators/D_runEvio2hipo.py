@@ -51,7 +51,7 @@ set bgFile = `ls 0*.hipo`
 
 echo xrootd file to load: $bgFile
 
-bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,HTCC,ECAL"
+bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC,BST,BMT,CND,CTOF,FTCAL,FTHODO"
 
 echo "Directory Content After Background Merging:"
 ls -l
