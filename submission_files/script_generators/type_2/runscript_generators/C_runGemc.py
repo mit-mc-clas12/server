@@ -10,6 +10,8 @@ def C_runGemc(scard, **kwargs):
 
 
 
+  torusField = scard.torus
+  solenField = scard.solenoid
 
 	runGemc = """
 # Run GEMC
@@ -27,7 +29,7 @@ echo GEMC executable: `which gemc`
 echo "Directory Content before GEMC"
 ls -l
 
-gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}.gcard
+gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}.gcard  -SCALE_FIELD="TorusSymmetric, {1}" -SCALE_FIELD="clas12-newSolenoid, {2}"
 echo
 printf "GEMC Completed on: "; /bin/date
 echo
@@ -38,6 +40,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.configuration)
+""".format(scard.configuration, scard.configuration, torusField, solenField)
 
 	return runGemc
