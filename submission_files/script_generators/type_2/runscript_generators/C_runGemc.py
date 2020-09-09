@@ -10,8 +10,8 @@ def C_runGemc(scard, **kwargs):
 
 
 
-  torusField = scard.torus
-  solenField = scard.solenoid
+	torusField = scard.torus
+	solenField = scard.solenoid
 
 	runGemc = """
 # Run GEMC
@@ -40,6 +40,6 @@ echo
 # End of GEMC
 # -----------
 
-""".format(scard.configuration, scard.configuration, torusField, solenField)
+""".format(scard.configuration, torusField, solenField)
 
 	return runGemc

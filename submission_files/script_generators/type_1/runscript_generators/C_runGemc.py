@@ -10,8 +10,8 @@ def C_runGemc(scard, **kwargs):
 	else:
 		gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
 
-  torusField = scard.torus
-  solenField = scard.solenoid
+	torusField = scard.torus
+	solenField = scard.solenoid
 
 	runGemc = """
 # Run GEMC
