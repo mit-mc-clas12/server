@@ -30,6 +30,8 @@ printf "Job Start time: "; /bin/date
 printf "Job is running on node: "; /bin/hostname
 echo
 
+generate-seeds.py generate
+
 echo Directory `pwd` content before starting submissionID $submissionID":"
 ls -l
 echo
