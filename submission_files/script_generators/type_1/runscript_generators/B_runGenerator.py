@@ -26,7 +26,7 @@ set seed = `generate-seeds.py read --row 1`
 echo Generator seed from generate-seeds, row 1: $seed
 
 echo
-printf "Running {1} events with generator >{0}< with options: {2} and seed: $seed "
+printf "Running {1} events with generator >{0}< with options: {2} "
 echo
 {0} --trig {1} --docker {2} --seed $seed
 echo
