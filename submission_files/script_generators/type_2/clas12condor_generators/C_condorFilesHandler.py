@@ -16,6 +16,9 @@
 #
 # $(ItemIndex) is 0 for all three jobs with $(Item)=A, and it is 1 for all three jobs with $(Item)=B.
 # $(Row) has the same value as $(ItemIndex) for this example.
+# A new entry max_idle is used to control how many jobs HTCondor will maintain IDLE.
+# For example, if one submits 5000 jobs, 1500 will immediately go to IDLE. As soon as some will run,
+# The remaining 3500 will materialize to IDLE then run
 
 def C_condorFilesHandler(scard,**kwargs):
 
@@ -57,6 +60,7 @@ transfer_output_files = output
 # 3. lundfile, given by the queue comand
 #
 # Queue starts "jobs" number of subjobs
+max_idle=1500
 Arguments  = {0} $(Process) $(lundFile)
 queue lundFile matching files {1}/*
 """.format(kwargs['user_submission_id'], 'lund_dir')
