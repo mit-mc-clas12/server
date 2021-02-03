@@ -21,12 +21,14 @@ Universe = vanilla
 +SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12software:{0}"
 +SingularityBindCVMFS = True
 
+Rank = (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='SGridGLA')
+
 """.format(scard.submission)
 
   # OSG Farm Requirements
   requirementsStr = """
 # OSG Requirements
-Requirements = HAS_SINGULARITY == TRUE
+Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True)
 """
 
   return strHeader + requirementsStr
