@@ -83,12 +83,23 @@ def server(args):
             print("There are no UserSubmissions which have not yet been submitted to a farm")
 
         else:
-            for i, submission_id in enumerate(user_submissions):
+            for i, submission_id in enumerate(user_submissions):              
                 logger.debug('Working on job {} of {}, user_submission_id = {}'.format(
                     i + 1, len(user_submissions), submission_id
                 ))
-                submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
-
+                try:
+                    submission_script_manager.process_jobs(args, submission_id, db_conn, sql)
+                except Exception as e:
+                    print("An error in submission has occured:")
+                    print(e.message, e.args)
+                    print("Job ID {} flagged as Submission Failure".format(submission_id))
+                    submission_string = 'Submitted To Failure Mode'
+                    update_tables.update_run_status(submission_string, submission_id,
+                                                    db_conn, sql)
+                
+                
+                
+                
     # Shutdown the database connection, we're done here.
     db_conn.close()
 
