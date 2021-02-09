@@ -21,7 +21,7 @@ Universe = vanilla
 +SingularityImage = "/cvmfs/singularity.opensciencegrid.org/jeffersonlab/clas12software:{0}"
 +SingularityBindCVMFS = True
 
-Rank = (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='SGridGLA')
+#Rank = (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='SGridGLA')
 
 """.format(scard.submission)
 
