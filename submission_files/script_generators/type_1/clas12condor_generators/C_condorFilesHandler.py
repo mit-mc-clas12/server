@@ -60,7 +60,7 @@ transfer_output_files = output
 # 2. subjob id
 #
 # Queue starts "jobs" number of subjobs
-# max_idle=1500
+max_idle=2000
 Arguments = {1} $(Process)
 Queue {0}
 """.format(scard.jobs, kwargs['user_submission_id'])
