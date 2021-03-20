@@ -10,7 +10,7 @@ def A_runScriptHeader(scard, **kwargs):
 
 # Run Script Header
 # -----------------
-
+set echo
 source /etc/profile.d/environment.csh
 setenv RCDB_CONNECTION mysql://null
 
