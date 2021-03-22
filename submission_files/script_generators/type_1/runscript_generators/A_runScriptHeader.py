@@ -11,6 +11,17 @@ def A_runScriptHeader(scard, **kwargs):
 # Run Script Header
 # -----------------
 set echo
+
+# Exit if cvmfs not found
+# -----------------
+set cvmfsSetupFile = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/setup.csh
+if (-f $cvmfsSetupFile ) then
+		echo $cvmfsSetupFile exists
+else
+		echo $cvmfsSetupFile does not exist. Exiting
+		exit(2)
+endif
+
 source /etc/profile.d/environment.csh
 setenv RCDB_CONNECTION mysql://null
 
