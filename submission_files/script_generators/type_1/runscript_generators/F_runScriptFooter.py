@@ -4,34 +4,7 @@
 
 def F_runScriptFooter(scard,**kwargs):
 
-	generator = ""
-	gemc_evio = ""
-	gemc_hipo = ""
-	reconstruction = ""
 	dst = ""
-
-	# removing generator output if not needed
-	if scard.generatorOUT == "no" and scard.genExecutable != 'gemc':
-		generator = """
-echo Removing generated events file
-rm {0}
-""".format(scard.genOutput)
-
-	# removing gemc output if not needed
-	if scard.gemcEvioOUT == "no":
-		gemc_evio = """
-echo Removing gemc evio file
-rm gemc.evio
-"""
-
-	# removing gemc decoded hipo if not needed
-	if scard.gemcHipoOUT == "no":
-		gemc_hipo = """
-echo Removing gemc hipo file
-rm gemc.hipo
-rm gemc.merged.hipo
-rm 0*.hipo
-"""
 
 	# creating the DST if requested
 	if scard.dstOUT == "yes":
@@ -40,33 +13,27 @@ echo Creating the DST
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::*' -merge -o dst.hipo recon.hipo
 """
 
-	# removing reconstruction output
-	if scard.reconstructionOUT == "no":
-		reconstruction = """
-echo Removing reconstructed file
-rm recon.hipo
-
-	"""
 
 	strn = """
 # Removing Unnecessary Files and Creating DST if selected
 # -------------------------------------------------------
 
 {0}
-{1}
-{2}
-{3}
-{4}
 
 echo Additional cleanup
 rm core*
 rm *.gcard
+rm recon.hipo
+rm gemc.hipo
+rm gemc.merged.hipo
 rm *.evio
 rm *.yaml
 rm run.sh
 rm nodeScript.sh
 rm condor_exec.exe
-rm {5}
+rm RNDMSTATUS
+rm random-seeds.txt
+rm {1}
 
 
 # Run Script Footer
@@ -86,4 +53,4 @@ echo ==== SubMit-Job === Job End: $endDate
 
 	"""
 
-	return strn.format(generator, gemc_evio, gemc_hipo, dst, reconstruction, scard.genOutput)
+	return strn.format(dst, scard.genOutput)

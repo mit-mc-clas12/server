@@ -56,6 +56,9 @@ bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC
 echo "Directory Content After Background Merging:"
 ls -l
 
+echo "Removing background file"
+rm $bgFile
+
 # End ofbackground merging
 # ------------------------
 
