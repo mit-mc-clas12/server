@@ -45,6 +45,7 @@ hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::
 		reconstruction = """
 echo Removing reconstructed file
 rm recon.hipo
+
 	"""
 
 	strn = """
@@ -56,6 +57,17 @@ rm recon.hipo
 {2}
 {3}
 {4}
+
+echo Additional cleanup
+rm core*
+rm *.gcard
+rm *.evio
+rm *.yaml
+rm run.sh
+rm nodeScript.sh
+rm condor_exec.exe
+rm {5}
+
 
 # Run Script Footer
 # -----------------
@@ -72,6 +84,6 @@ echo ==== SubMit-Job === Job End: $endDate
 # End of Run Script Footer
 # ------------------------
 
-"""
+	"""
 
-	return strn.format(generator, gemc_evio, gemc_hipo, dst, reconstruction)
+	return strn.format(generator, gemc_evio, gemc_hipo, dst, reconstruction, scard.genOutput)
