@@ -19,7 +19,7 @@ if (-f $cvmfsSetupFile ) then
 		echo $cvmfsSetupFile exists
 else
 		echo $cvmfsSetupFile does not exist. Exiting
-		exit(2)
+		exit(202)
 endif
 
 source /etc/profile.d/environment.csh
