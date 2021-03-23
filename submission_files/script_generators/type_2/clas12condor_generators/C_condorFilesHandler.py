@@ -60,7 +60,7 @@ transfer_output_files = output
 # 3. lundfile, given by the queue comand
 #
 # Queue starts "jobs" number of subjobs
-max_idle=2000
+# max_idle=2000
 Arguments  = {0} $(Process) $(lundFile)
 queue lundFile matching files {1}/*
 """.format(kwargs['user_submission_id'], 'lund_dir')
