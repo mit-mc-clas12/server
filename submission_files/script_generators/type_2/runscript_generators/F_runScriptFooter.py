@@ -11,6 +11,11 @@ def F_runScriptFooter(scard,**kwargs):
 		dst = """
 echo Creating the DST
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::*' -merge -o dst.hipo recon.hipo
+if ($? != 0) then
+  echo hipo-utils failed.
+  exit 208
+endif
+
 """
 
 

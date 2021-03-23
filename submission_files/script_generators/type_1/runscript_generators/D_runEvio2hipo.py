@@ -20,6 +20,11 @@ echo
 echo
 echo executing: evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
 evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
+if ($? != 0) then
+  echo evio2hipo failed.
+  exit 205
+endif
+
 echo
 printf "evio2hipo Completed on: "; /bin/date
 echo
@@ -49,9 +54,19 @@ bgMerginFilename.sh {0} {1} {2} get
 
 set bgFile = `ls 0*.hipo`
 
-echo xrootd file to load: $bgFile
+if (-f $bgFile ) then
+	echo xrootd file to load: $bgFile
+else
+		echo Background file $bgFile does not exist. Exiting
+		exit(210)
+endif
 
 bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC,BST,BMT,CND,CTOF,FTCAL,FTHODO"
+
+if ($? != 0) then
+  echo bg-merger failed.
+  exit 206
+endif
 
 echo "Directory Content After Background Merging:"
 ls -l

@@ -11,6 +11,8 @@ def A_runScriptHeader(scard, **kwargs):
 # Run Script Header
 # -----------------
 set echo
+# limit core size
+ulimit -c 10
 
 # Exit if cvmfs not found
 # -----------------

@@ -30,6 +30,11 @@ echo
 echo
 echo executing: recon-util -y {0} -i {1} -o recon.hipo
 recon-util -y {0} -i {1} -o recon.hipo
+if ($? != 0) then
+  echo bg-merger failed.
+  exit 207
+endif
+
 echo
 printf "recon-util Completed on: "; /bin/date
 echo
