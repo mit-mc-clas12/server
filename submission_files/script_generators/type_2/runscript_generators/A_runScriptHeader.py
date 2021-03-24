@@ -27,8 +27,18 @@ endif
 source /etc/profile.d/environment.csh
 setenv RCDB_CONNECTION mysql://null
 
+# numbers are hardcoded currently.
+# In the future we could have uber modules
+
 module unload coatjava
+module unload jdk
+module unload root
+module unload mcgen
+
 module load coatjava/{1}
+module load jdk/1.8.0_31
+module load root/6.22.06
+module load mcgen/1.5
 
 set submissionID = $1
 set lundFile     = $2
