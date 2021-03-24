@@ -58,14 +58,14 @@ if (-f $bgFile ) then
 	echo xrootd file to load: $bgFile
 else
 		echo Background file $bgFile does not exist. Exiting
-		exit(210)
+		exit 210
 endif
 
 bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC,BST,BMT,CND,CTOF,FTCAL,FTHODO"
 
 if ($? != 0) then
   echo bg-merger failed.
-  exit 206
+  exit 206 
 endif
 
 echo "Directory Content After Background Merging:"

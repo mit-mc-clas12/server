@@ -35,11 +35,10 @@ chmod +x $nodeScript
 if [ $# == 3 ]; then
 	echo "Now running nodeScript with options FarmSubmissionID: "$FarmSubmissionID",  lundFile: " $lundFile
 	./$nodeScript $FarmSubmissionID $lundFile
+	exit $?
 else
 	echo "Now running nodeScript with options FarmSubmissionID: "$FarmSubmissionID
 	./$nodeScript $FarmSubmissionID
+	exit $?
 fi
 
-echo
-echo $nodeScript run completed.
-echo

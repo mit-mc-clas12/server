@@ -53,6 +53,10 @@ echo ==== SubMit-Job === evio2hipoDate Start: $evio2hipoDate
 echo ==== SubMit-Job === Reconstruction Start: $reconstructionDate
 echo ==== SubMit-Job === Job End: $endDate
 
+echo
+echo nodeScript run completed.
+echo
+
 # End of Run Script Footer
 # ------------------------
 
