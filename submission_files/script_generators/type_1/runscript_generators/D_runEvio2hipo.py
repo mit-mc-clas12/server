@@ -70,6 +70,10 @@ endif
 
 echo "Directory Content After Background Merging:"
 ls -l
+if ($? != 0) then
+  echo ls failure
+  exit 211
+endif
 
 echo "Removing background file"
 rm $bgFile

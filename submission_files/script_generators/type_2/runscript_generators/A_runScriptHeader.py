@@ -56,6 +56,10 @@ echo
 # generate-seeds.py generate
 
 echo Directory `pwd` content before starting submissionID $submissionID":"
+if ($? != 0) then
+  echo ls failure
+  exit 211
+endif
 ls -l
 echo
 

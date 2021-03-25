@@ -40,6 +40,10 @@ printf "Events Generator Completed on: "; /bin/date
 echo
 echo "Directory Content After Generator:"
 ls -l
+if ($? != 0) then
+  echo ls failure
+  exit 211
+endif
 echo
 
 # End of Run Generator

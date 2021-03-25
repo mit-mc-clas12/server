@@ -41,6 +41,10 @@ printf "GEMC Completed on: "; /bin/date
 echo
 echo "Directory Content After GEMC:"
 ls -l
+if ($? != 0) then
+  echo ls failure
+  exit 211
+endif
 echo
 
 # End of GEMC
