@@ -30,7 +30,7 @@ echo "Directory Content before GEMC"
 ls -l
 
 gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} {1} {2}.gcard -SCALE_FIELD="TorusSymmetric, {3}" -SCALE_FIELD="clas12-newSolenoid, {4}"
-if (! -f gemc.evio ) then
+if ($? != 1) then
   echo gemc failed.
   exit 204
 endif
