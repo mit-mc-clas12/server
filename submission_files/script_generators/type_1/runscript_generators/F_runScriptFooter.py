@@ -26,19 +26,19 @@ endif
 {0}
 
 echo Additional cleanup
-rm core*
-rm *.gcard
-rm recon.hipo
-rm gemc.hipo
-rm gemc.merged.hipo
-rm *.evio
-rm *.yaml
-rm run.sh
-rm nodeScript.sh
-rm condor_exec.exe
-rm RNDMSTATUS
-rm random-seeds.txt
-rm {1}
+rm -f core*
+rm -f *.gcard
+rm -f recon.hipo
+rm -f gemc.hipo
+rm -f gemc.merged.hipo
+rm -f *.evio
+rm -f *.yaml
+rm -f run.sh
+rm -f nodeScript.sh
+rm -f condor_exec.exe
+rm -f RNDMSTATUS
+rm -f random-seeds.txt
+rm -f {1}
 
 
 # Run Script Footer
