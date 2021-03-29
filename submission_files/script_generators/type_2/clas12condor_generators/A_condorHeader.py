@@ -33,7 +33,7 @@ periodic_release = (NumJobStarts < 3) && ((CurrentTime - EnteredCurrentStatus) >
   # OSG Farm Requirements
   requirementsStr = """
 # OSG Requirements
-Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True)
+Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700)
 """
 
   return strHeader + requirementsStr
