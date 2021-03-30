@@ -11,6 +11,9 @@ def B_runGenerator(scard, **kwargs):
 #
 # gemc internal
 #
+# saving date for bookmarking purposes:
+set generatorDate = `date`
+
 # End of Run Generator
 # ---------------------
 """
