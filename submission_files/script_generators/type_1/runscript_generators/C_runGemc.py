@@ -34,6 +34,8 @@ if ($? != 0) then
   echo gemc failed.
   exit 204
 endif
+# removing generated events file
+rm -f *.dat
 
 
 echo
