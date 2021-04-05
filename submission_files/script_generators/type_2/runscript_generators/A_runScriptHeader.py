@@ -20,7 +20,7 @@ set cvmfsSetupFile = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/set
 if (-f $cvmfsSetupFile ) then
 		echo $cvmfsSetupFile exists
 else
-		echo $cvmfsSetupFile does not exist. Exiting
+		echo CVMFS ERROR $cvmfsSetupFile does not exist. Exiting
 		exit 202
 endif
 
