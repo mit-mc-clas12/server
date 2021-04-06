@@ -22,6 +22,7 @@ Universe = vanilla
 +SingularityBindCVMFS = True
 
 #Rank = (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='SGridGLA')
+Rank = ( (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='SGridGLA') ) ? 100 : 0
 
 # Retry automatically
 on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)
