@@ -57,8 +57,8 @@ set bgFile = `ls 0*.hipo`
 if (-f $bgFile ) then
 	echo xrootd file to load: $bgFile
 else
-		echo Background file $bgFile does not exist. Exiting
-		exit 210
+	echo XROOTD ERROR: Background file $bgFile does not exist. Exiting
+	exit 210
 endif
 
 bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC,BST,BMT,CND,CTOF,FTCAL,FTHODO"
