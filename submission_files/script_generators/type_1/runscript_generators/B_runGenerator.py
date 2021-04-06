@@ -33,13 +33,13 @@ printf "Running {1} events with generator >{0}< with options: {2} "
 echo
 {0} --trig {1} --docker {2} --seed $seed
 
-# removing any root file that was created
-rm -f *.root
-
 if ($? != 0) then
   echo generator >{0}< failed.
   exit 203
 endif
+
+# removing any root file that was created
+rm -f *.root
 
 echo
 printf "Events Generator Completed on: "; /bin/date
