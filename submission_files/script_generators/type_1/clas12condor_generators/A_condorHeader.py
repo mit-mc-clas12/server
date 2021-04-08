@@ -34,7 +34,7 @@ periodic_release = (NumJobStarts < 10) && ((CurrentTime - EnteredCurrentStatus) 
   # OSG Farm Requirements
   requirementsStr = """
 # OSG Requirements
-Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688)
+Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && GLIDEIN_Site != "ELSA" 
 """
 
   return strHeader + requirementsStr
