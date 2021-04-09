@@ -36,7 +36,7 @@ periodic_release = (NumJobStarts < 10) && ((CurrentTime - EnteredCurrentStatus) 
 # OSG Requirements
 Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688)
 
-UNDESIRED_Sites = "ELSA"
+UNDESIRED_Sites = ""ELSA""
 """
 
   return strHeader + requirementsStr
