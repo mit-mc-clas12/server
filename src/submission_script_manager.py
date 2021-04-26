@@ -123,7 +123,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   farm_submission_manager.farm_submission_manager(args, UserSubmissionID,
                                                   file_extension, scard, params,
                                                   db_conn, sql)
-  submission_string = 'Submitted to {0}'.format(scard.farm_name)
+  submission_string = 'Submitted to {0}'.format("OSG")
   update_tables.update_run_status(submission_string, UserSubmissionID,
                                   db_conn, sql)
 
