@@ -31,8 +31,10 @@ echo
 echo executing: recon-util -y {0} -i {1} -o recon.hipo
 recon-util -y {0} -i {1} -o recon.hipo
 if ($? != 0) then
-  echo bg-merger failed.
-  exit 207
+	echo bg-merger failed.
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 207
 endif
 
 echo
@@ -41,8 +43,10 @@ echo
 echo "Directory Content After recon-util:"
 ls -l
 if ($? != 0) then
-  echo ls failure
-  exit 211
+	echo ls failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 211
 endif
 echo
 

@@ -31,8 +31,10 @@ ls -l
 
 gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} {1} {2}.gcard -SCALE_FIELD="TorusSymmetric, {3}" -SCALE_FIELD="clas12-newSolenoid, {4}"
 if ($? != 0) then
-  echo gemc failed.
-  exit 204
+	echo gemc failed
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 204
 endif
 # removing generated events file
 rm -f *.dat
@@ -44,8 +46,10 @@ echo
 echo "Directory Content After GEMC:"
 ls -l
 if ($? != 0) then
-  echo ls failure
-  exit 211
+	echo ls failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 211
 endif
 echo
 

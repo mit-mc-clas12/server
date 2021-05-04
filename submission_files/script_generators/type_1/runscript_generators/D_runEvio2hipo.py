@@ -21,8 +21,10 @@ echo
 echo executing: evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
 evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
 if ($? != 0) then
-  echo evio2hipo failed.
-  exit 205
+	echo evio2hipo failed.
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 205
 endif
 
 echo
@@ -58,21 +60,27 @@ if (-f $bgFile ) then
 	echo xrootd file to load: $bgFile
 else
 	echo XROOTD ERROR: Background file $bgFile does not exist. Exiting
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
 	exit 210
 endif
 
 bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC,BST,BMT,CND,CTOF,FTCAL,FTHODO"
 
 if ($? != 0) then
-  echo bg-merger failed.
-  exit 206 
+	echo bg-merger failed.
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 206
 endif
 
 echo "Directory Content After Background Merging:"
 ls -l
 if ($? != 0) then
-  echo ls failure
-  exit 211
+	echo ls failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 211
 endif
 
 echo "Removing background file"
