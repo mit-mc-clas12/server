@@ -68,4 +68,54 @@ echo
 
 """.format(kwargs['username'], scard.coatjavaVersion)
 
-	return headerSTR
+ fetchBackgroundFile = ""
+
+  if scard.bkmerging != 'no':
+
+    fetchBackgroundFile = """
+
+# Fetch background merging
+# ------------------------
+
+echo "Directory Content Before Background Merging Fetch:"
+ls -l
+
+bgMerginFilename.sh {0} {1} {2} get
+
+if ($? != 0) then
+	echo bgMerginFilename failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 212
+endif
+
+
+set bgFile = `ls 0*.hipo`
+
+if (-f $bgFile ) then
+	echo xrootd file to load: $bgFile
+else
+	echo XROOTD ERROR: Background file $bgFile does not exist. Exiting
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 210
+endif
+
+echo "Directory Content After Background Merging Fwetch:"
+ls -l
+if ($? != 0) then
+	echo ls failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 211
+endif
+
+echo "Removing background file"
+rm $bgFile
+
+# End ofbackground Merging Fetch
+# ------------------------------
+
+""".format(scard.configuration, scard.fields, scard.bkmerging)
+
+	return headerSTR + fetchBackgroundFile

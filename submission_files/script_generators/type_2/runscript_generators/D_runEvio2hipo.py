@@ -49,22 +49,6 @@ echo
 # Run background merging
 # ----------------------
 
-echo "Directory Content Before Background Merging:"
-ls -l
-
-bgMerginFilename.sh {0} {1} {2} get
-
-set bgFile = `ls 0*.hipo`
-
-if (-f $bgFile ) then
-	echo xrootd file to load: $bgFile
-else
-	echo XROOTD ERROR: Background file $bgFile does not exist. Exiting
-	echo removing data files and exiting
-	rm -f *.hipo *.evio
-	exit 210
-endif
-
 bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC,BST,BMT,CND,CTOF,FTCAL,FTHODO"
 
 if ($? != 0) then
@@ -86,7 +70,7 @@ endif
 echo "Removing background file"
 rm $bgFile
 
-# End ofbackground merging
+# End of background merging
 # ------------------------
 
 """.format(scard.configuration, scard.fields, scard.bkmerging)
