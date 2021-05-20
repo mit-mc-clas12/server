@@ -110,9 +110,6 @@ if ($? != 0) then
 	exit 211
 endif
 
-echo "Removing background file"
-rm $bgFile
-
 # End ofbackground Merging Fetch
 # ------------------------------
 
