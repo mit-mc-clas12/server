@@ -70,11 +70,11 @@ echo
 """.format(kwargs['username'], scard.coatjavaVersion)
 
 
- fetchBackgroundFile = ""
+	fetchBackgroundFile = ""
 
-  if scard.bkmerging != 'no':
+	if scard.bkmerging != 'no':
 
-    fetchBackgroundFile = """
+		fetchBackgroundFile = """
 
 # Fetch background merging
 # ------------------------
