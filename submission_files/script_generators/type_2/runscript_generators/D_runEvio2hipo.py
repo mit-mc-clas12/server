@@ -1,6 +1,5 @@
 # Runs evio2hipo on the gemc output
-# To read files from xrootd:
-# setenv LD_PRELOAD /usr/lib64/libXrdPosixPreload.so
+# Merge background if so requested by the user
 def D_runEvio2hipo(scard, **kwargs):
 
   torusField = scard.torus
@@ -11,8 +10,7 @@ def D_runEvio2hipo(scard, **kwargs):
 # Run evio2hipo
 # -------------
 
-# saving date for bookmarking purposes:
-set evio2hipoDate = `date`
+echo EVIO2HIPO START:  `date +%s`
 
 echo
 printf "Running evio2hipo with torus current scale: {0} and solenoid current scale: {1}"
@@ -32,7 +30,14 @@ printf "evio2hipo Completed on: "; /bin/date
 echo
 echo "Directory Content After evio2hipo:"
 ls -l
-echo
+if ($? != 0) then
+	echo ls failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 211
+endif
+
+echo EVIO2HIPO END:  `date +%s`
 
 # End of evio2hipo
 # ----------------
@@ -48,6 +53,8 @@ echo
 
 # Run background merging
 # ----------------------
+
+echo BACKGROUNDMERGING START:  `date +%s`
 
 bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC,BST,BMT,CND,CTOF,FTCAL,FTHODO"
 
@@ -69,6 +76,8 @@ endif
 
 echo "Removing background file"
 rm $bgFile
+
+echo BACKGROUNDMERGING END:  `date +%s`
 
 # End of background merging
 # ------------------------
