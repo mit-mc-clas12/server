@@ -11,9 +11,6 @@ def B_runGenerator(scard, **kwargs):
 #
 # gemc internal
 #
-# saving date for bookmarking purposes:
-set generatorDate = `date`
-
 # End of Run Generator
 # ---------------------
 """
@@ -23,8 +20,9 @@ set generatorDate = `date`
 # Generator
 # ---------
 
+echo GENERATOR START:  `date +%s`
+
 # saving date for bookmarking purposes:
-set generatorDate = `date`
 set seed = `generate-seeds.py read --row 1`
 echo Generator seed from generate-seeds, row 1: $seed
 
@@ -51,6 +49,8 @@ if ($? != 0) then
   exit 211
 endif
 echo
+
+echo GENERATOR END:  `date +%s`
 
 # End of Run Generator
 # ---------------------

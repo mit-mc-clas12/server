@@ -1,9 +1,11 @@
 # Runs GEMC using the gcard, on LUND generated events.
 #
 # The variable $lundFile is passed by run.sh to this script (nodescript.sh)
-# N is passed as 0 to gemc to process all events in the LUND file
+# N is set to 10,000 to gemc to process the max allowed number of events
 
 def C_runGemc(scard, **kwargs):
+
+
 
 
 
@@ -17,8 +19,7 @@ def C_runGemc(scard, **kwargs):
 # Run GEMC
 # --------
 
-# saving date for bookmarking purposes:
-set gemcDate = `date`
+echo GEMC START:  `date +%s`
 
 # copying the gcard to <conf>.gcard
 cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0}".gcard" {0}.gcard
@@ -26,12 +27,9 @@ cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0}".gcard" {0}.gcard
 echo
 echo GEMC executable: `which gemc`
 
-echo "Directory Content before GEMC"
-ls -l
-
 gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}.gcard  -SCALE_FIELD="TorusSymmetric, {1}" -SCALE_FIELD="clas12-newSolenoid, {2}"
 if ($? != 0) then
-	echo gemc failed.
+	echo gemc failed
 	echo removing data files and exiting
 	rm -f *.hipo *.evio
 	exit 204
@@ -51,6 +49,8 @@ if ($? != 0) then
 	exit 211
 endif
 echo
+
+echo GEMC END:  `date +%s`
 
 # End of GEMC
 # -----------

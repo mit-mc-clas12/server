@@ -1,5 +1,7 @@
-# Runs GEMC using the gcard, on LUND generated events.
-
+# Runs GEMC using the gcard, on LUND file produced by generator
+#
+#
+# N is set to to the number requested by the user, with a max of 10K set by the portal
 
 def C_runGemc(scard, **kwargs):
 
@@ -17,17 +19,13 @@ def C_runGemc(scard, **kwargs):
 # Run GEMC
 # --------
 
-# saving date for bookmarking purposes:
-set gemcDate = `date`
+echo GEMC START:  `date +%s`
 
 # copying the gcard to <conf>.gcard
 cp /jlab/clas12Tags/$CLAS12TAG"/config/"{2}".gcard" {2}.gcard
 
 echo
 echo GEMC executable: `which gemc`
-
-echo "Directory Content before GEMC"
-ls -l
 
 gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} {1} {2}.gcard -SCALE_FIELD="TorusSymmetric, {3}" -SCALE_FIELD="clas12-newSolenoid, {4}"
 if ($? != 0) then
@@ -38,7 +36,6 @@ if ($? != 0) then
 endif
 # removing generated events file
 rm -f *.dat
-
 
 echo
 printf "GEMC Completed on: "; /bin/date
@@ -52,6 +49,8 @@ if ($? != 0) then
 	exit 211
 endif
 echo
+
+echo GEMC END:  `date +%s`
 
 # End of GEMC
 # -----------

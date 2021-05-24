@@ -1,6 +1,5 @@
 # Job finish up:
-# Filtering unnecessary output
-# Logs statistic, each prepended by "====" for better retrieval later
+# Removing unnecessary output
 
 def F_runScriptFooter(scard,**kwargs):
 
@@ -39,19 +38,6 @@ rm -f condor_exec.exe
 rm -f RNDMSTATUS
 rm -f random-seeds.txt
 rm -f {1}
-
-
-# Run Script Footer
-# -----------------
-
-set endDate = `date`
-
-echo ==== SubMit-Job === Job Start: $startDate
-echo ==== SubMit-Job === Generator Start: $generatorDate
-echo ==== SubMit-Job === GEMC Start: $gemcDate
-echo ==== SubMit-Job === evio2hipoDate Start: $evio2hipoDate
-echo ==== SubMit-Job === Reconstruction Start: $reconstructionDate
-echo ==== SubMit-Job === Job End: $endDate
 
 echo
 echo nodeScript run completed.

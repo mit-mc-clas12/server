@@ -11,8 +11,8 @@ def D_runEvio2hipo(scard, **kwargs):
 # Run evio2hipo
 # -------------
 
-# saving date for bookmarking purposes:
-set evio2hipoDate = `date`
+echo EVIO2HIPO START:  `date +%s`
+
 
 echo
 printf "Running evio2hipo with torus current scale: {0} and solenoid current scale: {1}"

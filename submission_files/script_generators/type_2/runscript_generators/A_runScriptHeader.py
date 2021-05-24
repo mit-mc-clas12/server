@@ -1,12 +1,25 @@
-# Logs Job information
+# writes nodeScript.sh header
 #
-# nodeScript.sh arguments used:
+# arguments used:
+#
 # $1 submission ID
 # $2 condor file transferred, including the path "lund_dir", for example lund_dir/1.txt
 
 def A_runScriptHeader(scard, **kwargs):
 
 	headerSTR = """#!/bin/csh
+
+echo MODULESANDSEED START:  `date +%s`
+printf "Job is running on node: "; /bin/hostname
+printf "Job submitted by: {0}"
+echo Running directory: `pwd`
+set submissionID=$1
+echo Directory `pwd` content before starting submissionID $submissionID":"
+ls -l
+if ($? != 0) then
+  echo ls failure
+  exit 211
+endif
 
 # Run Script Header
 # -----------------
@@ -40,27 +53,13 @@ module load jdk/1.8.0_31
 module load root/6.22.06
 module load mcgen/1.9
 
-set submissionID = $1
+# lund file env needed by runGenerator phase
 set lundFile     = $2
 
-# saving date for bookmarking purposes:
-set startDate = `date`
-
-echo Running directory: `pwd`
-
-printf "Job submitted by: {0}"
-printf "Job Start time: "; /bin/date
-printf "Job is running on node: "; /bin/hostname
 echo
-
-# generate-seeds.py generate
-
-echo Directory `pwd` content before starting submissionID $submissionID":"
-if ($? != 0) then
-  echo ls failure
-  exit 211
-endif
-ls -l
+generate-seeds.py generate
+echo
+echo MODULESANDSEED END:  `date +%s`
 echo
 
 # End of Run Script Header
@@ -77,8 +76,7 @@ echo
 # Fetch background merging
 # ------------------------
 
-echo "Directory Content Before Background Merging Fetch:"
-ls -l
+echo FETCHBACKGROUNDFILE START:  `date +%s`
 
 bgMerginFilename.sh {0} {1} {2} get
 
@@ -109,6 +107,8 @@ if ($? != 0) then
 	rm -f *.hipo *.evio
 	exit 211
 endif
+
+echo FETCHBACKGROUNDFILE END:  `date +%s`
 
 # End ofbackground Merging Fetch
 # ------------------------------
