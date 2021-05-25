@@ -19,8 +19,7 @@ def E_runCooking(scard, **kwargs):
 # Run Reconstruction
 # ------------------
 
-# saving date for bookmarking purposes:
-set reconstructionDate = `date`
+echo RECONSTRUCTION START:  `date +%s`
 
 # copying the yaml file to recon.yaml
 cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0} {0}
@@ -48,7 +47,8 @@ if ($? != 0) then
 	rm -f *.hipo *.evio
 	exit 211
 endif
-echo
+
+echo RECONSTRUCTION END:  `date +%s`
 
 # End of Reconstruction
 # ---------------------
