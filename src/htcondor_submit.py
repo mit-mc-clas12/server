@@ -11,12 +11,20 @@ import sys
 from subprocess import PIPE, Popen
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils/scripts')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
 import fs
-import utils
+from scripts.job_counter import shouldBeSubmitted
 import update_tables
+import utils
 
-def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
+
+def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql,idle_limit=100000):
+
+    #Test to see if user has too many jobs currently running:
+    #shouldBeSubmitted will return false if number of jobs for that user is over idle limit
+    if not shouldBeSubmitted(params['username'],idle_limit=idle_limit):
+        return 1 
 
 
     jobOutputDir = args.OutputDir
@@ -87,3 +95,6 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql):
 
     else:
         print("-s option not selected, not passing jobs to condor_submit.sh")
+
+if __name__ == "__main__":
+    print("Trying a test submission on htcondor_submit.py")
