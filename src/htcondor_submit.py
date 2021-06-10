@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils/scripts')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
 import fs
-from scripts.job_counter import shouldBeSubmitted
+from job_counter import shouldBeSubmitted
 import update_tables
 import utils
 
