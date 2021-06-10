@@ -26,6 +26,14 @@ cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0} {0}
 
 set configuration = `echo YAML file: {0}`
 echo
+df -h
+if ($? != 0) then
+	echo df failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 213
+endif
+
 echo
 echo executing: recon-util -y {0} -i {1} -o recon.hipo
 recon-util -y {0} -i {1} -o recon.hipo
@@ -34,6 +42,13 @@ if ($? != 0) then
 	echo removing data files and exiting
 	rm -f *.hipo *.evio
 	exit 207
+endif
+df -h
+if ($? != 0) then
+	echo df failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 213
 endif
 
 echo
