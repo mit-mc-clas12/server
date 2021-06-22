@@ -86,7 +86,8 @@ def update_farm_submissions(usub_id, timestamp, node_number, db_conn, sql):
 
 
 
-def update_farm_submission_to_waiting(usub_id, timestamp,db_conn, sql)
+def update_farm_submission_to_waiting(usub_id, timestamp,db_conn, sql):
+
     """ After submission, update FarmSubmissions
     to have status "Waiting to Submit"
 
