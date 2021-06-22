@@ -84,6 +84,37 @@ def update_farm_submissions(usub_id, timestamp, node_number, db_conn, sql):
     sql.execute(strn)
     db_conn.commit()
 
+
+
+def update_farm_submission_to_waiting(usub_id, timestamp,db_conn, sql)
+    """ After submission, update FarmSubmissions
+    to have status "Waiting to Submit"
+
+    Inputs:
+    -------
+    - GCardID (int) - The gcard_id for this submission
+    - timestamp - Submission attempt time
+    - db_conn - database connection for committing changes
+    - sql - database cursor for executing statements
+
+    Returns:
+    --------
+    Nothing, the database is modified
+
+    """
+    strn = ("UPDATE submissions SET run_status "
+            "= 'waiting to submit' WHERE user_submission_id = '{0}';").format(usub_id)
+    sql.execute(strn)
+    strn = ("UPDATE submissions SET server_time"
+            " = '{0}' WHERE user_submission_id = '{1}';").format(timestamp, usub_id)
+    sql.execute(strn)
+
+    db_conn.commit()
+
+
+
+
+
 def count_user_submission_id(user_sub_id, sql):
     """ Select and count instances of the UserSubmissionID and
     return a count.
