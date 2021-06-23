@@ -27,7 +27,7 @@ Rank = ( (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='SGridGLA') ) ? 200 : ((GLID
 # Retry automatically
 on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)
 on_exit_hold     = (ExitBySignal == True) || (ExitCode != 0)
-periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStatus) > (60*60)) && ((exit>=200 && exit<203) || (exit>=204 && exit<300))
+periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStatus) > (60*60)) && ((exit==202) || (exit ==204) || (exit ==205) || (exit ==206) || (exit ==207) || (exit ==208) || (exit ==210) || (exit ==211) || (exit ==212) || (exit ==213))
 
 """.format(scard.submission)
 
