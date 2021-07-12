@@ -93,7 +93,7 @@ def server(args):
                     print("An error in submission has occured:")
                     print(e.message, e.args)
                     print("Job ID {} flagged as Submission Failure".format(submission_id))
-                    submission_string = 'Submitted To Failure Mode'
+                    submission_string = 'Failed to submit'
                     update_tables.update_run_status(submission_string, submission_id,
                                                     db_conn, sql)
                 
