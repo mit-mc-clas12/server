@@ -92,7 +92,7 @@ def server(args):
                 except Exception as e:
                     print("An error in submission has occured:")
                     print(e.message, e.args)
-                    print("Job ID {} flagged as Submission Failure".format(submission_id))
+                    print("Job ID {} flagged with Failed to submit".format(submission_id))
                     submission_string = 'Failed to submit'
                     update_tables.update_run_status(submission_string, submission_id,
                                                     db_conn, sql)
