@@ -37,6 +37,7 @@ periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStat
 Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
 
 +UNDESIRED_Sites = ""KSU""
++UNDESIRED_Sites = ""FNAL_GPGrid""
 """
 
   return strHeader + requirementsStr
