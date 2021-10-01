@@ -38,6 +38,7 @@ Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_or
 
 +UNDESIRED_Sites = ""KSU""
 +UNDESIRED_Sites = ""FNAL_GPGrid""
++UNDESIRED_Sites = ""Wisconsis""
 """
 
   return strHeader + requirementsStr
