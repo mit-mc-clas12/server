@@ -29,7 +29,6 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, 
         update_tables.update_farm_submission_to_waiting(usub_id, timestamp,db_conn, sql)
         return 1 
 
-
     jobOutputDir = args.OutputDir
 
     if args.OutputDir == "TestOutputDir":
@@ -43,9 +42,6 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, 
         # Need to add condition here in case path is different for non-jlab
         scripts_baseDir  = "/group/clas12/SubMit"
         condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
-
-
-
 
     if args.lite:
         dbType = "Test SQLite DB"

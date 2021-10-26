@@ -119,7 +119,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   update_tables.update_run_status(submission_string, UserSubmissionID,
                                     db_conn, sql)
 
-  print("Submitting jobs to {0} \n".format("OSG")) #Hardcoded for this moment as we removed farm_name from scard
+  print("Submitting jobs to {0} \n".format("OSG")) # Hardcoded for this moment as we removed farm_name from scard
   farm_submission_manager.farm_submission_manager(args, UserSubmissionID,
                                                   file_extension, scard, params,
                                                   db_conn, sql)
