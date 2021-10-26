@@ -40,7 +40,7 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, 
         condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
     else:
         # Need to add condition here in case path is different for non-jlab
-        scripts_baseDir  = "/group/clas12/SubMit"
+        scripts_baseDir  = "/home/gemc/software/Submit/"
         condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
 
     if args.lite:
