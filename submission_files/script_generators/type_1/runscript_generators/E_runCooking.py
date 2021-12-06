@@ -51,21 +51,6 @@ if ($? != 0) then
 	exit 213
 endif
 
-hipo-utils -test gemc.hipo
-if ($? != 0) then
-	echo hipo-utils failure
-	echo removing data files and exiting
-	rm -f *.hipo *.evio
-	exit 214
-endif
-
-if (`stat -L -c%s $file` < 100) then
-	echo hipo size failure
-	echo removing data files and exiting
-	rm -f *.hipo *.evio
-	exit 215
-endif
-
 echo
 printf "recon-util Completed on: "; /bin/date
 echo
@@ -76,6 +61,21 @@ if ($? != 0) then
 	echo removing data files and exiting
 	rm -f *.hipo *.evio
 	exit 211
+endif
+
+hipo-utils -test recon.hipo
+if ($? != 0) then
+	echo hipo-utils failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 214
+endif
+
+if (`stat -L -c%s recon.hipo` < 100) then
+	echo hipo size failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 215
 endif
 
 echo RECONSTRUCTION END:  `date +%s`
