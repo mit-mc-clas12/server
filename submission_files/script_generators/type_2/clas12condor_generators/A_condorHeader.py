@@ -27,7 +27,7 @@ Rank = ( (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='SGridGLA') || (GLIDEIN_SITE
 # Retry automatically
 on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)
 on_exit_hold     = (ExitBySignal == True) || (ExitCode != 0)
-#periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStatus) > (60*60)) && ((exit == 202) || (exit == 204) || (exit == 205) || (exit == 206) || (exit == 207) || (exit == 208) || (exit == 210) || (exit == 211) || (exit == 212) || (exit == 213))
+periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStatus) > (60*60)) && ((ExitCode == 202) || (ExitCode == 204) || (ExitCode == 205) || (ExitCode == 206) || (ExitCode == 207) || (ExitCode == 208) || (ExitCode == 210) || (ExitCode == 211) || (ExitCode == 212) || (ExitCode == 213))
 
 """.format(scard.submission)
 
