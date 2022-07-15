@@ -19,8 +19,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files')
-from . import htcondor_submit
-from . import update_tables
+
+import htcondor_submit
+import update_tables
 import utils
 
 def farm_submission_manager(args, usub_id, file_extension,

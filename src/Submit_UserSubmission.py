@@ -23,13 +23,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files')
 import database
-from . import farm_submission_manager
+import farm_submission_manager
 import fs
 import get_args
 import lund_helper
-from . import script_factory
-from . import submission_script_manager
-from . import update_tables
+import script_factory
+import submission_script_manager
+import update_tables
 import utils
 
 

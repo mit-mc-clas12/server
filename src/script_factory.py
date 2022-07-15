@@ -19,12 +19,12 @@ import time
 from importlib import import_module
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
-from . import farm_submission_manager
+import farm_submission_manager
 import fs
 import get_args
 import lund_helper
 import scard_helper
-from . import update_tables
+import update_tables
 import utils
 
 # Generates a script by appending functions that output strings

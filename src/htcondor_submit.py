@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils/scri
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
 import fs
 from job_counter import shouldBeSubmitted
-from . import update_tables
+import update_tables
 import utils
 
 
