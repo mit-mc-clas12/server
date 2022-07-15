@@ -5,7 +5,7 @@ jobs to htcondor.
 
 """
 
-from __future__ import print_function
+
 
 import argparse
 import os
@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files')
-import htcondor_submit
-import update_tables
+from . import htcondor_submit
+from . import update_tables
 import utils
 
 def farm_submission_manager(args, usub_id, file_extension,

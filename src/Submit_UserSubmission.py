@@ -6,7 +6,7 @@ database to the OSG.
 
 """
 
-from __future__ import print_function
+
 
 # python standard lib
 import argparse
@@ -23,13 +23,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files')
 import database
-import farm_submission_manager
+from . import farm_submission_manager
 import fs
 import get_args
 import lund_helper
-import script_factory
-import submission_script_manager
-import update_tables
+from . import script_factory
+from . import submission_script_manager
+from . import update_tables
 import utils
 
 

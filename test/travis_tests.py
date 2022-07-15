@@ -1,17 +1,11 @@
 import subprocess
 import os
-#this is a comment
-
 
 class command_class:
 	def __init__(self,command_name,command_string,expected_output):
 		self.name = command_name
 		self.command = command_string
 		self.expect_out = expected_output
-
-
-
-
 
 def test_function(command):
 	process = subprocess.Popen(command.command,
@@ -30,7 +24,6 @@ def test_function(command):
 		return(stdout,stderr)
 
 
-
 test_folder= os.path.dirname(os.path.abspath(__file__))+'/clas12-test'
 if os.path.isdir(test_folder):
 	print('removing previous database file')
@@ -39,14 +32,12 @@ if os.path.isdir(test_folder):
 	print('removing previous database file')
 	subprocess.call(['rm','-rf',test_folder])
 else:
-	print(test_folder+" is not present, not deleteing")
+	print((test_folder+" is not present, not deleteing"))
 
 
 
 subprocess.call(['mkdir','-p',test_folder])
-print(test_folder+" is now present")
-
-
+print((test_folder+" is now present"))
 
 #abspath = os.path.abspath(__file__)
 #dname = os.path.dirname(abspath)+'/clas12-test'
@@ -62,7 +53,7 @@ folders = ['utils','server','client']
 for folder in folders:
 	folder_name= os.path.dirname(os.path.abspath(__file__))+'/'+folder
 	if not os.path.isdir(folder_name):
-		print('{0} not found, cloning from github'.format(folder))
+		print(('{0} not found, cloning from github'.format(folder)))
 		substring = 'https://github.com/robertej19/{0}.git'.format(folder)
 		subprocess.call(['git','clone',substring])
 
@@ -75,31 +66,31 @@ if os.path.isfile(filename):
 
 
 create_mysql_db = command_class('Create MySQL DB',
-								['python2', 'utils/create_database.py'],
+								['python3', 'utils/create_database.py'],
 								'0')
 
 create_mysql_db_test = command_class('Create MySQL Test DB',
-								['python2', 'utils/create_database.py','--test_database'],
+								['python3', 'utils/create_database.py','--test_database'],
 								'0')
 
 create_sqlite_db = command_class('Create SQLite DB',
-								['python2', 'utils/create_database.py','--lite=utils/CLAS12OCR.db'],
+								['python3', 'utils/create_database.py','--lite=utils/CLAS12OCR.db'],
 								'0')
 
 submit_scard_1 = command_class('Submit scard 1 on client through sqlite',
-								['python2', 'client/src/SubMit.py','--lite=utils/CLAS12OCR.db','-u=robertej','client/scards/scard_type1.txt'],
+								['python3', 'client/src/SubMit.py','--lite=utils/CLAS12OCR.db','-u=robertej','client/scards/scard_type1.txt'],
 								'0')
 								
 submit_scard_1_mysql = command_class('Submit scard 1 on client through MySQL CLAS12OCR db',
-								['python2', 'client/src/SubMit.py','-u=robertej','client/scards/scard_type1.txt'],
+								['python3', 'client/src/SubMit.py','-u=robertej','client/scards/scard_type1.txt'],
 								'0')
 
 submit_scard_1_mysql_test = command_class('Submit scard 1 on client through MySQL CLAS12TEST db',
-								['python2', 'client/src/SubMit.py','--test_database','-u=robertej','client/scards/scard_type1.txt'],
+								['python3', 'client/src/SubMit.py','--test_database','-u=robertej','client/scards/scard_type1.txt'],
 								'0')
 
 #submit_scard_2 = command_class('Create scard 2 on client',
-#								['python2', 'client/src/SubMit.py','--lite=utils/CLAS12OCR.db','-u=robertej','client/scard_type2.txt'],
+#								['python3', 'client/src/SubMit.py','--lite=utils/CLAS12OCR.db','-u=robertej','client/scard_type2.txt'],
 #								'0')
 
 verify_submission_success = command_class('Verify scard submission success',
@@ -108,15 +99,15 @@ verify_submission_success = command_class('Verify scard submission success',
 
 
 submit_server_jobs_test_db = command_class('Submit jobs from server on CLAS12TEST',
-								['python2', 'server/src/Submit_UserSubmission.py', '-b','1', '--test_database', '-w', '-s', '-t'],
+								['python3', 'server/src/Submit_UserSubmission.py', '-b','1', '--test_database', '-w', '-s', '-t'],
 								'0')
 
 submit_server_jobs_prod_db = command_class('Submit jobs from server on CLAS12OCR',
-								['python2', 'server/src/Submit_UserSubmission.py', '-b','1', '-w', '-s', '-t'],
+								['python3', 'server/src/Submit_UserSubmission.py', '-b','1', '-w', '-s', '-t'],
 								'0')
 
 submit_server_jobs_sqlite = command_class('Submit jobs from server',
-								['python2', 'server/src/Submit_UserSubmission.py', '-b','1', '--lite=utils/CLAS12OCR.db', '-w', '-s', '-t'],
+								['python3', 'server/src/Submit_UserSubmission.py', '-b','1', '--lite=utils/CLAS12OCR.db', '-w', '-s', '-t'],
 								'0')
 
 
@@ -129,7 +120,7 @@ def run_through_tests(command_sequence):
 	err_sum = 0 
 	for command in command_sequence:
 		out, err = test_function(command)
-		print('Testing command: {0}'.format(command.name))
+		print(('Testing command: {0}'.format(command.name)))
 		if not err:
 			print('... success')
 			#print(out)

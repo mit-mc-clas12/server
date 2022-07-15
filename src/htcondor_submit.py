@@ -4,7 +4,7 @@ Submit a job using htcondor.
 
 """
 
-from __future__ import print_function
+
 
 import os
 import sys
@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils/scri
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../submission_files')
 import fs
 from job_counter import shouldBeSubmitted
-import update_tables
+from . import update_tables
 import utils
 
 

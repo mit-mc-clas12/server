@@ -16,7 +16,7 @@ involved in the submission process.  Here is an overview.
 
 """
 
-from __future__ import print_function
+
 
 # python standard library
 import logging
@@ -34,14 +34,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files/script_generators')
 import database
-import farm_submission_manager
+from . import farm_submission_manager
 import fs
 import get_args
 import lund_helper
 import scard_helper
-import script_factory
-import type_manager
-import update_tables
+from . import script_factory
+from . import type_manager
+from . import update_tables
 import utils
 
 

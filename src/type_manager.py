@@ -6,7 +6,7 @@ content of the fields.
 
 """
 
-from __future__ import print_function
+
 
 # python standard lib
 import os
