@@ -6,9 +6,7 @@ database to the OSG.
 
 """
 
-
-
-# python standard lib
+# python3 standard lib
 import argparse
 import logging
 import os

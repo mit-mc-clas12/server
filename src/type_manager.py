@@ -8,7 +8,7 @@ content of the fields.
 
 
 
-# python standard lib
+# python3 standard lib
 import os
 import sqlite3
 import sys

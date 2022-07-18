@@ -35,7 +35,7 @@ if [ "$dbType" = "Test SQLite DB" ] ; then
     sqlite3 "$dbName" "SELECT runscript_text FROM submissions WHERE user_submission_id=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
 
     # Get lund files and send job
-    python $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
+    python3 $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
 
     if [ "$htcondor" = "yes" ] ; then
         echo "Htcondor found, submitting job"
@@ -66,7 +66,7 @@ elif [ "$dbType" = "Production MySQL DB" ] ; then
     mysql --defaults-extra-file=msql_conn.txt -N -s --execute="SELECT runscript_text FROM submissions WHERE user_submission_id=$submissionID;"     | awk '{gsub(/\\n/,"\n")}1' | awk '{gsub(/\\t/,"\t")}1' > nodeScript.sh
 
     # Get lund files and send job 
-    python $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
+    python3 $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
     condor_submit clas12.condor 2> condorSubmissionError.txt
 
     # Clean up 

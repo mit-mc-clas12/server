@@ -16,9 +16,7 @@ involved in the submission process.  Here is an overview.
 
 """
 
-
-
-# python standard library
+# python3 standard library
 import logging
 import os
 import sqlite3
