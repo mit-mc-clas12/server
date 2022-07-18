@@ -75,6 +75,7 @@ def update_farm_submissions(usub_id, timestamp, node_number, db_conn, sql):
     strn = ("UPDATE submissions SET run_status "
             "= 'submitted to pool' WHERE user_submission_id = '{0}';").format(usub_id)
     sql.execute(strn)
+
     strn = ("UPDATE submissions SET server_time"
             " = '{0}' WHERE user_submission_id = '{1}';").format(timestamp, usub_id)
     sql.execute(strn)
@@ -82,6 +83,7 @@ def update_farm_submissions(usub_id, timestamp, node_number, db_conn, sql):
     strn = ("UPDATE submissions SET pool_node "
             "= '{0}' WHERE user_submission_id = '{1}';").format(node_number, usub_id)
     sql.execute(strn)
+
     db_conn.commit()
 
 

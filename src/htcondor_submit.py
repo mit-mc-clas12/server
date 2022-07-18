@@ -83,9 +83,9 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, 
 
 
 
-        print(submission)
+        print(submission.decode('ascii'))
 
-        words = submission.split()
+        words = submission.decode('ascii').split()
         node_number = words[len(words)-1] # This might only work on SubMIT
 
         timestamp = utils.gettime()
