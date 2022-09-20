@@ -26,7 +26,7 @@ cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0} {0}
 
 set configuration = `echo YAML file: {0}`
 echo
-df && df . && df /tmp
+df /cvmfs/oasis.opensciencegrid.org && df . && df /tmp
 if ($? != 0) then
 	echo df failure
 	echo removing data files and exiting
@@ -43,7 +43,7 @@ if ($? != 0) then
 	rm -f *.hipo *.evio
 	exit 207
 endif
-df && df . && df /tmp
+df /cvmfs/oasis.opensciencegrid.org && df . && df /tmp
 if ($? != 0) then
 	echo df failure
 	echo removing data files and exiting
