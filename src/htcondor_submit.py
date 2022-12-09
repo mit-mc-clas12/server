@@ -19,12 +19,12 @@ import update_tables
 import utils
 
 
-def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, idle_limit=10000):
+def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, idle_limit=20000):
 
     #Test to see if user has too many jobs currently running:
     #shouldBeSubmitted will return false if number of jobs for that user is over idle limit
     if not shouldBeSubmitted(params['username'],idle_limit=idle_limit):
-        print("user is over limit for number of jobs, waiting to submit")
+        print("user is over limit for number of jobs, changing run_status to 'waiting to submit'")
         timestamp = utils.gettime()
         update_tables.update_farm_submission_to_waiting(usub_id, timestamp,db_conn, sql)
         return 1 
