@@ -51,7 +51,7 @@ module unload mcgen
 module load coatjava/{1}
 module load jdk/1.8.0_31
 module load root/6.22.06
-module load mcgen/2.20
+module load mcgen/2.22
 
 # lund file env needed by runGenerator phase
 set lundFile     = $2
