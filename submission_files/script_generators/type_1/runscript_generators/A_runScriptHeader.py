@@ -54,7 +54,8 @@ module load root/6.22.06
 module load mcgen/2.22
 
 
-
+echo GEMC Version: {2}
+echo COATJAVA Version: {3}
 
 echo
 generate-seeds.py generate
@@ -65,7 +66,7 @@ echo
 # End of Run Script Header
 # ------------------------
 
-""".format(kwargs['username'], scard.coatjavaVersion)
+""".format(kwargs['username'], scard.coatjavaVersion, scard.gemcv, scard.coatjavav)
 
 	fetchBackgroundFile = ""
 
