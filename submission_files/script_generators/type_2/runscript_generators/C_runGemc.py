@@ -10,10 +10,14 @@ def C_runGemc(scard, **kwargs):
 
 
 
+	torusField = """ -SCALE_FIELD="binary_torus,    {0}" """.format(scard.torus)
+	solenField = """ -SCALE_FIELD="binary_solenoid, {0}" """.format(scard.solenoid)
 
-
-	torusField = scard.torus
-	solenField = scard.solenoid
+	output = """ -OUTPUT="hipo, gemc.hipo" """
+	if scard.gemcv == '4.4.2':
+		output = """ -OUTPUT="evio, gemc.evio" """
+		torusField = """ -SCALE_FIELD="TorusSymmetric,     {0}" """.format(scard.torus)
+		solenField = """ -SCALE_FIELD="clas12-newSolenoid, {0}" """.format(scard.solenoid)
 
 	runGemc = """
 # Run GEMC
@@ -22,12 +26,12 @@ def C_runGemc(scard, **kwargs):
 echo GEMC START:  `date +%s`
 
 # copying the gcard to <conf>.gcard
-cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0}".gcard" {0}.gcard
+cp $GEMC/../config/"{0}".gcard" {0}.gcard
 
 echo
 echo GEMC executable: `which gemc`
 
-gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}.gcard  -SCALE_FIELD="TorusSymmetric, {1}" -SCALE_FIELD="clas12-newSolenoid, {2}"
+gemc -USE_GUI=0 {3} -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}.gcard  {1} {2}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -55,6 +59,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(scard.configuration, torusField, solenField)
+""".format(scard.configuration, torusField, solenField, output)
 
 	return runGemc

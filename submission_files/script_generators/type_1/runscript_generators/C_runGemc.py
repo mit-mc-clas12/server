@@ -5,15 +5,19 @@
 
 def C_runGemc(scard, **kwargs):
 
-	gemcInputOptions = ""
+	gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
 
 	if scard.genExecutable == 'gemc':
 		gemcInputOptions = scard.genOptions
-	else:
-		gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
 
-	torusField = scard.torus
-	solenField = scard.solenoid
+	torusField = """ -SCALE_FIELD="binary_torus,    {0}" """.format(scard.torus)
+	solenField = """ -SCALE_FIELD="binary_solenoid, {0}" """.format(scard.solenoid)
+
+	output = """ -OUTPUT="hipo, gemc.hipo" """
+	if scard.gemcv == '4.4.2':
+		output = """ -OUTPUT="evio, gemc.evio" """
+		torusField = """ -SCALE_FIELD="TorusSymmetric,     {0}" """.format(scard.torus)
+		solenField = """ -SCALE_FIELD="clas12-newSolenoid, {0}" """.format(scard.solenoid)
 
 	runGemc = """
 # Run GEMC
@@ -22,12 +26,12 @@ def C_runGemc(scard, **kwargs):
 echo GEMC START:  `date +%s`
 
 # copying the gcard to <conf>.gcard
-cp /jlab/clas12Tags/$CLAS12TAG"/config/"{2}".gcard" {2}.gcard
+cp $GEMC/../config/"{2}".gcard" {2}.gcard
 
 echo
 echo GEMC executable: `which gemc`
 
-gemc -USE_GUI=0 -OUTPUT="evio, gemc.evio" -N={0} {1} {2}.gcard -SCALE_FIELD="TorusSymmetric, {3}" -SCALE_FIELD="clas12-newSolenoid, {4}"
+gemc -USE_GUI=0 {5} -N={0} {1} {2}.gcard {3} {4}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -55,6 +59,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(scard.nevents, gemcInputOptions, scard.configuration, torusField, solenField)
+""".format(scard.nevents, gemcInputOptions, scard.configuration, torusField, solenField, output)
 
 	return runGemc

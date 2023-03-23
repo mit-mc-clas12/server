@@ -43,15 +43,23 @@ setenv RCDB_CONNECTION mysql://null
 # numbers are hardcoded currently.
 # In the future we could have uber modules
 
+module unload gemc
 module unload coatjava
 module unload jdk
 module unload root
 module unload mcgen
 
-module load coatjava/{1}
-module load jdk/1.8.0_31
-module load root/6.22.06
-module load mcgen/2.22
+module load gemc/{1}
+module load coatjava/{2}
+module load jdk/{3}
+module load root/{4}
+module load mcgen/{5}
+
+echo GEMC Version: {1}
+echo COATJAVA Version: {2}
+echo JDK Version: {3}
+echo ROOT Version: {4}
+echo MCGEN Version: {5}
 
 # lund file env needed by runGenerator phase
 set lundFile     = $2
@@ -65,7 +73,7 @@ echo
 # End of Run Script Header
 # ------------------------
 
-""".format(kwargs['username'], scard.coatjavaVersion)
+""".format(kwargs['username'], scard.gemcv, scard.coatjavav,  scard.jdkv, scard.rootv, scard.mcgenv)
 
 	fetchBackgroundFile = ""
 
