@@ -31,13 +31,13 @@ ulimit -c 10
 # -----------------
 set cvmfsSetupFile = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/setup.csh
 if (-f $cvmfsSetupFile ) then
-		echo $cvmfsSetupFile exists
+		echo $cvmfsSetupFile exists, sorucing it
+		source $cvmfsSetupFile
 else
 		echo CVMFS ERROR $cvmfsSetupFile does not exist. Exiting
 		exit 202
 endif
 
-source /etc/profile.d/environment.csh
 setenv RCDB_CONNECTION mysql://null
 
 # numbers are hardcoded currently.
@@ -60,6 +60,9 @@ echo COATJAVA Version: {2}
 echo JDK Version: {3}
 echo ROOT Version: {4}
 echo MCGEN Version: {5}
+
+
+
 
 echo
 generate-seeds.py generate
