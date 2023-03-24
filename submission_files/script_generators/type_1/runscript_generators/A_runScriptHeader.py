@@ -65,7 +65,7 @@ echo MCGEN Version: {5}
 
 
 echo
-generate-seeds.py generate
+$SIM_HOME/$OSRELEASE/generate-seeds.py generate
 echo
 echo MODULESANDSEED END:  `date +%s`
 echo
