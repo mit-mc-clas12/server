@@ -27,12 +27,38 @@ set echo
 # limit core size
 ulimit -c 10
 
-# Exit if cvmfs not found
-# -----------------
-set cvmfsSetupFile = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/setup.csh
+# clearing module environment, as suggested by OSG, #67051
+unsetenv ENABLE_LMOD
+unsetenv _LMFILES_
+unsetenv LMOD_ANCIENT_TIME
+unsetenv LMOD_arch
+unsetenv LMOD_CMD
+unsetenv LMOD_COLORIZE
+unsetenv LMOD_DEFAULT_MODULEPATH
+unsetenv LMOD_DIR
+unsetenv LMOD_FULL_SETTARG_SUPPORT
+unsetenv LMOD_PACKAGE_PATH
+unsetenv LMOD_PKG
+unsetenv LMOD_PREPEND_BLOCK
+unsetenv LMOD_SETTARG_CMD
+unsetenv LMOD_SETTARG_FULL_SUPPORT
+unsetenv LMOD_sys
+unsetenv LMOD_SYSTEM_DEFAULT_MODULES
+unsetenv LMOD_VERSION
+unsetenv LOADEDMODULES
+unsetenv MODULEPATH
+unsetenv MODULEPATH_ROOT
+unsetenv MODULESHOME
+
+# Exit if cvmfs file not found, source it if found
+# ------------------------------------------------
+
+source /etc/profile.d/modules.csh
+set cvmfsPath = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/
+set cvmfsSetupFile = $cvmfsPath/setup.csh
 if (-f $cvmfsSetupFile ) then
-		echo $cvmfsSetupFile exists, sorucing it
-		source $cvmfsSetupFile
+		echo $cvmfsSetupFile exists, sorucing it with path $cvmfsPath
+		source $cvmfsSetupFile $cvmfsPath
 else
 		echo CVMFS ERROR $cvmfsSetupFile does not exist. Exiting
 		exit 202
