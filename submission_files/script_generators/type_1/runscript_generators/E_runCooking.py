@@ -1,11 +1,20 @@
 # Runs reconstruction recon-util on gemc.hipo
 
+import os
+
 def E_runCooking(scard, **kwargs):
 
   # yaml with path
+  coatjava=os.environ.get('COATJAVA')
+  YAMLFILE=coatjava + "/config/mc.yaml"
+  MOD_YAML="yes"
 
-  configuration = scard.configuration
-  YAMLFILE = configuration + ".yaml"
+  clas12_dir=os.environ.get('GEMC') + "/" + "../config/"
+
+  if scard.gemcv == '4.4.2':
+    configuration = scard.configuration
+    YAMLFILE = clas12_dir + configuration + ".yaml"
+    MOD_YAML="yes"
 
   inputFile = "gemc.hipo"
 
@@ -21,10 +30,15 @@ def E_runCooking(scard, **kwargs):
 
 echo RECONSTRUCTION START:  `date +%s`
 
-# copying the yaml file to recon.yaml
-cp /jlab/clas12Tags/$CLAS12TAG"/config/"{0} {0}
+# copying the yaml file to mc.yaml
+cp {0} mc.yaml
 
-set configuration = `echo YAML file: {0}`
+set configuration = `echo YAML file: mc.yaml`
+if ({2} == "yes") then
+	
+endif
+
+cat mc.yaml
 echo
 df /cvmfs/oasis.opensciencegrid.org && df . && df /tmp
 if ($? != 0) then
@@ -35,8 +49,8 @@ if ($? != 0) then
 endif
 
 echo
-echo executing: recon-util -y {0} -i {1} -o recon.hipo
-recon-util -y {0} -i {1} -o recon.hipo
+echo executing: recon-util -y mc.yaml -i {1} -o recon.hipo
+recon-util -y mc.yaml -i {1} -o recon.hipo
 if ($? != 0) then
 	echo recon-util failed.
 	echo removing data files and exiting
@@ -84,4 +98,4 @@ echo RECONSTRUCTION END:  `date +%s`
 # ---------------------
 
 """
-  return strn.format(YAMLFILE, inputFile)
+  return strn.format(YAMLFILE, inputFile, MOD_YAML)

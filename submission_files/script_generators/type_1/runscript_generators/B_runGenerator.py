@@ -20,9 +20,10 @@ def B_runGenerator(scard, **kwargs):
 # Generator
 # ---------
 
+# saving date for bookmarking purposes:
 echo GENERATOR START:  `date +%s`
 
-# saving date for bookmarking purposes:
+# generate-seeds.py is one dir up from mcgen
 set seed = `generate-seeds.py read --row 1`
 echo Generator seed from generate-seeds, row 1: $seed
 
