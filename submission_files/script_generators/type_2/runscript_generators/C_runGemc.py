@@ -26,7 +26,7 @@ def C_runGemc(scard, **kwargs):
 echo GEMC START:  `date +%s`
 
 # copying the gcard to <conf>.gcard
-cp $GEMC/../config/"{0}".gcard" {0}.gcard
+cp $GEMC/../config/{0}.gcard {0}.gcard
 
 echo
 echo GEMC executable: `which gemc`
