@@ -7,7 +7,8 @@ def E_runCooking(scard, **kwargs):
   LOCALYAML = 'mc.yaml'
   
   YAMLFILE  = 'mc.yaml'
-  MC_YAML="yes"
+  
+  MC_YAML = "yes"
 
   inputFile = "gemc.hipo"
   gcard = scard.configuration + ".gcard"
@@ -20,10 +21,7 @@ def E_runCooking(scard, **kwargs):
   if scard.bkmerging != 'no':
     inputFile = "gemc.merged.hipo"
 
-  with open(gcard) as f:
-	  for line in f:
-		  if 'DIGITIZATION_VARIATION' in line:
-			  digiv = line.split('value=\"')[1].split("\"")[0]
+  dum="'{print $2}'"
 
   strn = """
 
@@ -35,7 +33,9 @@ echo RECONSTRUCTION START:  `date +%s`
 
 if ({2} == "yes") then
    cp $COATJAVA/config/{0} {3}
-   sed -i s/configuration:/"configuration:\n  global:\n    variation: {4}"/g  {3}
+   set DIGI_VARIATION = `grep DIGI {4} | awk -Fvalue {5} | awk -F\" {5} `
+	echo " adding DIGI_VARIATION = $DIGI_VARIATION to {3} "
+   sed -i s/configuration:/"configuration:\n  global:\n    variation: $DIGI_VARIATION"/g  {3}
 else
    cp $GEMC/../config/{0} {3}
 endif
@@ -102,4 +102,4 @@ echo RECONSTRUCTION END:  `date +%s`
 # ---------------------
 
 """
-  return strn.format(YAMLFILE, inputFile, MC_YAML, LOCALYAML, digiv)
+  return strn.format(YAMLFILE, inputFile, MC_YAML, LOCALYAML, gcard, dum)
