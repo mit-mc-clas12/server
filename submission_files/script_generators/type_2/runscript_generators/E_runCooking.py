@@ -1,25 +1,23 @@
 # Runs reconstruction recon-util on gemc.hipo
 
 import os
-
+ 
 def E_runCooking(scard, **kwargs):
 
-  # yaml with path
-  coatjava=os.environ.get('COATJAVA')
-  YAMLFILE=coatjava + "/config/mc.yaml"
-  MOD_YAML="yes"
-
-  clas12_dir=os.environ.get('GEMC') + "/" + "../config/"
-
-  if scard.gemcv == '4.4.2':
-    configuration = scard.configuration
-    YAMLFILE = clas12_dir + configuration + ".yaml"
-    MOD_YAML="yes"
+  LOCALYAML = 'mc.yaml"
+  
+  YAMLFILE  = 'mc.yaml"
+  MC_YAML="yes"
 
   inputFile = "gemc.hipo"
+  gcard = scard.configuration + ".gcard"
+
+  if scard.gemcv == '4.4.2':
+    YAMLFILE = scard.configuration + ".yaml"
+    MC_YAML="no"
+
 
   if scard.bkmerging != 'no':
-
     inputFile = "gemc.merged.hipo"
 
 
@@ -30,15 +28,18 @@ def E_runCooking(scard, **kwargs):
 
 echo RECONSTRUCTION START:  `date +%s`
 
-# copying the yaml file to mc.yaml
-cp {0} mc.yaml
 
-set configuration = `echo YAML file: mc.yaml`
 if ({2} == "yes") then
-	
+   cp $COATJAVA/config/{0} {3}
+   set DIGI_VARIATION = `grep DIGI {4} | awk -Fvalue '{print $2}' | awk -F\" '{print $2}'`
+   sed -i s/configuration:/"configuration:\n  global:\n    variation: $DIGI_VARIATION"/g  {3}
+else
+   cp $GEMC/../config/{0} {3}
 endif
 
-cat mc.yaml
+echo content of yaml file {3}:
+cat {3}
+
 echo
 df /cvmfs/oasis.opensciencegrid.org && df . && df /tmp
 if ($? != 0) then
@@ -49,8 +50,8 @@ if ($? != 0) then
 endif
 
 echo
-echo executing: recon-util -y mc.yaml -i {1} -o recon.hipo
-recon-util -y mc.yaml -i {1} -o recon.hipo
+echo executing: recon-util -y {3} -i {2} -o recon.hipo
+recon-util -y {3} -i {1} -o recon.hipo
 if ($? != 0) then
 	echo recon-util failed.
 	echo removing data files and exiting
@@ -98,4 +99,4 @@ echo RECONSTRUCTION END:  `date +%s`
 # ---------------------
 
 """
-  return strn.format(YAMLFILE, inputFile, MOD_YAML)
+  return strn.format(YAMLFILE, inputFile, MC_YAML, LOCALYAML, gcard)
