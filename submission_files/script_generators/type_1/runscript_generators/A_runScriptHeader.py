@@ -9,7 +9,7 @@ def A_runScriptHeader(scard, **kwargs):
 
 	headerSTR = """#!/bin/csh
 
-echo MODULESANDSEED START:  `date +%s`
+echo SCRIPTHEADER START:  `date +%s`
 printf "Job is running on node: "; /bin/hostname
 printf "Job submitted by: {0}"
 echo Running directory: `pwd`
@@ -91,9 +91,8 @@ echo MCGEN Version: {5}
 
 
 echo
-$SIM_HOME/$OSRELEASE/generate-seeds.py generate
 echo
-echo MODULESANDSEED END:  `date +%s`
+echo SCRIPTHEADER END:  `date +%s`
 echo
 
 # End of Run Script Header
