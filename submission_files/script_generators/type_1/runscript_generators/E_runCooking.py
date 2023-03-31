@@ -21,8 +21,6 @@ def E_runCooking(scard, **kwargs):
   if scard.bkmerging != 'no':
     inputFile = "gemc.merged.hipo"
     
-  digi_replacement_string = '\"configuration:\\n  global:\\n    variation: {0} \"'.format(scard.digi_variation)
-
   strn = """
 
 # Run Reconstruction
@@ -32,9 +30,13 @@ echo RECONSTRUCTION START:  `date +%s`
 
 
 if ({2} == "yes") then
-   cp $COATJAVA/config/{0} {3}
-	echo " adding variation = {5} "
-   sed -i s/configuration:/{6}/g  {3}
+	echo " adding variation = {5} to yaml file"
+   grep -B300 configuration: $COATJAVA/config/{0} | grep -v configuration: > a.tmp
+   echo 'configuration:'       >> a.tmp
+   echo '  global:'            >> a.tmp
+   echo '    variation: {5}'   >> a.tmp
+   grep -A300 configuration: $COATJAVA/config/{0} | grep -v configuration: >> a.tmp
+   mv a.tmp {3}
 else
    cp $GEMC/../config/{0} {3}
 endif
@@ -101,4 +103,4 @@ echo RECONSTRUCTION END:  `date +%s`
 # ---------------------
 
 """
-  return strn.format(YAMLFILE, inputFile, MC_YAML, LOCALYAML, gcard, scard.digi_variation, digi_replacement_string)
+  return strn.format(YAMLFILE, inputFile, MC_YAML, LOCALYAML, gcard, scard.digi_variation)
