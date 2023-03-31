@@ -21,7 +21,7 @@ def E_runCooking(scard, **kwargs):
   if scard.bkmerging != 'no':
     inputFile = "gemc.merged.hipo"
     
-  digi_replacement_string = """configuration:\\n  global:\\n    variation: {0} """.format(scard.digi_variation)
+  digi_replacement_string = '\"configuration:\\n  global:\\n    variation: {0} \"'.format(scard.digi_variation)
 
   strn = """
 
