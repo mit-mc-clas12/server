@@ -5,7 +5,7 @@ def D_runEvio2hipo(scard, **kwargs):
   torusField = scard.torus
   solenField = scard.solenoid
 
-  evio2hipo = "echo Gemc 5.1 or later has hipo output"
+  evio2hipo = "echo Gemc 5.1 or later has hipo output, no need to run evio2hipo"
 
   if scard.gemcv == '4.4.2':
 
