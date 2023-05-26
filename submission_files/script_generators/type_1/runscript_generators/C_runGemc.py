@@ -19,6 +19,12 @@ def C_runGemc(scard, **kwargs):
 		torusField = """ -SCALE_FIELD="TorusSymmetric,     {0}" """.format(scard.torus)
 		solenField = """ -SCALE_FIELD="clas12-newSolenoid, {0}" """.format(scard.solenoid)
 
+	vertex_z= """ -RANDOMIZE_LUND_VZ="vertex, {0}" """.format(scard.vertex_z)
+	beamspot = """ -BEAM_SPOT="beam, {0}" """.format(scard.beamspot)
+	raster = """ -RASTER_VERTEX="raster, {0}" """.format(scard.raster)
+
+	all_vertex_options = vertex_z + beamspot + raster
+
 	runGemc = """
 # Run GEMC
 # --------
@@ -31,7 +37,7 @@ cp $GEMC/../config/{2}.gcard {2}.gcard
 echo
 echo GEMC executable: `which gemc`
 
-gemc -USE_GUI=0 {5} -N={0} {1} {2}.gcard {3} {4}
+gemc -USE_GUI=0 {5} -N={0} {1} {2}.gcard {3} {4} {5}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -59,6 +65,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(scard.nevents, gemcInputOptions, scard.configuration, torusField, solenField, output)
+""".format(scard.nevents, gemcInputOptions, scard.configuration, torusField, solenField, output, all_vertex_options)
 
 	return runGemc
