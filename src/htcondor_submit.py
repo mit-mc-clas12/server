@@ -50,6 +50,7 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, 
         dbType = "Test MySQL DB"
         dbName = fs.MySQL_Test_DB_Name
         scripts_baseDir  = "/home/gemc/software/Submit/test"
+        condor_exec      = scripts_baseDir + "/server/condor_submit.sh"
 
     else:
         dbType = "Production MySQL DB"
