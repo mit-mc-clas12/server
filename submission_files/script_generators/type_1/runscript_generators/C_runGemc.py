@@ -14,7 +14,7 @@ def C_runGemc(scard, **kwargs):
 	solenField = """ -SCALE_FIELD="binary_solenoid, {0}" """.format(scard.solenoid)
 
 	output = """ -OUTPUT="hipo, gemc.hipo" """
-	all_vertex_options = " -USE_GUI=0 "
+	all_vertex_options = """ -USE_GUI=0 """
 
 	if scard.gemcv == '4.4.2':
 		output = """ -OUTPUT="evio, gemc.evio" """
