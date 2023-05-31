@@ -75,8 +75,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   scard_type = type_manager.manage_type(args, scard)
   sub_type = 'type_{}'.format(scard_type)
   print("sub_type is {0}".format(sub_type))
-  logger.debug('Type manager has determined type is: {}'.format(
-    sub_type))
+  logger.debug('type_manager has determined type is: {}'.format(sub_type))
 
   # Determine the number of jobs this submission
   # will produce in total.
