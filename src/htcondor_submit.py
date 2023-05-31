@@ -59,7 +59,7 @@ def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, 
     print(dbType)
     print(dbName)
 
-    print("submitting job, output going to {0}".format(jobOutputDir))
+    print("Submitting job, output going to {0}".format(jobOutputDir))
     url = scard.generator if scard.genExecutable == "Null" else 'no_download'
 
 
