@@ -21,9 +21,9 @@ def C_runGemc(scard, **kwargs):
 		torusField = """ -SCALE_FIELD="TorusSymmetric,     {0}" """.format(scard.torus)
 		solenField = """ -SCALE_FIELD="clas12-newSolenoid, {0}" """.format(scard.solenoid)
 	else:
-		vertex_z = """ -RANDOMIZE_LUND_VZ="vertex, {0}" """.format(scard.vertex_z_to_gemc)
-		beamspot = """ -BEAM_SPOT="beam,           {0}" """.format(scard.beamspot_to_gemc)
-		raster   = """ -RASTER_VERTEX="raster,     {0}" """.format(scard.raster_to_gemc)
+		vertex_z = """ -RANDOMIZE_LUND_VZ="{0}" """.format(scard.vertex_z_to_gemc)
+		beamspot = """ -BEAM_SPOT=" {0}" """.format(scard.beamspot_to_gemc)
+		raster   = """ -RASTER_VERTEX="{0}" """.format(scard.raster_to_gemc)
 		all_vertex_options = vertex_z + beamspot + raster
 
 	runGemc = """
