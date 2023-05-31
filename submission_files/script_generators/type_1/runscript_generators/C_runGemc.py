@@ -14,7 +14,7 @@ def C_runGemc(scard, **kwargs):
 	solenField = """ -SCALE_FIELD="binary_solenoid, {0}" """.format(scard.solenoid)
 
 	output = """ -OUTPUT="hipo, gemc.hipo" """
-	all_vertex_options = """ -USE_GUI=0 """
+	all_vertex_options = """  """
 
 	if scard.gemcv == '4.4.2':
 		output = """ -OUTPUT="evio, gemc.evio" """
@@ -38,7 +38,7 @@ cp $GEMC/../config/{2}.gcard {2}.gcard
 echo
 echo GEMC executable: `which gemc`
 
-gemc -USE_GUI=0 {5} -N={0} {1} {2}.gcard {3} {4} {5}
+gemc -USE_GUI=0 {5} -N={0} {1} {2}.gcard {3} {4} {6}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
