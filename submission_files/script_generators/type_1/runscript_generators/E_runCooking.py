@@ -30,13 +30,13 @@ echo RECONSTRUCTION START:  `date +%s`
 
 
 if ({2} == "yes") then
-	echo " adding variation = {5} to yaml file"
-   grep -B300 configuration: $COATJAVA/config/{0} | grep -v configuration: > a.tmp
-   echo 'configuration:'       >> a.tmp
-   echo '  global:'            >> a.tmp
-   echo '    variation: {5}'   >> a.tmp
-   grep -A300 configuration: $COATJAVA/config/{0} | grep -v configuration: >> a.tmp
-   mv a.tmp {3}
+  echo " adding variation = {5} to yaml file"
+  grep -B300 configuration333: $COATJAVA/config/{0} | grep -v configuration: > a.tmp
+  echo 'configuration:'       >> a.tmp
+  echo '  global:'            >> a.tmp
+  echo '    variation: {5}'   >> a.tmp
+  grep -A300 configuration: $COATJAVA/config/{0} | grep -v configuration: >> a.tmp
+  mv a.tmp {3}
 else
    cp $GEMC/../config/{0} {3}
 endif
