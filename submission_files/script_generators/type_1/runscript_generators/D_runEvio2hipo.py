@@ -88,4 +88,42 @@ echo BACKGROUNDMERGING END:  `date +%s`
 
 """.format(scard.configuration, scard.fields, scard.bkmerging)
 
-  return evio2hipo + mergeBackground
+  denoiser = """
+  
+# Run de-noiser
+# -------------
+
+echo DE-NOISING START:  `date +%s`
+
+$DRIFTCHAMBERS/install/bin/denoise2.exe  -i gemc.merged.hipo  -o gemc.merged_denoised.hipo -t 1 -n $DRIFTCHAMBERS/denoising/code/network/cnn_autoenc_0f_112.json 
+
+if ($? != 0) then
+	echo de-noiser failed.
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 230
+endif
+
+echo "Directory Content After de-noiser:"
+ls -l
+if ($? != 0) then
+	echo ls failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 211
+endif
+
+echo DE-NOISING END:  `date +%s`
+
+# End of de-noiser
+# ----------------
+
+
+# TEMP EXITING HERE FOR TESTING
+exit 0
+
+  """
+
+
+
+  return evio2hipo + mergeBackground + denoiser
