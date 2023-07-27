@@ -6,6 +6,7 @@
 def C_runGemc(scard, **kwargs):
 
 	gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
+	gcard = scard.configuration + "_binaryField.gcard"
 
 	if scard.genExecutable == 'gemc':
 		gemcInputOptions = scard.genOptions
@@ -33,12 +34,12 @@ def C_runGemc(scard, **kwargs):
 echo GEMC START:  `date +%s`
 
 # copying the gcard to <conf>.gcard
-cp $GEMC/../config/{2}.gcard {2}.gcard
+cp $GEMC/../config/{2} .
 
 echo
 echo GEMC executable: `which gemc`
 
-gemc -USE_GUI=0 {5} -N={0} {1} {2}_binaryField.gcard {3} {4} {6}
+gemc -USE_GUI=0 {5} -N={0} {1} {2} {3} {4} {6}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -66,6 +67,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(scard.nevents, gemcInputOptions, scard.configuration, torusField, solenField, output, all_vertex_options)
+""".format(scard.nevents, gemcInputOptions, gcard, torusField, solenField, output, all_vertex_options)
 
 	return runGemc
