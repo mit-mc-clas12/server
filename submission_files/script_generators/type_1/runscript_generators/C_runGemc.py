@@ -38,7 +38,7 @@ cp $GEMC/../config/{2}.gcard {2}.gcard
 echo
 echo GEMC executable: `which gemc`
 
-gemc -USE_GUI=0 {5} -N={0} {1} {2}_binary.gcard {3} {4} {6}
+gemc -USE_GUI=0 {5} -N={0} {1} {2}_binaryField.gcard {3} {4} {6}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
