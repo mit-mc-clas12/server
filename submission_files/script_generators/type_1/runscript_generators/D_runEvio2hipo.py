@@ -5,6 +5,11 @@ def D_runEvio2hipo(scard, **kwargs):
   torusField = scard.torus
   solenField = scard.solenoid
 
+  inputFileForDenoiser = "gemc.hipo"
+
+  if scard.bkmerging != 'no':
+    inputFileForDenoiser = "gemc.merged.hipo"
+
   evio2hipo = "echo Gemc 5.1 or later has hipo output, no need to run evio2hipo"
 
   if scard.gemcv == '4.4.2':
@@ -95,7 +100,7 @@ echo BACKGROUNDMERGING END:  `date +%s`
 
 echo DE-NOISING START:  `date +%s`
 
-$DRIFTCHAMBERS/install/bin/denoise2.exe  -i gemc.merged.hipo  -o gemc.merged_denoised.hipo -t 1 -n $DRIFTCHAMBERS/denoising/code/network/cnn_autoenc_0f_112.json 
+$DRIFTCHAMBERS/install/bin/denoise2.exe  -i {0} -o gemc_denoised.hipo -t 1 -n $DRIFTCHAMBERS/denoising/code/network/cnn_autoenc_0f_112.json 
 
 if ($? != 0) then
 	echo de-noiser failed.
@@ -122,7 +127,7 @@ echo DE-NOISING END:  `date +%s`
 # TEMP EXITING HERE FOR TESTING
 exit 0
 
-  """
+  """.format(inputFileForDenoiser)
 
 
 

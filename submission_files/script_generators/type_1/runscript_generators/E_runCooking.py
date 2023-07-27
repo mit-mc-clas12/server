@@ -10,16 +10,13 @@ def E_runCooking(scard, **kwargs):
   
   MC_YAML = "yes"
 
-  inputFile = "gemc.hipo"
+  inputFileForCooking = "gemc_denoised.hipo"
   gcard = scard.configuration + ".gcard"
 
   if scard.gemcv == '4.4.2':
     YAMLFILE = scard.configuration + ".yaml"
     MC_YAML="no"
 
-
-  if scard.bkmerging != 'no':
-    inputFile = "gemc.merged.hipo"
     
   strn = """
 
@@ -103,4 +100,4 @@ echo RECONSTRUCTION END:  `date +%s`
 # ---------------------
 
 """
-  return strn.format(YAMLFILE, inputFile, MC_YAML, LOCALYAML, gcard, scard.digi_variation)
+  return strn.format(YAMLFILE, inputFileForCooking, MC_YAML, LOCALYAML, gcard, scard.digi_variation)
