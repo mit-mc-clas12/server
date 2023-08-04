@@ -10,6 +10,9 @@
 # Note:to bind to CVMFS add:
 # +SingularityBindCVMFS = True
 
+# Notes on UNDESIRED_Sites
+# It's based on GLIDEIN_Site, not GLIDEIN_ResourceName, and it's comma-separated, not comma-and-space-separated (because site names may have spaces)
+
 def A_condorHeader(scard, **kwargs):
 
   strHeader = """# The SubMit Project: Condor Type 1 Submission Script
@@ -34,7 +37,7 @@ periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStat
   # OSG Farm Requirements
   requirementsStr = """
 # OSG Requirements
-Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
+Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534) &&  (HAS_tcsh =?= TRUE)
 
 +UNDESIRED_Sites = ""KSU""
 #+UNDESIRED_Sites = ""KSU, FNAL_GPGrid, Wisconsis""

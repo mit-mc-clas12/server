@@ -111,7 +111,7 @@ echo
 
 echo FETCHBACKGROUNDFILE START:  `date +%s`
 
-bgMerginFilename.sh {0} {1} {2} get
+/bin/bgMerginFilename.sh {0} {1} {2} get
 
 if ($? != 0) then
 	echo bgMerginFilename failure
