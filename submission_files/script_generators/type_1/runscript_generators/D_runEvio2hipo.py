@@ -89,7 +89,8 @@ echo BACKGROUNDMERGING END:  `date +%s`
 
 """.format(scard.configuration, scard.fields, scard.bkmerging)
 
-    denoiser = "echo Gemc 4.4.2 does not run the de-noiser, skipping it"
+    # temp exiting here for testing
+    denoiser = "echo Gemc 4.4.2 does not run the de-noiser, skipping it; exit 0"
 
     if scard.gemcv != '4.4.2':
         denoiser = """
