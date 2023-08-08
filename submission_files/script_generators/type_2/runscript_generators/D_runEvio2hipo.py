@@ -1,15 +1,18 @@
 # Runs evio2hipo on the gemc output
 # Merge background if so requested by the user
 def D_runEvio2hipo(scard, **kwargs):
+    torusField = scard.torus
+    solenField = scard.solenoid
 
-  torusField = scard.torus
-  solenField = scard.solenoid
+    inputFileForDenoiser = "gemc.hipo"
 
-  evio2hipo = "echo Gemc 5.1 or later has hipo output, no need to run evio2hipo"
+    if scard.bkmerging != 'no':
+        inputFileForDenoiser = "gemc.merged.hipo"
 
-  if scard.gemcv == '4.4.2':
+    evio2hipo = "echo Gemc 5.1 or later has hipo output, no need to run evio2hipo"
 
-    evio2hipo = """
+    if scard.gemcv == '4.4.2':
+        evio2hipo = """
     
 # Run evio2hipo
 # -------------
@@ -48,12 +51,10 @@ echo EVIO2HIPO END:  `date +%s`
 
 """.format(torusField, solenField, scard.configuration, scard.fields, scard.bkmerging)
 
+    mergeBackground = ""
 
-  mergeBackground = ""
-
-  if scard.bkmerging != 'no':
-
-    mergeBackground = """
+    if scard.bkmerging != 'no':
+        mergeBackground = """
 
 # Run background merging
 # ----------------------
@@ -88,4 +89,43 @@ echo BACKGROUNDMERGING END:  `date +%s`
 
 """.format(scard.configuration, scard.fields, scard.bkmerging)
 
-  return evio2hipo + mergeBackground
+    denoiser = "echo Gemc 4.4.2 does not run the de-noiser, skipping it"
+
+    if scard.gemcv != '4.4.2':
+        denoiser = """
+
+# Run de-noiser
+# -------------
+
+echo DE-NOISING START:  `date +%s`
+
+$DRIFTCHAMBERS/install/bin/denoise2.exe  -i {0} -o gemc_denoised.hipo -t 1 -n $DRIFTCHAMBERS/denoising/code/network/cnn_autoenc_0f_112.json 
+
+if ($? != 0) then
+    echo de-noiser failed.
+    echo removing data files and exiting
+    rm -f *.hipo *.evio
+    exit 230
+endif
+
+echo "Directory Content After de-noiser:"
+ls -l
+if ($? != 0) then
+    echo ls failure
+    echo removing data files and exiting
+    rm -f *.hipo *.evio
+    exit 211
+endif
+
+echo DE-NOISING END:  `date +%s`
+
+# End of de-noiser
+# ----------------
+
+
+# TEMP EXITING HERE FOR TESTING
+exit 0
+
+""".format(inputFileForDenoiser)
+
+    return evio2hipo + mergeBackground + denoiser

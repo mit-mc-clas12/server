@@ -5,7 +5,11 @@
 
 def C_runGemc(scard, **kwargs):
 
+	gemcInputOptions = """  """
+	gcard = scard.configuration + "_binaryField.gcard"
 
+	if scard.gemcv == '4.4.2':
+		gcard = scard.configuration + ".gcard"
 
 
 
@@ -14,10 +18,17 @@ def C_runGemc(scard, **kwargs):
 	solenField = """ -SCALE_FIELD="binary_solenoid, {0}" """.format(scard.solenoid)
 
 	output = """ -OUTPUT="hipo, gemc.hipo" """
+	all_vertex_options = """  """
+
 	if scard.gemcv == '4.4.2':
 		output = """ -OUTPUT="evio, gemc.evio" """
 		torusField = """ -SCALE_FIELD="TorusSymmetric,     {0}" """.format(scard.torus)
 		solenField = """ -SCALE_FIELD="clas12-newSolenoid, {0}" """.format(scard.solenoid)
+	else:
+		vertex_z = """ -RANDOMIZE_LUND_VZ="{0}" """.format(scard.vertex_z_to_gemc)
+		beamspot = """ -BEAM_SPOT="{0}"         """.format(scard.beamspot_to_gemc)
+		raster   = """ -RASTER_VERTEX="{0}"     """.format(scard.raster_to_gemc)
+		all_vertex_options = vertex_z + beamspot + raster
 
 	runGemc = """
 # Run GEMC
@@ -26,12 +37,12 @@ def C_runGemc(scard, **kwargs):
 echo GEMC START:  `date +%s`
 
 # copying the gcard to <conf>.gcard
-cp $GEMC/../config/{0}.gcard {0}.gcard
+cp $GEMC/../config/{2} .
 
 echo
 echo GEMC executable: `which gemc`
 
-gemc -USE_GUI=0 {3} -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}.gcard  {1} {2}
+gemc -USE_GUI=0 {3} -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}  {1} {2}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -59,6 +70,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(scard.configuration, torusField, solenField, output)
+""".format(gcard, torusField, solenField, output)
 
 	return runGemc

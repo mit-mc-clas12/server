@@ -1,9 +1,5 @@
 # Condor Submission Script Header
 #
-# Individual farms requirements
-#
-# farm_name possible choices:
-#
 # Note:to submit to MIT_Tier2 add:
 # Requirements  = (GLIDEIN_Site == "MIT_CampusFactory" && BOSCOGroup == "bosco_lns")
 #
@@ -37,11 +33,10 @@ periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStat
   # OSG Farm Requirements
   requirementsStr = """
 # OSG Requirements
-Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534) && (HAS_tcsh =?= TRUE)
+Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
 
-+UNDESIRED_Sites = ""KSU""
-#+UNDESIRED_Sites = ""KSU, FNAL_GPGrid, Wisconsis""
++UNDESIRED_Sites = ""KSU,Clemson-Palmetto""
+#+UNDESIRED_Sites = ""KSU,OSG_US_NMSU-Discovery-CE1,Clemson-Palmetto""
 """
-
 
   return strHeader + requirementsStr

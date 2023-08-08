@@ -1,20 +1,18 @@
 # Runs evio2hipo on the gemc output
 # Merge background if so requested by the user
 def D_runEvio2hipo(scard, **kwargs):
+    torusField = scard.torus
+    solenField = scard.solenoid
 
-  torusField = scard.torus
-  solenField = scard.solenoid
+    inputFileForDenoiser = "gemc.hipo"
 
-  inputFileForDenoiser = "gemc.hipo"
+    if scard.bkmerging != 'no':
+        inputFileForDenoiser = "gemc.merged.hipo"
 
-  if scard.bkmerging != 'no':
-    inputFileForDenoiser = "gemc.merged.hipo"
+    evio2hipo = "echo Gemc 5.1 or later has hipo output, no need to run evio2hipo"
 
-  evio2hipo = "echo Gemc 5.1 or later has hipo output, no need to run evio2hipo"
-
-  if scard.gemcv == '4.4.2':
-
-    evio2hipo = """
+    if scard.gemcv == '4.4.2':
+        evio2hipo = """
 
 # Run evio2hipo
 # -------------
@@ -53,12 +51,10 @@ echo EVIO2HIPO END:  `date +%s`
 
 """.format(torusField, solenField, scard.configuration, scard.fields, scard.bkmerging)
 
+    mergeBackground = ""
 
-  mergeBackground = ""
-
-  if scard.bkmerging != 'no':
-
-    mergeBackground = """
+    if scard.bkmerging != 'no':
+        mergeBackground = """
 
 # Run background merging
 # ----------------------
@@ -93,7 +89,10 @@ echo BACKGROUNDMERGING END:  `date +%s`
 
 """.format(scard.configuration, scard.fields, scard.bkmerging)
 
-  denoiser = """
+    denoiser = "echo Gemc 4.4.2 does not run the de-noiser, skipping it"
+
+    if scard.gemcv != '4.4.2':
+        denoiser = """
   
 # Run de-noiser
 # -------------
@@ -127,8 +126,6 @@ echo DE-NOISING END:  `date +%s`
 # TEMP EXITING HERE FOR TESTING
 exit 0
 
-  """.format(inputFileForDenoiser)
+""".format(inputFileForDenoiser)
 
-
-
-  return evio2hipo + mergeBackground + denoiser
+    return evio2hipo + mergeBackground + denoiser
