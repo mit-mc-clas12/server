@@ -2,14 +2,14 @@
 #
 # The variable $lundFile is passed by run.sh to this script (nodescript.sh)
 # N is set to 10,000 to gemc to process the max allowed number of events
+import os
 
 def C_runGemc(scard, **kwargs):
 
 	gemcInputOptions = """  """
-	gcard = scard.configuration + "_binaryField.gcard"
 
-	if scard.gemcv == '4.4.2':
-		gcard = scard.configuration + ".gcard"
+	sim_home = os.environ.get('SIM_HOME')
+	gcard = sim_home + "noarch/clas12-config/gemc" + scard.gemcv + "/" + scard.configuration + ".gcard"
 
 
 
@@ -36,13 +36,10 @@ def C_runGemc(scard, **kwargs):
 
 echo GEMC START:  `date +%s`
 
-# copying the gcard to <conf>.gcard
-cp $GEMC/../config/{0} .
-
 echo
-echo GEMC executable: `which gemc`
+echo GEMC executable: `which gemc`, gcard: {0}
 
-gemc -USE_GUI=0 {3} -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}  {1} {2}
+gemc -USE_GUI=0  -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}  {1} {2} {3}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting

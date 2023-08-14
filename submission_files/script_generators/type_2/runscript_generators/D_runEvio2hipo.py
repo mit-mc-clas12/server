@@ -124,9 +124,6 @@ echo DE-NOISING END:  `date +%s`
 # ----------------
 
 
-# TEMP EXITING HERE FOR TESTING
-exit 0
-
 """.format(inputFileForDenoiser)
 
     return evio2hipo + mergeBackground + denoiser

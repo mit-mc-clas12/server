@@ -2,14 +2,14 @@
 #
 #
 # N is set to to the number requested by the user, with a max of 10K set by the portal
+import os
 
 def C_runGemc(scard, **kwargs):
 
 	gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
-	gcard = scard.configuration + "_binaryField.gcard"
 
-	if scard.gemcv == '4.4.2':
-		gcard = scard.configuration + ".gcard"
+	sim_home = os.environ.get('SIM_HOME')
+	gcard = sim_home + "noarch/clas12-config/gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
 
 	if scard.genExecutable == 'gemc':
 		gemcInputOptions = scard.genOptions
@@ -36,13 +36,10 @@ def C_runGemc(scard, **kwargs):
 
 echo GEMC START:  `date +%s`
 
-# copying the gcard to <conf>.gcard
-cp $GEMC/../config/{3} .
-
 echo
-echo GEMC executable: `which gemc`
+echo GEMC executable: `which gemc`, gcard: {0}
 
-gemc -USE_GUI=0 -N={0} {1} {2} {3} {4} {5} {6} 
+gemc -USE_GUI=0 -N={1} {0} {2} {3} {4} {5} {6} 
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -70,6 +67,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(scard.nevents, gemcInputOptions, all_vertex_options, gcard, torusField, solenField, output)
+""".format(gcard, scard.nevents, gemcInputOptions, all_vertex_options, torusField, solenField, output)
 
 	return runGemc
