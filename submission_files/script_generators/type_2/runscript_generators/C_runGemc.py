@@ -2,14 +2,13 @@
 #
 # The variable $lundFile is passed by run.sh to this script (nodescript.sh)
 # N is set to 10,000 to gemc to process the max allowed number of events
-import os
 
 def C_runGemc(scard, **kwargs):
 
-	gemcInputOptions = """  """
 
-	sim_home = os.environ.get('SIM_HOME')
-	gcard = sim_home + "noarch/clas12-config/gemc" + scard.gemcv + "/" + scard.configuration + ".gcard"
+
+	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
+	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
 
 
 

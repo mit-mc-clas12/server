@@ -1,20 +1,19 @@
 # Runs reconstruction recon-util
-import os
- 
+
 def E_runCooking(scard, **kwargs):
 
-  sim_home = os.environ.get('SIM_HOME')
-  yaml = sim_home + "noarch/clas12-config/coatjava/" + scard.coatjavav + "/" + scard.configuration + ".yaml"
+	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
+	yaml = c12f_home + "coatjava/" + scard.coatjavav + "/" + scard.configuration + ".yaml"
 
-  inputFileForCooking = "gemc_denoised.hipo"
+	inputFileForCooking = "gemc_denoised.hipo"
 
-  if scard.gemcv == '4.4.2':
-    inputFileForCooking = "gemc.merged.hipo"
+	if scard.gemcv == '4.4.2':
+		inputFileForCooking = "gemc.merged.hipo"
 
-    if scard.bkmerging != 'no':
-        inputFileForCooking = "gemc.hipo"
+		if scard.bkmerging != 'no':
+			inputFileForCooking = "gemc.hipo"
 
-  strn = """
+	strn = """
 
 # Run Reconstruction
 # ------------------
@@ -83,4 +82,5 @@ echo RECONSTRUCTION END:  `date +%s`
 # ---------------------
 
 """
-  return strn.format(YAMLFILE, inputFileForCooking)
+
+	return strn.format(yaml, inputFileForCooking)

@@ -2,14 +2,13 @@
 #
 #
 # N is set to to the number requested by the user, with a max of 10K set by the portal
-import os
 
 def C_runGemc(scard, **kwargs):
 
 	gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
 
-	sim_home = os.environ.get('SIM_HOME')
-	gcard = sim_home + "noarch/clas12-config/gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
+	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
+	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
 
 	if scard.genExecutable == 'gemc':
 		gemcInputOptions = scard.genOptions
