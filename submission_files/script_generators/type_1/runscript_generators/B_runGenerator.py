@@ -25,10 +25,7 @@ echo GENERATOR START:  `date +%s`
 
 # generate-seeds.py is in the path
 generate-seeds.py generate
-if ($? != 0) then
-  echo GENERATOR SEED ERROR
-  exit 203
-endif
+
 
 set seed = `generate-seeds.py read --row 1`
 echo Generator seed from generate-seeds, row 1: $seed
