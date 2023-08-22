@@ -10,7 +10,7 @@ def E_runCooking(scard, **kwargs):
 	if scard.gemcv == '4.4.2':
 		inputFileForCooking = "gemc.merged.hipo"
 
-		if scard.bkmerging != 'no':
+		if scard.bkmerging == 'no':
 			inputFileForCooking = "gemc.hipo"
 
 	strn = """
