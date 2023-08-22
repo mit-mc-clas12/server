@@ -65,7 +65,7 @@ else
 endif
 
 setenv RCDB_CONNECTION mysql://null
-setenv CCDB_CONNECTION sqlite:////cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/data/ccdb/ccdb_latest.sqlite"
+setenv CCDB_CONNECTION sqlite:////cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/data/ccdb/ccdb_latest.sqlite
 
 # numbers are hardcoded currently.
 # In the future we could have uber modules
