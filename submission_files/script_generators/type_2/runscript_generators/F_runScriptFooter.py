@@ -28,7 +28,9 @@ if ($? != 0) then
 	rm -f *.hipo *.evio
 	exit 211
 endif
-
+echo
+echo
+echo Simulation + Reconstruction Successfully Completed on: `date +%s` 
 """
 
 
@@ -44,6 +46,7 @@ rm -f *.gcard
 rm -f recon.hipo
 rm -f gemc.hipo
 rm -f gemc.merged.hipo
+rm -f gemc_denoised.hipo
 rm -f *.evio
 rm -f *.yaml
 rm -f run.sh
