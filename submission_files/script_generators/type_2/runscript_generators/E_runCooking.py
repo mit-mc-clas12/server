@@ -61,6 +61,7 @@ if ($? != 0) then
 	exit 211
 endif
 
+echo executing: hipo-utils -test recon.hipo
 hipo-utils -test recon.hipo
 if ($? != 0) then
 	echo hipo-utils failure
@@ -76,7 +77,9 @@ if (`stat -L -c%s recon.hipo` < 100) then
 	exit 215
 endif
 
+echo
 echo RECONSTRUCTION END:  `date +%s`
+echo
 
 # End of Reconstruction
 # ---------------------

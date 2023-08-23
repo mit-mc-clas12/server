@@ -8,11 +8,25 @@ def F_runScriptFooter(scard,**kwargs):
 	# creating the DST if requested
 	if scard.dstOUT == "yes":
 		dst = """
+echo
 echo Creating the DST
+echo
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::*' -merge -o dst.hipo recon.hipo
 if ($? != 0) then
   echo hipo-utils failed.
   exit 208
+endif
+
+echo
+printf "DST Completed on: "; /bin/date
+echo
+echo "Directory Content After DST:"
+ls -l
+if ($? != 0) then
+	echo ls failure
+	echo removing data files and exiting
+	rm -f *.hipo *.evio
+	exit 211
 endif
 
 """
