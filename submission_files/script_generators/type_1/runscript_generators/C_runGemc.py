@@ -6,8 +6,10 @@
 def C_runGemc(scard, **kwargs):
 
 	gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
+	gemcAdditionalOptions = """ -INTEGRATEDRAW="*" """.format(scard.genOutput)
 
-	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/dev/"
+
+	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
 	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
 
 	if scard.genExecutable == 'gemc':
@@ -38,7 +40,7 @@ echo GEMC START:  `date +%s`
 echo
 echo GEMC executable: `which gemc`, gcard: {0}
 
-gemc -USE_GUI=0 -N={1} {0} {2} {3} {4} {5} {6} 
+gemc -USE_GUI=0 -N={1} {0} {2} {3} {4} {5} {6} {7}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -66,6 +68,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(gcard, scard.nevents, gemcInputOptions, all_vertex_options, torusField, solenField, output)
+""".format(gcard, scard.nevents, gemcInputOptions, all_vertex_options, torusField, solenField, output, gemcAdditionalOptions)
 
 	return runGemc
