@@ -64,12 +64,6 @@ else
 		exit 202
 endif
 
-setenv RCDB_CONNECTION mysql://null
-setenv CCDB_CONNECTION sqlite:////cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/data/ccdb/ccdb_latest.sqlite
-
-# numbers are hardcoded currently.
-# In the future we could have uber modules
-
 module unload gemc
 module unload coatjava
 module unload jdk
@@ -77,16 +71,21 @@ module unload root
 module unload mcgen
 
 module load gemc/{1}
+module load sqlite/{1}
+# TODO: RCDB_CONNECTION currently not used. When fixed, remove this line.
+setenv RCDB_CONNECTION mysql://null
+
 module load coatjava/{2}
 module load jdk/{3}
 module load root/{4}
 module load mcgen/{5}
 
-echo GEMC Version: {1}
-echo COATJAVA Version: {2}
 echo JDK Version: {3}
 echo ROOT Version: {4}
 echo MCGEN Version: {5}
+echo GEMC Version: {1}
+echo COATJAVA Version: {2}
+echo SQLITE Version: {1}
 
 # lund file env needed by runGenerator phase
 set lundFile     = $2
