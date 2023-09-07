@@ -13,7 +13,8 @@ echo Creating the DST
 echo
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::RecMatch,MC::GenMatch,MC::Particle,MC::User,MC::Header,MC::Lund,MC::Event' -merge -o dst.hipo recon.hipo
 if ($? != 0) then
-  echo hipo-utils failed.
+  echo hipo-utils failed, removing data files and exiting
+  rm -f *.hipo *.evio
   exit 208
 endif
 
