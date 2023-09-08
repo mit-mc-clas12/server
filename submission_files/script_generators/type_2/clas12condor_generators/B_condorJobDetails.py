@@ -27,6 +27,6 @@ Log    = log/job.$(Cluster).$(Process).log
 
 # CLAS12 project
 +ProjectName = ""{3}""
-""".format('1', '1.7', executable, scard.project)
+""".format('1', '2.0', executable, scard.project)
 
   return strn
