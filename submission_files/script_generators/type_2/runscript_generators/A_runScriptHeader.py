@@ -57,7 +57,7 @@ source /etc/profile.d/modules.csh
 set cvmfsPath = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/
 set cvmfsSetupFile = $cvmfsPath/setup.csh
 if (-f $cvmfsSetupFile ) then
-		echo $cvmfsSetupFile exists, sorucing it with path $cvmfsPath
+		echo $cvmfsSetupFile exists, sourcing it with path $cvmfsPath
 		source $cvmfsSetupFile $cvmfsPath
 else
 		echo CVMFS ERROR $cvmfsSetupFile does not exist. Exiting
@@ -77,7 +77,7 @@ setenv RCDB_CONNECTION mysql://null
 
 module load coatjava/{2}
 module load jdk/{3}
-module load root/{4}
+#module load root/{4}
 module load mcgen/{5}
 
 echo JDK Version: {3}
