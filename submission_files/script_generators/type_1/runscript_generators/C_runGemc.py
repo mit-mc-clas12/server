@@ -29,6 +29,14 @@ def C_runGemc(scard, **kwargs):
 		vertex_z = """ -RANDOMIZE_LUND_VZ="{0}" """.format(scard.vertex_z_to_gemc)
 		beamspot = """ -BEAM_SPOT="{0}"         """.format(scard.beamspot_to_gemc)
 		raster   = """ -RASTER_VERTEX="{0}"     """.format(scard.raster_to_gemc)
+
+		if 'n/a' in scard.vertex_z_to_gemc:
+			vertex_z = ''
+		if 'n/a' in scard.beamspot_to_gemc:
+			beamspot = ''
+		if 'n/a' in scard.raster_to_gemc:
+			raster = ''
+
 		all_vertex_options = vertex_z + beamspot + raster
 
 	runGemc = """

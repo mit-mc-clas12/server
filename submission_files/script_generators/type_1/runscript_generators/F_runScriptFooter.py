@@ -42,20 +42,10 @@ echo Simulation + Reconstruction Successfully Completed on: `date +%s`
 {0}
 
 echo Additional cleanup
-rm -f core*
-rm -f *.gcard
-rm -f recon.hipo
-rm -f gemc.hipo
-rm -f gemc.merged.hipo
-rm -f gemc_denoised.hipo
-rm -f *.evio
-rm -f *.yaml
-rm -f run.sh
-rm -f nodeScript.sh
-rm -f condor_exec.exe
-rm -f RNDMSTATUS
-rm -f random-seeds.txt
-rm -f {1}
+rm -f core* *.gcard
+rm -f recon.hipo gemc.hipo gemc.merged.hipo gemc_denoised.hipo 
+rm -f run.sh nodeScript.sh condor_exec.exe
+rm -f RNDMSTATUS random-seeds.txt {1}
 
 echo
 echo nodeScript run completed.
