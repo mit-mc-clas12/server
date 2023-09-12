@@ -7,6 +7,7 @@ def C_runGemc(scard, **kwargs):
 
 
 	gemcAdditionalOptions = """ -INTEGRATEDRAW="*" """.format(scard.genOutput)
+	redirectOutput = """ \| sed "/G4Exception-START/,/G4Exception-END/d"  """
 
 	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
 	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
@@ -48,7 +49,7 @@ echo GEMC START:  `date +%s`
 echo
 echo GEMC executable: `which gemc`, gcard: {0}
 
-gemc -USE_GUI=0  -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}  {1} {2} {3} {4} | sed '/G4Exception-START/,/G4Exception-END/d'   |  sed '/\*\*\*\*\*\*\*\*\*\*\*\*/,/\*\*\*\*\*\*\*\*\*\*\*\*/d' 
+gemc -USE_GUI=0  -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}  {1} {2} {3} {4} {5}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -76,6 +77,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(gcard, torusField, solenField, output, gemcAdditionalOptions)
+""".format(gcard, torusField, solenField, output, gemcAdditionalOptions, redirectOutput)
 
 	return runGemc
