@@ -7,7 +7,7 @@ def C_runGemc(scard, **kwargs):
 
 	gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
 	gemcAdditionalOptions = """ -INTEGRATEDRAW="*" """.format(scard.genOutput)
-	redirectOutput = """ | sed '/G4Exception-START/,/G4Exception-END/d'   |  sed '/\*\*\*\*\*\*\*\*\*\*\*\*/,/\*\*\*\*\*\*\*\*\*\*\*\*/d'  """
+	redirectOutput = """ | sed "/G4Exception-START/,/G4Exception-END/d"  """
 
 
 	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
