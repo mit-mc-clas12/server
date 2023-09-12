@@ -33,7 +33,7 @@ periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStat
   # OSG Farm Requirements
   requirementsStr = """
 # OSG Requirements
-Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (HAS_CVMFS_sft_cern_ch=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
+Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
 
 +UNDESIRED_Sites = ""KSU""
 #+UNDESIRED_Sites = ""KSU,OSG_US_NMSU-Discovery-CE1,Clemson-Palmetto""
