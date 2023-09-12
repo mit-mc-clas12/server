@@ -48,7 +48,7 @@ echo GEMC START:  `date +%s`
 echo
 echo GEMC executable: `which gemc`, gcard: {0}
 
-gemc -USE_GUI=0 -N={1} {0} {2} {3} {4} {5} {6} {7}
+gemc -USE_GUI=0 -N={1} {0} {2} {3} {4} {5} {6} {7} | sed '/G4Exception-START/,/G4Exception-END/d'   |  sed '/\*\*\*\*\*\*\*\*\*\*\*\*/,/\*\*\*\*\*\*\*\*\*\*\*\*/d' 
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting

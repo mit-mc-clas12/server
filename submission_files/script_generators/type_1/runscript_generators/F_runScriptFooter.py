@@ -49,6 +49,8 @@ rm -f RNDMSTATUS random-seeds.txt {1}
 
 echo
 echo nodeScript run completed.
+echo "Final Directory Content:"
+ls -l
 echo
 
 # End of Run Script Footer
