@@ -7,7 +7,7 @@ def C_runGemc(scard, **kwargs):
 
 	gemcInputOptions = """ -INPUT_GEN_FILE="lund, {0}" """.format(scard.genOutput)
 	gemcAdditionalOptions = """ -INTEGRATEDRAW="*" """.format(scard.genOutput)
-	redirectOutput = """ | sed "/G4Exception-START/,/G4Exception-END/d"  """
+	redirectOutput = """ \| sed "/G4Exception-START/,/G4Exception-END/d"  """
 
 
 	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
@@ -51,6 +51,7 @@ echo GEMC executable:
 which gemc
 echo gcard: {0}
 echo
+ls ../
 
 gemc -USE_GUI=0 -N={1} {0} {2} {3} {4} {5} {6} {7} {8}
 if ($? != 0) then
