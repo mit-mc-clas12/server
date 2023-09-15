@@ -77,8 +77,8 @@ setenv RCDB_CONNECTION mysql://null
 
 module load coatjava/{2}
 module load jdk/{3}
-#module load root/{4}
-module load mcgen/{5}
+
+
 
 echo JDK Version: {3}
 echo ROOT Version: {4}
