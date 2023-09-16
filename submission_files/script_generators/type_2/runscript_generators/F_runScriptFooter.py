@@ -46,6 +46,7 @@ rm -f core* *.gcard
 rm -f recon.hipo gemc.hipo gemc.merged.hipo gemc_denoised.hipo 
 rm -f run.sh nodeScript.sh condor_exec.exe
 rm -f RNDMSTATUS random-seeds.txt {1}
+rm -f gemc.evio
 
 echo
 echo nodeScript run completed.
