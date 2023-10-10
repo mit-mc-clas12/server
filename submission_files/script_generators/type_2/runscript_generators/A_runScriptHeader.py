@@ -82,7 +82,7 @@ module load jdk/{3}
 
 echo JDK Version: {3}
 echo ROOT Version: {4}
-echo MCGEN Version: {5}
+echo Generator: LUND
 echo GEMC Version: {1}
 echo COATJAVA Version: {2}
 echo SQLITE Version: {1}
