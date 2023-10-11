@@ -7,6 +7,10 @@
 
 def A_runScriptHeader(scard, **kwargs):
 
+	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
+	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
+	yaml = c12f_home + "coatjava/" + scard.coatjavav + "/" + scard.configuration + ".yaml"
+
 	headerSTR = """#!/bin/csh
 
 echo SCRIPTHEADER START:  `date +%s`
@@ -63,6 +67,14 @@ else
 		echo CVMFS ERROR $cvmfsSetupFile does not exist. Exiting
 		exit 202
 endif
+if ( ! -f {6} ) then
+	echo gcard not found, exiting
+	exit 241
+endif
+if ( ! -f {7} ) then
+	echo yaml not found, exiting
+	exit 242
+endif
 
 module unload gemc
 module unload coatjava
@@ -98,7 +110,7 @@ echo
 # End of Run Script Header
 # ------------------------
 
-""".format(kwargs['username'], scard.gemcv, scard.coatjavav,  scard.jdkv, scard.rootv, scard.mcgenv)
+""".format(kwargs['username'], scard.gemcv, scard.coatjavav,  scard.jdkv, scard.rootv, scard.mcgenv, gcard, yaml)
 
 	fetchBackgroundFile = ""
 

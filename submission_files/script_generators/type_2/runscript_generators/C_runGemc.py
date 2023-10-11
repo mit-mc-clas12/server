@@ -15,7 +15,6 @@ def C_runGemc(scard, **kwargs):
 
 
 
-
 	torusField = """ -SCALE_FIELD="binary_torus,    {0}" """.format(scard.torus)
 	solenField = """ -SCALE_FIELD="binary_solenoid, {0}" """.format(scard.solenoid)
 
