@@ -18,10 +18,10 @@ lundFile=${lundFileC##*/}
 # script name
 nodeScript=nodeScript.sh
 
-#outDir="output/simu_"$sjob
-#mkdir -p $outDir
-#cp *.* $outDir
-#cd $outDir
+outDir="output"
+mkdir -p $outDir
+cp *.* $outDir
+cd $outDir
 
 
 echo
