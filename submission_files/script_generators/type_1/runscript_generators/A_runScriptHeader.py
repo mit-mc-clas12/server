@@ -18,6 +18,7 @@ printf "Job is running on node: "; /bin/hostname
 printf "Job submitted by: {0}"
 echo Running directory: `pwd`
 set submissionID=$1
+set sjobID=$2
 echo Directory `pwd` content before starting submissionID $submissionID":"
 ls -l
 if ($? != 0) then

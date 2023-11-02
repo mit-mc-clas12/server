@@ -18,10 +18,10 @@ lundFile=${lundFileC##*/}
 # script name
 nodeScript=nodeScript.sh
 
-outDir="output/simu_"$sjob
-mkdir -p $outDir
-cp *.* $outDir
-cd $outDir
+#outDir="output/simu_"$sjob
+#mkdir -p $outDir
+#cp *.* $outDir
+#cd $outDir
 
 
 echo
@@ -34,11 +34,11 @@ chmod +x $nodeScript
 
 if [ $# == 3 ]; then
 	echo "Now running nodeScript with options FarmSubmissionID: "$FarmSubmissionID",  lundFile: " $lundFile
-	./$nodeScript $FarmSubmissionID $lundFile
+	./$nodeScript $FarmSubmissionID $lundFile $sjob
 	exit $?
 else
 	echo "Now running nodeScript with options FarmSubmissionID: "$FarmSubmissionID
-	./$nodeScript $FarmSubmissionID
+	./$nodeScript $FarmSubmissionID $sjob
 	exit $?
 fi
 
