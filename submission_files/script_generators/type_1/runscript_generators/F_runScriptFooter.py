@@ -12,6 +12,7 @@ echo
 echo Creating the DST
 echo
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::RecMatch,MC::GenMatch,MC::Particle,MC::User,MC::Header,MC::Lund,MC::Event' -merge -o dst.hipo recon.hipo
+echo Moving the DST to the output file {0}
 if ($? != 0) then
   echo hipo-utils failed, removing data files and exiting
   rm -f *.hipo *.evio
@@ -32,7 +33,7 @@ endif
 echo
 echo
 echo Simulation + Reconstruction Successfully Completed on: `date +%s` 
-"""
+""".format(scard.user_string)
 
 
 	strn = """
