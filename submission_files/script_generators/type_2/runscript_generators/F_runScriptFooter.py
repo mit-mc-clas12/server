@@ -12,9 +12,12 @@ echo
 echo Creating the DST
 echo
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::RecMatch,MC::GenMatch,MC::Particle,MC::User,MC::Header,MC::Lund,MC::Event' -merge -o dst.hipo recon.hipo
-outputFileName="$submissionID-$jobID-{0}.hipo"
-echo Moving the DST to the output file $outputFileName
-mv dst.hipo $outputFileName
+# remove extension from $lundFile
+set lundFileString = `echo $lundFile | sed 's/\.[^.]*$//'`
+set outputFileName="{0}"$lundFileString"-"$submissionID"-"$sjobID".hipo"
+echo submissionID is $submissionID
+echo sjobID is $sjobID
+echo outputFileName is $outputFileName
 if ($? != 0) then
   echo hipo-utils failed, removing data files and exiting
   rm -f *.hipo *.evio

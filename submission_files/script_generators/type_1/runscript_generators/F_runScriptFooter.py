@@ -12,7 +12,7 @@ echo
 echo Creating the DST
 echo
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::RecMatch,MC::GenMatch,MC::Particle,MC::User,MC::Header,MC::Lund,MC::Event' -merge -o dst.hipo recon.hipo
-set outputFileName=$submissionID"-"$sjobID"-{0}.hipo"
+set outputFileName="{0}"$submissionID"-"$sjobID".hipo"
 echo submissionID is $submissionID
 echo sjobID is $sjobID
 echo outputFileName is $outputFileName
