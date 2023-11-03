@@ -18,6 +18,7 @@ set outputFileName="{0}"$lundFileString"-"$submissionID"-"$sjobID".hipo"
 echo submissionID is $submissionID
 echo sjobID is $sjobID
 echo outputFileName is $outputFileName
+mv dst.hipo $outputFileName
 if ($? != 0) then
   echo hipo-utils failed, removing data files and exiting
   rm -f *.hipo *.evio
