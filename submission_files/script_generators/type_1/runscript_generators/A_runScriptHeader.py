@@ -7,7 +7,7 @@
 
 def A_runScriptHeader(scard, **kwargs):
 
-	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
+	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/clas12-config/"
 	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
 	yaml = c12f_home + "coatjava/" + scard.coatjavav + "/" + scard.configuration + ".yaml"
 
@@ -30,7 +30,7 @@ endif
 # -----------------
 set echo
 # limit core size
-ulimit -c 10
+# ulimit -c 10
 
 # clearing module environment, as suggested by OSG, #67051
 unsetenv ENABLE_LMOD
@@ -59,7 +59,7 @@ unsetenv MODULESHOME
 # ------------------------------------------------
 
 source /etc/profile.d/modules.csh
-set cvmfsPath = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/
+set cvmfsPath = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/
 set cvmfsSetupFile = $cvmfsPath/setup.csh
 if (-f $cvmfsSetupFile ) then
 		echo $cvmfsSetupFile exists, sourcing it with path $cvmfsPath
@@ -93,12 +93,12 @@ module load jdk/{3}
 module load root/{4}
 module load mcgen/{5}
 
-echo JDK Version: {3}
 echo ROOT Version: {4}
 echo MCGEN Version: {5}
-echo GEMC Version: {1}
-echo COATJAVA Version: {2}
 echo SQLITE Version: {1}
+echo GEMC Version: {1}
+echo JDK Version: {3}
+echo COATJAVA Version: {2}
 
 
 

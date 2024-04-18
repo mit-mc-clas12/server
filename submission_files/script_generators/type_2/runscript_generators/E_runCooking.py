@@ -2,7 +2,7 @@
 
 def E_runCooking(scard, **kwargs):
 
-	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/noarch/clas12-config/"
+	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/clas12-config/"
 	yaml = c12f_home + "coatjava/" + scard.coatjavav + "/" + scard.configuration + ".yaml"
 
 	inputFileForCooking = "gemc_denoised.hipo"
