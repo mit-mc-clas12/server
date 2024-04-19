@@ -82,9 +82,12 @@ module unload coatjava
 module unload jdk
 module unload root
 module unload mcgen
-
-module load gemc/{1}
 module load sqlite/{1}
+
+setenv SIM_HOME /cvmfs/oasis.opensciencegrid.org/jlab/geant4
+source /cvmfs/oasis.opensciencegrid.org/jlab/geant4/ceInstall/setup.csh
+module load gemc/{1}
+
 # TODO: RCDB_CONNECTION currently not used. When fixed, remove this line.
 setenv RCDB_CONNECTION mysql://null
 
