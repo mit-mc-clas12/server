@@ -91,6 +91,7 @@ module load gemc/{1}
 # TODO: RCDB_CONNECTION currently not used. When fixed, remove this line.
 setenv RCDB_CONNECTION mysql://null
 
+module avail
 module load coatjava/{2}
 module load jdk/{3}
 
