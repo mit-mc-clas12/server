@@ -11,6 +11,11 @@ def A_runScriptHeader(scard, **kwargs):
 	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
 	yaml = c12f_home + "coatjava/" + scard.coatjavav + "/" + scard.configuration + ".yaml"
 
+	modified_conf = scard.configuration
+
+	if modified_conf == "rga_fall2018_target_at_m3.5" :
+		modified_conf = "rga_fall2018"
+
 	headerSTR = """#!/bin/csh
 
 echo SCRIPTHEADER START:  `date +%s`
@@ -163,6 +168,6 @@ echo FETCHBACKGROUNDFILE END:  `date +%s`
 # End ofbackground Merging Fetch
 # ------------------------------
 
-""".format(scard.configuration, scard.fields, scard.bkmerging)
+""".format(modified_conf, scard.fields, scard.bkmerging)
 
 	return headerSTR + fetchBackgroundFile
