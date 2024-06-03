@@ -65,7 +65,7 @@ unsetenv MODULESHOME
 
 source /etc/profile.d/modules.csh
 set cvmfsPath = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/
-set cvmfsSetupFile = $cvmfsPath/setup.csh
+set cvmfsSetupFile = $cvmfsPath/geant4_cvmfs.csh
 if (-f $cvmfsSetupFile ) then
 		echo $cvmfsSetupFile exists, sourcing it with path $cvmfsPath
 		source $cvmfsSetupFile $cvmfsPath
@@ -89,8 +89,6 @@ module unload root
 module unload mcgen
 module load sqlite/{1}
 
-setenv SIM_HOME /cvmfs/oasis.opensciencegrid.org/jlab/geant4
-source /cvmfs/oasis.opensciencegrid.org/jlab/geant4/ceInstall/setup.csh
 module load gemc/{1}
 
 # TODO: RCDB_CONNECTION currently not used. When fixed, remove this line.
