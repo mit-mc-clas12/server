@@ -71,7 +71,7 @@ if (-f $cvmfsSetupFile ) then
 		source $cvmfsSetupFile $cvmfsPath
 		set cvmfsSetupFile2 = /cvmfs/oasis.opensciencegrid.org/jlab/geant4/ceInstall/geant4_cvmfs.csh 
 		if (-f $cvmfsSetupFile2 ) then
-			echo $cvmfsSetupFile1 exists, sourcing it
+			echo $cvmfsSetupFile2 exists, sourcing it
 			source $cvmfsSetupFile2 
 		else
 			echo CVMFS ERROR $cvmfsSetupFile2 does not exist. Exiting
