@@ -65,10 +65,19 @@ unsetenv MODULESHOME
 
 source /etc/profile.d/modules.csh
 set cvmfsPath = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/
-set cvmfsSetupFile = $cvmfsPath/geant4_cvmfs.csh
+set cvmfsSetupFile = $cvmfsPath/setup.csh
 if (-f $cvmfsSetupFile ) then
 		echo $cvmfsSetupFile exists, sourcing it with path $cvmfsPath
 		source $cvmfsSetupFile $cvmfsPath
+		set cvmfsSetupFile2 = /cvmfs/oasis.opensciencegrid.org/jlab/geant4/ceInstall/geant4_cvmfs.csh 
+		if (-f $cvmfsSetupFile2 ) then
+			echo $cvmfsSetupFile1 exists, sourcing it
+			source $cvmfsSetupFile2 
+		else
+			echo CVMFS ERROR $cvmfsSetupFile2 does not exist. Exiting
+			exit 202
+		endif
+endif
 else
 		echo CVMFS ERROR $cvmfsSetupFile does not exist. Exiting
 		exit 202
