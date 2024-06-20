@@ -96,8 +96,8 @@ module unload coatjava
 module unload jdk
 module unload root
 module unload mcgen
-module load sqlite/{1}
 module load gemc/{1}
+module load sqlite/{1}
 
 # TODO: RCDB_CONNECTION currently not used. When fixed, remove this line.
 setenv RCDB_CONNECTION mysql://null
