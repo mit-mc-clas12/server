@@ -9,7 +9,11 @@ def C_runGemc(scard, **kwargs):
 	gemcAdditionalOptions = """ -INTEGRATEDRAW="*" """.format(scard.genOutput)
 	redirectOutput = """ \| sed "/G4Exception-START/,/G4Exception-END/d"  """
 
-	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/clas12-config/dev/"
+	submission_type = "main"
+	if scard.configuration == "devel":
+		submission_type = "dev"
+
+	c12f_home = f'/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/clas12-config/{submission_type}/'
 	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
 
 	if scard.genExecutable == 'gemc':

@@ -7,12 +7,15 @@
 
 def A_runScriptHeader(scard, **kwargs):
 
-	c12f_home = "/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/clas12-config/dev/"
+	submission_type = "main"
+	if scard.configuration == "devel":
+		submission_type = "dev"
+
+	c12f_home = f'/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/clas12-config/{submission_type}/'
 	gcard = c12f_home + "gemc/" + scard.gemcv + "/" + scard.configuration + ".gcard"
 	yaml = c12f_home + "coatjava/" + scard.coatjavav + "/" + scard.configuration + ".yaml"
 
 	modified_conf = scard.configuration
-
 	if modified_conf == "rga_fall2018_target_at_m3.5" :
 		modified_conf = "rga_fall2018"
 
