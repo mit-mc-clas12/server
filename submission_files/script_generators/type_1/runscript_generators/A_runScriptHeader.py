@@ -8,7 +8,7 @@
 def A_runScriptHeader(scard, **kwargs):
 
 	submission_type = "main"
-	if scard.configuration == "devel":
+	if scard.submission == "devel":
 		submission_type = "dev"
 
 	c12f_home = f'/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/clas12-config/{submission_type}/'
