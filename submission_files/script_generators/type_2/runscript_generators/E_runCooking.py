@@ -2,7 +2,7 @@
 
 def E_runCooking(scard, **kwargs):
 
-	submission_type = "main"
+	submission_type = "prod"
 	if scard.submission == "devel":
 		submission_type = "dev"
 

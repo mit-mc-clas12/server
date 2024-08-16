@@ -9,7 +9,7 @@ def C_runGemc(scard, **kwargs):
 	gemcAdditionalOptions = """ -INTEGRATEDRAW="*" """.format(scard.genOutput)
 	redirectOutput = """ \| sed "/G4Exception-START/,/G4Exception-END/d"  """
 
-	submission_type = "main"
+	submission_type = "prod"
 	if scard.submission == "devel":
 		submission_type = "dev"
 
