@@ -14,7 +14,7 @@ def B_condorJobDetails(scard,**kwargs):
 # Hardware requirements
 request_cpus   = {0}
 request_memory = {1} GB
-request_disk   = 1 GB
+request_disk   = 4 GB
 
 # script to be executed on the node. The arguments are defined in the FilesHandler
 Executable = {2}
