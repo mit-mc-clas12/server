@@ -35,6 +35,9 @@ endif
 echo
 printf "evio2hipo Completed on: "; /bin/date
 echo
+echo Removing evio file
+rm -f gemc.evio
+echo
 echo "Directory Content After evio2hipo:"
 ls -l
 if ($? != 0) then
@@ -70,6 +73,9 @@ if ($? != 0) then
 	exit 206
 endif
 
+echo Removing background file and original hipo file
+rm -f gemc.hipo $bgFile
+echo 
 echo "Directory Content After Background Merging:"
 ls -l
 if ($? != 0) then
@@ -78,9 +84,6 @@ if ($? != 0) then
 	rm -f *.hipo *.evio
 	exit 211
 endif
-
-echo "Removing background file"
-rm $bgFile
 
 echo BACKGROUNDMERGING END:  `date +%s`
 
@@ -109,6 +112,8 @@ if ($? != 0) then
 	exit 230
 endif
 
+echo Removing original hipo file {0}
+rm -f {0}
 echo "Directory Content After de-noiser:"
 ls -l
 if ($? != 0) then

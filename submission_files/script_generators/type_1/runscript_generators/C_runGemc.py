@@ -69,6 +69,9 @@ rm -f *.dat
 echo
 printf "GEMC Completed on: "; /bin/date
 echo
+echo "Removing LUND file"
+rm -f {9}
+echo
 echo "Directory Content After GEMC:"
 ls -l
 if ($? != 0) then
@@ -84,6 +87,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(gcard, scard.nevents, gemcInputOptions, all_vertex_options, torusField, solenField, output, gemcAdditionalOptions, redirectOutput)
+""".format(gcard, scard.nevents, gemcInputOptions, all_vertex_options, torusField, solenField, output, gemcAdditionalOptions, redirectOutput, scard.genOutput)
 
 	return runGemc
