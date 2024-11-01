@@ -63,32 +63,10 @@ unsetenv MODULEPATH
 unsetenv MODULEPATH_ROOT
 unsetenv MODULESHOME
 
-# Exit if cvmfs file not found, source it if found
-# ------------------------------------------------
-
 source /etc/profile.d/modules.csh
-set cvmfsPath = /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/
-set cvmfsSetupFile = $cvmfsPath/setup.csh
-if (-f $cvmfsSetupFile ) then
-		echo $cvmfsSetupFile exists, sourcing it with path $cvmfsPath
-		source $cvmfsSetupFile $cvmfsPath
-		set cvmfsSetupFile2 = /cvmfs/oasis.opensciencegrid.org/jlab/geant4/ceInstall/geant4_cvmfs.csh 
-		if (-f $cvmfsSetupFile2 ) then
-			echo $cvmfsSetupFile2 exists, sourcing it
-			source $cvmfsSetupFile2 
-		else
-			echo CVMFS ERROR $cvmfsSetupFile2 does not exist. Exiting
-			exit 202
-		endif
-endif
-else
-		echo CVMFS ERROR $cvmfsSetupFile does not exist. Exiting
-		exit 202
-endif
-if ( ! -f {6} ) then
-	echo gcard not found, exiting
-	exit 241
-endif
+module use /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/modulefiles
+module use /cvmfs/oasis.opensciencegrid.org/jlab/geant4/modules
+
 if ( ! -f {7} ) then
 	echo yaml not found, exiting
 	exit 242
@@ -107,15 +85,15 @@ setenv RCDB_CONNECTION mysql://null
 
 module avail
 module load coatjava/{2}
-module load jdk/{3}
-#module load root/{4}
-module load mcgen/{5}
+# module load jdk/{3}
+# module load root/{4}
+m odule load mcgen/{5}
 
 echo ROOT Version: {4}
 echo MCGEN Version: {5}
 echo SQLITE Version: {1}
 echo GEMC Version: {1}
-echo JDK Version: {3}
+# echo JDK Version: {3}
 echo COATJAVA Version: {2}
 
 

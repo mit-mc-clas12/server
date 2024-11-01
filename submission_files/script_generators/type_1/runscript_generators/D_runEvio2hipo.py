@@ -102,8 +102,8 @@ echo BACKGROUNDMERGING END:  `date +%s`
 # -------------
 
 echo DE-NOISING START:  `date +%s`
-
-$DRIFTCHAMBERS/install/bin/denoise2.exe  -i {0} -o gemc_denoised.hipo -t 1 -n $DRIFTCHAMBERS/denoising/code/network/cnn_autoenc_0f_112.json 
+# hardcoding the denoiser for now, and this is a custom installation, to be replaced 
+$SIM_HOME/driftchambers/4.0.1/install/bin/denoise2.exe  -i {0} -o gemc_denoised.hipo -t 1 -n $DRIFTCHAMBERS/denoising/code/network/cnn_autoenc_0f_112.json 
 
 if ($? != 0) then
 	echo de-noiser failed.
