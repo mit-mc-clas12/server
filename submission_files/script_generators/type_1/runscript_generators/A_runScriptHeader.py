@@ -89,7 +89,7 @@ module load hipo/4.0.1
 module load denoise/4.0.1
 # module load jdk/{3}
 # module load root/{4}
-m odule load mcgen/{5}
+module load mcgen/{5}
 
 echo ROOT Version: {4}
 echo MCGEN Version: {5}
