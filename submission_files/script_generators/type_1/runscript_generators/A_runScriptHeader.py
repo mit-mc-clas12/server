@@ -85,8 +85,8 @@ setenv RCDB_CONNECTION mysql://null
 
 module avail
 module load coatjava/{2}
-module load hipo/4.0.1
-module load denoise/4.0.1
+module load hipo/4.2.0
+module load denoise/4.2.0
 # module load jdk/{3}
 # module load root/{4}
 module load mcgen/{5}
