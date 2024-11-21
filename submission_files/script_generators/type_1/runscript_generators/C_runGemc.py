@@ -56,7 +56,7 @@ echo gcard: {0}
 echo
 ls ../
 
-gemc -USE_GUI=0 -N={1} {0} {2} {3} {4} {5} {6} {7} {8}
+gemc -USE_GUI=0 -N={1} {0} {2} {3} {4} {5} {6} {7} {8} -NGENP=100
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting

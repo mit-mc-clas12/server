@@ -52,7 +52,7 @@ echo GEMC START:  `date +%s`
 echo
 echo GEMC executable: `which gemc`, gcard: {0}
 
-gemc -USE_GUI=0  -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}  {1} {2} {3} {4} {5}
+gemc -USE_GUI=0  -N=10000 -INPUT_GEN_FILE="lund, lund.dat" {0}  {1} {2} {3} {4} {5} -NGENP=100
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting

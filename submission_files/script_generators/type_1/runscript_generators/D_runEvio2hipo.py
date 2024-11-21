@@ -103,7 +103,7 @@ echo BACKGROUNDMERGING END:  `date +%s`
 
 echo DE-NOISING START:  `date +%s`
 # hardcoding the denoiser for now, and this is a custom installation, to be replaced 
-denoise2.exe  -i {0} -o gemc_denoised.hipo -t 1 -n $DENOISING_NETWORKS/cnn_autoenc_0f_112.json 
+denoise2.exe  -i {0} -o gemc_denoised.hipo -t 1 -l 0.01
 
 if ($? != 0) then
 	echo de-noiser failed.
