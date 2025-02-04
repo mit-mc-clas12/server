@@ -120,10 +120,34 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   farm_submission_manager.farm_submission_manager(args, UserSubmissionID,
                                                   file_extension, scard, params,
                                                   db_conn, sql)
-  submission_string = 'Submitted to {0}'.format("OSG")
-  update_tables.update_run_status(submission_string, UserSubmissionID,
-                                  db_conn, sql)
 
+
+  if submission_status_not_waiting(UserSubmissionID, db_conn, sql):
+    submission_string = 'Submitted to {0}'.format("OSG")
+    update_tables.update_run_status(submission_string, UserSubmissionID, db_conn, sql)
+
+
+# return true if the submission status is NOT 'Waiting to Submit'
+def submission_status_not_waiting(UserSubmissionID, db_conn, sql):
+    """ Return True if the submission status is NOT 'Waiting to Submit'.
+
+    Inputs:
+    -------
+    UserSubmissionID - (int) from UserSubmissions.UserSubmissionID
+    db_conn - Active database connection.
+    sql - Cursor object for database.
+
+    Returns:
+    --------
+    - (bool) True if the submission status is NOT 'Waiting to Submit'.
+
+    """
+    sql.execute("SELECT run_status FROM submissions WHERE user_submission_id = {0};".format(
+        UserSubmissionID))
+    for row in sql:
+        if row[0] != 'Waiting to Submit':
+          return True
+    return False
 
 def set_scard_generator_options(scard, scard_type):
   """ Setup generator options for different types of

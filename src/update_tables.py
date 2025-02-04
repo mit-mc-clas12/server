@@ -106,7 +106,7 @@ def update_farm_submission_to_waiting(usub_id, timestamp,db_conn, sql):
 
     """
     strn = ("UPDATE submissions SET run_status "
-            "= 'waiting to submit' WHERE user_submission_id = '{0}';").format(usub_id)
+            "= 'Waiting to Submit' WHERE user_submission_id = '{0}';").format(usub_id)
     sql.execute(strn)
     strn = ("UPDATE submissions SET server_time"
             " = '{0}' WHERE user_submission_id = '{1}';").format(timestamp, usub_id)

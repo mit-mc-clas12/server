@@ -19,7 +19,7 @@ import update_tables
 import utils
 
 
-def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, idle_limit=20000):
+def htcondor_submit(args, scard, usub_id, file_extension, params, db_conn, sql, idle_limit=40000):
 
     #Test to see if user has too many jobs currently running:
     #shouldBeSubmitted will return false if number of jobs for that user is over idle limit
