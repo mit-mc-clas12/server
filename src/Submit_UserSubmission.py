@@ -81,7 +81,8 @@ def server(args):
             print("There are no UserSubmissions which have not yet been submitted to a farm")
 
         else:
-            for i, submission_id in enumerate(user_submissions):              
+            # Only process the first submission by slicing the list
+            for i, submission_id in enumerate(user_submissions[:1]):
                 logger.debug('Working on job {} of {}, user_submission_id = {}'.format(
                     i + 1, len(user_submissions), submission_id
                 ))
