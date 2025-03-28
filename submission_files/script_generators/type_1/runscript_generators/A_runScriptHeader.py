@@ -78,7 +78,14 @@ module unload jdk
 module unload root
 module unload mcgen
 module load gemc/{1}
-module load sqlite/{1}
+
+cp /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/data/ccdb/ccdb_{1}.sqlite .
+export cdir=`pwd`
+export CCDB_CONNECTION=sqlite:///$cdir/ccdb_{1}.sqlite
+
+#module load sqlite/{1}
+
+
 
 # TODO: RCDB_CONNECTION currently not used. When fixed, remove this line.
 setenv RCDB_CONNECTION mysql://null
