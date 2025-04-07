@@ -28,7 +28,7 @@ evio2hipo -r 11 -t {0} -s {1} -i gemc.evio -o gemc.hipo
 if ($? != 0) then
 	echo evio2hipo failed.
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 205
 endif
 
@@ -43,7 +43,7 @@ ls -l
 if ($? != 0) then
 	echo ls failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 211
 endif
 
@@ -69,7 +69,7 @@ bg-merger -b $bgFile -i gemc.hipo -o gemc.merged.hipo -d "DC,FTOF,ECAL,HTCC,LTCC
 if ($? != 0) then
 	echo bg-merger failed.
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 206
 endif
 
@@ -81,7 +81,7 @@ ls -l
 if ($? != 0) then
 	echo ls failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 211
 endif
 
@@ -108,7 +108,7 @@ denoise2.exe  -i {0} -o gemc_denoised.hipo -t 1 -l 0.01
 if ($? != 0) then
 	echo de-noiser failed.
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 230
 endif
 
@@ -119,7 +119,7 @@ ls -l
 if ($? != 0) then
 	echo ls failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 211
 endif
 

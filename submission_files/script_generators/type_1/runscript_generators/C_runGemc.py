@@ -60,7 +60,7 @@ gemc -USE_GUI=0 -NGENP=100 -N={1} {0} {2} {3} {4} {5} {6} {7} {8}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 204
 endif
 # removing generated events file
@@ -77,7 +77,7 @@ ls -l
 if ($? != 0) then
 	echo ls failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 211
 endif
 echo

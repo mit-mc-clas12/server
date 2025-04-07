@@ -80,8 +80,8 @@ module unload mcgen
 module load gemc/{1}
 
 cp /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/data/ccdb/ccdb_{1}.sqlite .
-export cdir=`pwd`
-export CCDB_CONNECTION=sqlite:///$cdir/ccdb_{1}.sqlite
+setenv cdir `pwd`
+setenv CCDB_CONNECTION sqlite:///$cdir/ccdb_{1}.sqlite
 
 #module load sqlite/{1}
 
@@ -134,7 +134,7 @@ echo FETCHBACKGROUNDFILE START:  `date +%s`
 if ($? != 0) then
 	echo bgMerginFilename failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 212
 endif
 
@@ -146,7 +146,7 @@ if (-f $bgFile ) then
 else
 	echo XROOTD ERROR: Background file $bgFile does not exist. Exiting
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 210
 endif
 
@@ -155,7 +155,7 @@ ls -l
 if ($? != 0) then
 	echo ls failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 211
 endif
 

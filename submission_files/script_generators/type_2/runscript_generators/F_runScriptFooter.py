@@ -21,7 +21,7 @@ echo outputFileName is $outputFileName
 mv dst.hipo $outputFileName
 if ($? != 0) then
   echo hipo-utils failed, removing data files and exiting
-  rm -f *.hipo *.evio
+  rm -f *.hipo *.evio *.sqlite
   exit 208
 endif
 
@@ -33,7 +33,7 @@ ls -l
 if ($? != 0) then
 	echo ls failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 211
 endif
 echo

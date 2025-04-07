@@ -56,7 +56,7 @@ gemc -USE_GUI=0 -NGENP=100 -N=5000 -INPUT_GEN_FILE="lund, lund.dat" {0}  {1} {2}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 204
 endif
 # removing generated events file
@@ -73,7 +73,7 @@ ls -l
 if ($? != 0) then
 	echo ls failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 211
 endif
 echo

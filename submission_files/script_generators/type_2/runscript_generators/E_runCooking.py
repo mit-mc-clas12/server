@@ -32,7 +32,7 @@ df /cvmfs/oasis.opensciencegrid.org && df . && df /tmp
 if ($? != 0) then
 	echo df failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 213
 endif
 
@@ -42,14 +42,14 @@ recon-util -y {0} -i {1} -o recon.hipo
 if ($? != 0) then
 	echo recon-util failed.
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 207
 endif
 df /cvmfs/oasis.opensciencegrid.org && df . && df /tmp
 if ($? != 0) then
 	echo df failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 213
 endif
 
@@ -61,7 +61,7 @@ ls -l
 if ($? != 0) then
 	echo ls failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 211
 endif
 
@@ -70,14 +70,14 @@ hipo-utils -test recon.hipo
 if ($? != 0) then
 	echo hipo-utils failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 214
 endif
 
 if (`stat -L -c%s recon.hipo` < 100) then
 	echo hipo size failure
 	echo removing data files and exiting
-	rm -f *.hipo *.evio
+    rm -f *.hipo *.evio *.sqlite
 	exit 215
 endif
 
