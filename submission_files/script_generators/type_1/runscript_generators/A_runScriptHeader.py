@@ -79,18 +79,19 @@ module unload root
 module unload mcgen
 module load gemc/{1}
 
-cp /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/data/ccdb/ccdb_{1}.sqlite .
-setenv CCDB_CONNECTION sqlite:///`pwd`/ccdb_{1}.sqlite
+# cp /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/data/ccdb/ccdb_{1}.sqlite .
+# setenv CCDB_CONNECTION sqlite:///`pwd`/ccdb_{1}.sqlite
+# 
+# echo Directory `pwd` content before starting submissionID $submissionID":"
+# ls -l
+# if ($? != 0) then
+#   echo ls failure
+#   exit 211
+# endif
+# echo CCDB_CONNECTION: $CCDB_CONNECTION
 
-echo Directory `pwd` content before starting submissionID $submissionID":"
-ls -l
-if ($? != 0) then
-  echo ls failure
-  exit 211
-endif
-echo CCDB_CONNECTION: $CCDB_CONNECTION
+module load sqlite/{1}
 
-#module load sqlite/{1}
 
 
 
