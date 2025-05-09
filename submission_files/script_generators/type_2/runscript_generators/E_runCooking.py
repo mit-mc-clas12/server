@@ -40,7 +40,7 @@ echo
 # echo executing: recon-util -y {0} -i {1} -o recon.hipo
 # recon-util -y {0} -i {1} -o recon.hipo
 
-export MALLOC_ARENA_MAX=1
+setenv MALLOC_ARENA_MAX 1
  
 java -Xmx2560m -Xms1024m -XX:+UseSerialGC \
     -cp "$CLAS12DIR/lib/clas/*:$CLAS12DIR/lib/services/*:$CLAS12DIR/lib/utils/*" \
