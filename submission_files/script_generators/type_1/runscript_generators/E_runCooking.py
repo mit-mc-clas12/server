@@ -37,15 +37,8 @@ if ($? != 0) then
 endif
 
 echo
-# echo executing: recon-util -y {0} -i {1} -o recon.hipo
-# recon-util -y {0} -i {1} -o recon.hipo
-
-setenv MALLOC_ARENA_MAX 1
- 
-java -Xmx2560m -Xms1024m -XX:+UseSerialGC \
-    -cp "$CLAS12DIR/lib/clas/*:$CLAS12DIR/lib/services/*:$CLAS12DIR/lib/utils/*" \
-    org.jlab.clas.reco.EngineProcessor \
-    -y {0} -i {1} -o recon.hipo
+echo executing: recon-util -y {0} -i {1} -o recon.hipo -- -Xmx2560m
+recon-util -y {0} -i {1} -o recon.hipo -- -Xmx2560m
 
 if ($? != 0) then
 	echo recon-util failed.
