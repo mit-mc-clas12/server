@@ -55,7 +55,7 @@ which gemc
 echo gcard: {0}
 echo
 
-gemc -USE_GUI=0 -NGENP=100 -N=5000 -INPUT_GEN_FILE="lund, lund.dat" {0} {1} {2} {3} {4} {5} 
+gemc -USE_GUI=0 -NGENP=100 -N=5000 -INPUT_GEN_FILE="lund, lund.dat" {0} {1} {2} {3} {4} {5} {6}
 if ($? != 0) then
 	echo gemc failed
 	echo removing data files and exiting
@@ -86,6 +86,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(gcard, torusField, solenField, output, gemcAdditionalOptions, redirectOutput, all_vertex_options)
+""".format(gcard, torusField, solenField, output, gemcAdditionalOptions, all_vertex_options, redirectOutput)
 
 	return runGemc
