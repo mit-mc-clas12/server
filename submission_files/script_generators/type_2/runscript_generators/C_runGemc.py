@@ -69,7 +69,7 @@ echo
 printf "GEMC Completed on: "; /bin/date
 echo
 echo "Removing LUND file"
-rm -f {6}
+rm -f lund.dat
 echo
 echo "Directory Content After GEMC:"
 ls -l
