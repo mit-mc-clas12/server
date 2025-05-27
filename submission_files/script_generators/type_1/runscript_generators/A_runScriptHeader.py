@@ -92,25 +92,18 @@ module load gemc/{1}
 
 module load sqlite/{1}
 
-
-
-
 # TODO: RCDB_CONNECTION currently not used. When fixed, remove this line.
 setenv RCDB_CONNECTION mysql://null
 
 module avail
 module load coatjava/{2}
-module switch hipo/4.2.0
 module load denoise/4.2.0
-# module load jdk/{3}
-# module load root/{4}
 module load mcgen/{5}
 
 echo ROOT Version: {4}
 echo MCGEN Version: {5}
 echo SQLITE Version: {1}
 echo GEMC Version: {1}
-# echo JDK Version: {3}
 echo COATJAVA Version: {2}
 
 

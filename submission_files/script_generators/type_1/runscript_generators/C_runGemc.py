@@ -54,7 +54,6 @@ echo GEMC executable:
 which gemc
 echo gcard: {0}
 echo
-ls ../
 
 gemc -USE_GUI=0 -NGENP=100 -N={1} {0} {2} {3} {4} {5} {6} {7} {8}
 if ($? != 0) then
@@ -87,6 +86,6 @@ echo GEMC END:  `date +%s`
 # End of GEMC
 # -----------
 
-""".format(gcard, scard.nevents, gemcInputOptions, all_vertex_options, torusField, solenField, output, gemcAdditionalOptions, redirectOutput, scard.genOutput)
+""".format(gcard, scard.nevents, gemcInputOptions, all_vertex_options, torusField, solenField, output, gemcAdditionalOptions, redirectOutput)
 
 	return runGemc

@@ -97,17 +97,13 @@ setenv RCDB_CONNECTION mysql://null
 
 module avail
 module load coatjava/{2}
-module switch hipo/4.2.0
 module load denoise/4.2.0
-# module load jdk/{3}
 
 
 
-# echo ROOT Version: {4}
-# echo MCGEN Version: {5}
+
 echo SQLITE Version: {1}
 echo GEMC Version: {1}
-# echo JDK Version: {3}
 echo COATJAVA Version: {2}
 
 # lund file env needed by runGenerator phase
