@@ -42,10 +42,20 @@ echo Simulation + Reconstruction Successfully Completed on: `date +%s`
 
 
 	strn = """
-# Removing Unnecessary Files and Creating DST if selected
-# -------------------------------------------------------
 
-{0}
+# Running Pelican
+
+echo _CONDOR_CREDS: $_CONDOR_CREDS
+setenv BEARER_TOKEN_FILE "${_CONDOR_CREDS}/jlab_clas12.use"
+echo " BEARER_TOKEN_FILE: $BEARER_TOKEN_FILE"
+echo " pelican: " `which pelican`
+echo " pelican ls /volatile for {2}: "
+pelican object ls osdf:///jlab-osdf/clas12/volatile/{2}
+echo Running pelican on: $outputFileName
+ 
+# running pelican
+echo pelicon output to osdf:///jlab-osdf/clas12/volatile/osg/{2}/$outputFileName
+/usr/bin/pelican -d object put $outputFileName osdf:///jlab-osdf/clas12/volatile/osg/{2}/$outputFileName
 
 echo Additional cleanup
 rm -f core* *.gcard
@@ -53,6 +63,7 @@ rm -f recon.hipo gemc.hipo gemc.merged.hipo gemc_denoised.hipo
 rm -f run.sh nodeScript.sh condor_exec.exe
 rm -f RNDMSTATUS random-seeds.txt {1}
 rm -f gemc.evio
+rm -f *.hipo 
 
 echo
 echo nodeScript run completed.
@@ -65,4 +76,4 @@ echo
 
 	"""
 
-	return strn.format(dst, scard.genOutput)
+	return strn.format(dst, scard.genOutput, kwargs['username'])
