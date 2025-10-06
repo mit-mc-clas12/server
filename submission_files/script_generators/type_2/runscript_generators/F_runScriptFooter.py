@@ -47,7 +47,7 @@ echo Simulation + Reconstruction Successfully Completed on: `date +%s`
 # Running Pelican
 
 echo _CONDOR_CREDS: $_CONDOR_CREDS
-setenv BEARER_TOKEN_FILE "${_CONDOR_CREDS}/jlab_clas12.use"
+setenv BEARER_TOKEN_FILE "$_CONDOR_CREDS/jlab_clas12.use"
 echo " BEARER_TOKEN_FILE: $BEARER_TOKEN_FILE"
 echo " pelican: " `which pelican`
 echo " pelican ls /volatile for {2}: "
