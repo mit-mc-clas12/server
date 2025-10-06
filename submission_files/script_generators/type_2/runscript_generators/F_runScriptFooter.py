@@ -58,7 +58,7 @@ echo Running pelican on: $outputFileName
 echo pelicon output to osdf:///jlab-osdf/clas12/volatile/osg/{2}/$outputFileName
 /usr/bin/pelican -d object put $outputFileName osdf:///jlab-osdf/clas12/volatile/osg/{2}/$outputFileName
 
-echo Additional cleanup
+echo Additional cleanup 
 rm -f core* *.gcard
 rm -f recon.hipo gemc.hipo gemc.merged.hipo gemc_denoised.hipo 
 rm -f run.sh nodeScript.sh condor_exec.exe
@@ -77,4 +77,4 @@ echo
 
 	"""
 
-	return strn.format(dst, scard.genOutput)
+	return strn.format(dst, scard.genOutput, kwargs['username'])
