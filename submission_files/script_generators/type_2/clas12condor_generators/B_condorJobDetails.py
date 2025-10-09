@@ -11,6 +11,9 @@ def B_condorJobDetails(scard,**kwargs):
 
   executable = "run.sh"
   strn = """
+# pelican authentication
+use_oauth_services = jlab_clas12
+    
 # Hardware requirements
 request_cpus   = {0}
 request_memory = {1} GB
