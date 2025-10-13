@@ -42,6 +42,7 @@ echo DST Successfully created on: `date +%s`
 
 """.format(scard.user_string)
 
+	{0}
 
 	strn = """	
 # Running Pelican

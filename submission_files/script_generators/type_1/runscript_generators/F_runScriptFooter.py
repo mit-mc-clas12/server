@@ -44,6 +44,8 @@ echo DST Successfully created on: `date +%s`
 
 	strn = """
 
+{0}
+
 # Running Pelican
 
 echo _CONDOR_CREDS: $_CONDOR_CREDS
