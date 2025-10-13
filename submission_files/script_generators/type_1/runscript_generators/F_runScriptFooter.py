@@ -37,7 +37,12 @@ if ($? != 0) then
 endif
 echo
 echo
-echo Simulation + Reconstruction Successfully Completed on: `date +%s` 
+echo DST Successfully created on: `date +%s` 
+
+""".format(scard.user_string)
+
+
+	strn = """
 
 # Running Pelican
 
