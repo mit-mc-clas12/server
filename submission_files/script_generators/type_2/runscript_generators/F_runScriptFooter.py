@@ -3,7 +3,7 @@
 
 def F_runScriptFooter(scard,**kwargs):
 
-	dst = ""
+	dst = "echo DST not requested: {0}".format(scard.dstOUT)
 
 	# creating the DST if requested
 	if scard.dstOUT == "yes":
