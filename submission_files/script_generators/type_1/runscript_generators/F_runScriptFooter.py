@@ -57,8 +57,8 @@ pelican object ls osdf:///jlab-osdf/clas12/volatile/{2}
 echo Running pelican on: $outputFileName
  
 # running pelican
-echo pelicon output to osdf:///jlab-osdf/clas12/volatile/osg/{2}/$sjobID/$outputFileName
-/usr/bin/pelican -d object put $outputFileName osdf:///jlab-osdf/clas12/volatile/osg/{2}/$sjobID/$outputFileName
+echo pelicon output to osdf:///jlab-osdf/clas12/volatile/osg/{2}/$submissionID/$outputFileName
+/usr/bin/pelican -d object put $outputFileName osdf:///jlab-osdf/clas12/volatile/osg/{2}/$submissionID/$outputFileName
 echo Additional cleanup
 rm -f core* *.gcard
 rm -f recon.hipo gemc.hipo gemc.merged.hipo gemc_denoised.hipo 
