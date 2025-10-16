@@ -21,7 +21,7 @@ Universe = vanilla
 +SingularityBindCVMFS = True
 
 #Rank = ( (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='SGridGLA') || (GLIDEIN_SITE=?='Lamar-Cluster') ) ? 200 : ((GLIDEIN_SITE=?='SU-ITS') ? 0 : 100)
-Rank = (Microarch >= "x86_64-v2") && (GLIDEIN_SITE=?='SGridGLA') ? 300 : ( ( (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='Lamar-Cluster') ) ? 200 : ( (GLIDEIN_SITE=?='SU-ITS') ? 0 : 100) )
+Rank = (GLIDEIN_SITE=?='SGridGLA') ? 300 : ( ( (GLIDEIN_SITE=?='CNAF') || (GLIDEIN_SITE=?='Lamar-Cluster') ) ? 200 : ( (GLIDEIN_SITE=?='SU-ITS') ? 0 : 100) )
 
 # Retry automatically
 on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)
@@ -33,7 +33,7 @@ periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStat
   # OSG Farm Requirements
   requirementsStr = """
 # OSG Requirements
-Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
+Requirements = (Microarch >= "x86_64-v2") &&  (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
 
 #+UNDESIRED_Sites = ""MIT,LBBAT0119""
 #+UNDESIRED_Sites = ""KSU,Clemson-Palmetto""
