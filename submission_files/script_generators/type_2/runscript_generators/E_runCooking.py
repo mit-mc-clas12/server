@@ -38,7 +38,7 @@ endif
 
 echo
 echo executing: recon-util -y {0} -i {1} -o recon.hipo
-recon-util -y {0} -i {1} -o recon.hipo
+/cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/sw/noarch/coatjava/bin/recon-util -y {0} -i {1} -o recon.hipo -- -Xmx2048m
 
 if ($? != 0) then
 	echo recon-util failed.
