@@ -37,8 +37,8 @@ if ($? != 0) then
 endif
 
 echo
-echo executing: recon-util -y {0} -i {1} -o recon.hipo -- -Xmx2560m
-recon-util -y {0} -i {1} -o recon.hipo -- -Xmx2560m
+echo executing: recon-util -y {0} -i {1} -o recon.hipo
+recon-util -y {0} -i {1} -o recon.hipo
 
 if ($? != 0) then
 	echo recon-util failed.
