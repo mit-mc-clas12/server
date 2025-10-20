@@ -42,9 +42,11 @@ echo DST Successfully created on: `date +%s`
 
 """.format(scard.user_string)
 
-	{0}
 
 	strn = """	
+	{0}
+
+
 # Running Pelican
 
 echo _CONDOR_CREDS: $_CONDOR_CREDS
