@@ -57,14 +57,14 @@ pelican object ls osdf:///jlab-osdf/clas12/volatile/{2}
 echo Running pelican on: $outputFileName
  
 # running pelican
-echo pelicon output to osdf:///jlab-osdf/clas12/volatile/osg/{2}/$submissionID/$outputFileName
-/usr/bin/pelican -d object put $outputFileName osdf:///jlab-osdf/clas12/volatile/osg/{2}/$submissionID/$outputFileName
-if ($? != 0) then
-	echo pelican failure
-	echo removing data files and exiting
-    rm -f *.hipo *.evio *.sqlite
-	exit 211
-endif
+# echo pelicon output to osdf:///jlab-osdf/clas12/volatile/osg/{2}/$submissionID/$outputFileName
+# /usr/bin/pelican -d object put $outputFileName osdf:///jlab-osdf/clas12/volatile/osg/{2}/$submissionID/$outputFileName
+# if ($? != 0) then
+# 	echo pelican failure
+# 	echo removing data files and exiting
+#     rm -f *.hipo *.evio *.sqlite
+# 	exit 211
+# endif
 
 echo Additional cleanup
 rm -f core* *.gcard
