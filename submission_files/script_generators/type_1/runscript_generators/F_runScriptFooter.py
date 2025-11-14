@@ -53,7 +53,7 @@ setenv BEARER_TOKEN_FILE "$_CONDOR_CREDS/jlab_clas12.use"
 echo " BEARER_TOKEN_FILE: $BEARER_TOKEN_FILE"
 echo " pelican: " `which pelican`
 echo " pelican ls /volatile for {2}: "
-pelican object ls osdf:///jlab-osdf/clas12/volatile/{2}
+pelican object ls osdf:///jlab-osdf/clas12/volatile/osg/{2}
 echo Running pelican on: $outputFileName
  
 # running pelican
