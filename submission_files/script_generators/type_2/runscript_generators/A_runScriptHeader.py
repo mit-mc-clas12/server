@@ -130,10 +130,10 @@ echo
 
 echo FETCHBACKGROUNDFILE START:  `date +%s`
 
-/bin/bgMerginFilename.sh {0} {1} {2} get
+./bg_merge_bk_file.sh {0} {1} {2} get
 
 if ($? != 0) then
-	echo bgMerginFilename failure
+	echo bg_merge_bk_file.sh failure
 	echo removing data files and exiting
     rm -f *.hipo *.evio *.sqlite
 	exit 212

@@ -20,6 +20,7 @@
 # For example, if one submits 5000 jobs, 1500 will immediately go to IDLE. As soon as some will run,
 # The remaining 3500 will materialize to IDLE then run
 
+
 def C_condorFilesHandler(scard,**kwargs):
 
   farm_name = scard.farm_name
@@ -30,15 +31,12 @@ def C_condorFilesHandler(scard,**kwargs):
     transfer_input_files = transfer_input_files + "../utils/database/CLAS12_OCRDB.db, "
 
   # remaining files
-  transfer_input_files = transfer_input_files + "run.sh, nodeScript.sh"
+  transfer_input_files = transfer_input_files + "run.sh, nodeScript.sh, bg_merge_bk_file.sh"
 
-  # MIT Farm: condor wrapper is needed. Notice, path is needed? Can we assume this
-  if farm_name == 'MIT_Tier2':
-    transfer_input_files = transfer_input_files + ", " + "condor_wrapper"
 
   strnIO = """
 # Input files
-transfer_input_files={0}, $(lundFile)
+transfer_input_files={0}
 
 # How to handle output
 should_transfer_files   = YES
@@ -62,7 +60,7 @@ transfer_output_files = output
 # Queue starts "jobs" number of subjobs
 # max_idle=2000
 Arguments  = {0} $(Process) $(lundFile)
-queue lundFile matching files {1}/*
-""".format(kwargs['user_submission_id'], 'lund_dir')
+queue lundFile from lund_files
+""".format(kwargs['user_submission_id'])
 
   return strnIO + strOUTPUT + arguQueue

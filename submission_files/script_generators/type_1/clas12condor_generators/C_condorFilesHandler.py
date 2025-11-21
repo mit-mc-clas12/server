@@ -31,11 +31,8 @@ def C_condorFilesHandler(scard,**kwargs):
     transfer_input_files = transfer_input_files + "../utils/database/CLAS12_OCRDB.db, "
 
   # remaining files
-  transfer_input_files = transfer_input_files + "run.sh, nodeScript.sh"
+  transfer_input_files = transfer_input_files + "run.sh, nodeScript.sh, bg_merge_bk_file.sh "
 
-  # MIT Farm: condor wrapper is needed. Notice, path is needed? Can we assume this
-  if farm_name == 'MIT_Tier2':
-    transfer_input_files = transfer_input_files + ", " + "condor_wrapper"
 
   strnIO = """
 # Input files

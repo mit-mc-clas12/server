@@ -54,6 +54,7 @@ elif [ "$dbType" = "Test MySQL DB" ] ; then
 
     # Get lund files and send job 
     python3 $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
+
     condor_submit clas12.condor 2> condorSubmissionError.txt
 
     # Clean up 
@@ -67,6 +68,7 @@ elif [ "$dbType" = "Production MySQL DB" ] ; then
 
     # Get lund files and send job 
     python3 $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_dir'
+
     condor_submit clas12.condor 2> condorSubmissionError.txt
 
     # Clean up 

@@ -10,8 +10,8 @@ def B_runGenerator(scard,**kwargs):
 # ---------
 
 echo
-echo LUND Event File: $lundFile
-mv $lundFile lund.dat
+echo Retrieving LUND Event File: $lundFile with pelican
+pelican object get $lundFile lund.dat
 echo
 
 # End of Run Generator
