@@ -11,6 +11,8 @@
 # ls: pelican object ls osdf:///jlab-osdf/clas12/osgpool/backgroundfiles/rga_fall2018/tor+1.00_sol-1.00/40nA_10604MeV/10k/00095.hipo
 
 
+export XDG_RUNTIME_DIR=/run/user/6635
+export BEARER_TOKEN_FILE=/var/run/user/6635/bt_u6635
 
 configuration=$1
 fields=$2
@@ -20,6 +22,7 @@ getit=$4
 pelican_path="osdf:///jlab-osdf/clas12/osgpool/"
 xdir="$pelican_path/backgroundfiles/"$configuration"/"$fields"/"$bkmerging"/10k"
 
+echo executing pelican object ls "$xdir"
 
 NFILES=$(pelican object ls $xdir | wc | awk '{print $1}')
 if [[ $NFILES -eq 0 ]]; then
@@ -51,7 +54,7 @@ if [[ ! $? -eq 0 ]]; then
         exit 223
 fi
 
-echo $bgfile
+echo executing pelican object get "$bgfile" .
 
 if [ "$#" == 4 ]; then
 	if [ $getit == "get" ]; then

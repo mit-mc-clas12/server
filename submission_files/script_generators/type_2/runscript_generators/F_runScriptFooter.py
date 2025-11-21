@@ -13,7 +13,7 @@ echo Creating the DST
 echo
 hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::RecMatch,MC::GenMatch,MC::Particle,MC::User,MC::Header,MC::Lund,MC::Event' -merge -o dst.hipo recon.hipo
 # remove extension from $lundFile
-set lundFileString = `echo $lundFile | sed 's/\.[^.]*$//'`
+set lundFileString = "$lundFile:t:r"
 set outputFileName="{0}"$lundFileString"-"$submissionID"-"$sjobID".hipo"
 echo submissionID is $submissionID
 echo sjobID is $sjobID
