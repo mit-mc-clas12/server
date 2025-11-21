@@ -23,6 +23,7 @@ cd $outDir
 mkdir -p log
 
 cp $scripts_baseDir/server/run.sh .
+cp $scripts_baseDir/server/bg_merge_bk_file.sh .
 
 
 # Downloading files for the run
