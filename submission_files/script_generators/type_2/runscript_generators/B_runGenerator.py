@@ -9,8 +9,6 @@ def B_runGenerator(scard,**kwargs):
 # Generator
 # ---------
 
-setenv XDG_RUNTIME_DIR /run/user/6635
-setenv BEARER_TOKEN_FILE /var/run/user/6635/bt_u6635
 
 echo
 echo Running pelican object get $lundFile lund.dat

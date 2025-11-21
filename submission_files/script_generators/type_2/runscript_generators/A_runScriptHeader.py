@@ -106,6 +106,14 @@ echo SQLITE Version: {1}
 echo GEMC Version: {1}
 echo COATJAVA Version: {2}
 
+
+echo setting Pelican env variables
+echo _CONDOR_CREDS: $_CONDOR_CREDS
+setenv BEARER_TOKEN_FILE "$_CONDOR_CREDS/jlab_clas12.use"
+echo " BEARER_TOKEN_FILE: $BEARER_TOKEN_FILE"
+echo " pelican: " `which pelican`
+
+
 # lund file env needed by runGenerator phase
 set lundFile     = $2
 

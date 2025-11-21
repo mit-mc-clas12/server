@@ -10,9 +10,11 @@
 
 # ls: pelican object ls osdf:///jlab-osdf/clas12/osgpool/backgroundfiles/rga_fall2018/tor+1.00_sol-1.00/40nA_10604MeV/10k/00095.hipo
 
-
-export XDG_RUNTIME_DIR=/run/user/6635
-export BEARER_TOKEN_FILE=/var/run/user/6635/bt_u6635
+echo setting Pelican env variables
+echo _CONDOR_CREDS: $_CONDOR_CREDS
+export BEARER_TOKEN_FILE="$_CONDOR_CREDS/jlab_clas12.use"
+echo " BEARER_TOKEN_FILE: $BEARER_TOKEN_FILE"
+echo " pelican: " `which pelican`
 
 configuration=$1
 fields=$2
