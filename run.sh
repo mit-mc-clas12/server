@@ -10,10 +10,7 @@
 
 FarmSubmissionID=$1
 sjob=$2
-lundFileC=$3
-
-lundFile=${lundFileC##*/}
-
+lundFile=$3
 
 # script name
 nodeScript=nodeScript.sh
