@@ -134,7 +134,7 @@ echo
 
 echo FETCHBACKGROUNDFILE START:  `date +%s`
 
-bg_merge_bk_file.sh {0} {1} {2} get
+./bg_merge_bk_file.sh {0} {1} {2} get
 
 if ($? != 0) then
 	echo bg_merge_bk_file.sh failure
