@@ -36,7 +36,7 @@ periodic_release = (NumJobCompletions < 5) && ((CurrentTime - EnteredCurrentStat
 #Requirements = (TARGET.Microarch =!= UNDEFINED) && (TARGET.Microarch =?= "x86_64-v2" || TARGET.Microarch =?= "x86_64-v3" || TARGET.Microarch =?= "x86_64-v4")  &&  (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
 Requirements = (HAS_SINGULARITY =?= TRUE) && (HAS_CVMFS_oasis_opensciencegrid_org=?=True) && (OSG_HOST_KERNEL_VERSION >= 21700) && (CVMFS_oasis_opensciencegrid_org_REVISION >= 16688) && (OSG_GLIDEIN_VERSION >= 534)
 
-#+UNDESIRED_Sites = ""MIT,LBBAT0119""
++UNDESIRED_Sites = ""NMSU_DISCOVERY,Clemson-Palmetto""
 #+UNDESIRED_Sites = ""KSU,Clemson-Palmetto""
 #+UNDESIRED_Sites = ""KSU,OSG_US_NMSU-Discovery-CE1,Clemson-Palmetto,San Diego Supercomputer Center""
 """
