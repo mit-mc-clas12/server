@@ -15,6 +15,9 @@ htcondor=$8
 
 outDir=$jobOutputDir"/"$username"/job_"$submissionID
 
+# pelican token env
+export XDG_RUNTIME_DIR=/run/user/6635
+export BEARER_TOKEN_FILE=/var/run/user/6635/bt_u6635
 
 mkdir -p $outDir
 cd $outDir
