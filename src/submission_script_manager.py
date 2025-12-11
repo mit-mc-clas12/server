@@ -66,6 +66,7 @@ def process_jobs(args, UserSubmissionID, db_conn, sql):
   # Grabs UserSubmission and gcards as described in respective files
   username = database.get_username_for_submission(UserSubmissionID, sql)
   user_id = database.get_user_id(username, sql)
+  print(f' User ID: {user_id} \n Job ID: {UserSubmissionID}')
   scard = scard_helper.scard_class(database.get_scard_text_for_submission(
     UserSubmissionID, sql))
 
