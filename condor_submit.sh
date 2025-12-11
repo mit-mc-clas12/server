@@ -73,9 +73,17 @@ elif [ "$dbType" = "Production MySQL DB" ] ; then
     # Get lund files and send job 
     python3 $scripts_baseDir/server/lund_downloader.py --url=$url --output_dir='lund_files'
 
+    # sets up your ssh agent and makes sure the environment variables are correct
+    eval `ssh-agent`
+    # gives your keys to the agent process
+    /usr/bin/ssh-add
+
     condor_submit clas12.condor 2> condorSubmissionError.txt
 
-    # Clean up 
+    # kills the agent process
+    ssh-agent -k
+
+    # Clean up
     rm msql_conn.txt
 
 else
