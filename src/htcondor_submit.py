@@ -42,7 +42,7 @@ def run_condor_and_get_output(cmd, debug_tag="condor_submit"):
 
     # Also dump to a temp file for later inspection
     try:
-        log_dir = "/home/gemc/log"
+        log_dir = "/home/gemc/logs"
         if not os.path.isdir(log_dir):
             os.makedirs(log_dir)
         log_path = os.path.join(log_dir, f"{debug_tag}.log")
