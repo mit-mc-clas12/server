@@ -9,6 +9,7 @@
 # pelican usage:
 
 # ls: pelican object ls osdf:///jlab-osdf/clas12/osgpool/backgroundfiles/rga_fall2018/tor+1.00_sol-1.00/40nA_10604MeV/10k/00095.hipo
+# original JLab location:  /work/osgpool/hallb/clas12/backgroundfiles/
 
 echo setting Pelican env variables
 echo _CONDOR_CREDS: $_CONDOR_CREDS
