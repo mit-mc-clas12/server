@@ -40,7 +40,7 @@ endif
 echo Additional cleanup
 rm -f core* *.gcard
 rm -f recon.hipo gemc.hipo gemc.merged.hipo gemc_denoised.hipo 
-rm -f run.sh nodeScript.sh condor_exec.exe
+rm -f run.sh nodeScript.sh bg_merge_bk_file.sh condor_exec.exe
 rm -f RNDMSTATUS random-seeds.txt {1}
 rm -f gemc.evio
 rm -f *.hipo 
@@ -178,4 +178,4 @@ echo DE-NOISING END:  `date +%s`
 
 """.format(inputFileForDenoiser)
 
-	return evio2hipo + mergeBackground + denoiser
+	return evio2hipo + mergeBackground + exit_after_gemc + denoiser
