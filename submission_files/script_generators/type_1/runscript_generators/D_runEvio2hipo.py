@@ -11,7 +11,7 @@ def D_runEvio2hipo(scard, **kwargs):
 
 	evio2hipo = "echo Gemc 5.1 or later has hipo output, no need to run evio2hipo"
 
-	exit_after_gemc = ""
+	exit_after_gemc = f"Output Type: {scard.output_type}"
 	if scard.output_type == '1':
 		exit_after_gemc = """
 set outputFileName="{0}"$submissionID"-"$sjobID".hipo"
