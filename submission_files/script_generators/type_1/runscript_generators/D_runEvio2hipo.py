@@ -18,7 +18,7 @@ echo Output Type: 1
 set outputFileName="{0}"$submissionID"-"$sjobID".hipo"
 echo submissionID is $submissionID
 echo sjobID is $sjobID
-echo outputFileName \(GEMC ONLY\) is $outputFileName
+echo GEMC ONLY outputFileName is $outputFileName
 
 mv {1} $outputFileName
 
