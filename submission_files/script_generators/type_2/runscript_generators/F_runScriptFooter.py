@@ -11,7 +11,7 @@ def F_runScriptFooter(scard,**kwargs):
 echo
 echo Creating the DST
 echo
-hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::RecMatch,MC::GenMatch,MC::Particle,MC::User,MC::Header,MC::Lund,MC::Event' -merge -o dst.hipo recon.hipo
+hipo-utils -filter -b 'RUN::*,RAW::epics,RAW::scaler,HEL::flip,HEL::online,REC::*,RECFT::*,MC::RecMatch,MC::GenMatch,MC::Particle,MC::User,MC::Header,MC::Lund,MC::Event,RICH::Particle,RICH::Ring' -merge -o dst.hipo recon.hipo
 # remove extension from $lundFile
 set lundFileString = `echo $lundFile | sed 's#.*/##; s/\.[^.]*$//'`
 set outputFileName="{0}"$lundFileString"-"$submissionID"-"$sjobID".hipo"
