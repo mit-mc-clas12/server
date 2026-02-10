@@ -11,6 +11,49 @@ def D_runEvio2hipo(scard, **kwargs):
 
     evio2hipo = "echo Gemc 5.1 or later has hipo output, no need to run evio2hipo"
 
+    exit_after_gemc = f"echo Output Type: {scard.output_type}"
+    if scard.output_type == '1':
+        exit_after_gemc = """
+    echo Output Type: 1
+    set outputFileName="{0}"$submissionID"-"$sjobID".hipo"
+    echo submissionID is $submissionID
+    echo sjobID is $sjobID
+    echo GEMC ONLY outputFileName is $outputFileName
+
+    mv {1} $outputFileName
+
+    # Running Pelican
+
+    echo " pelican ls /volatile for {2}: "
+    pelican object ls osdf:///jlab-osdf/clas12/volatile/osg/{2}
+    echo Running pelican on: $outputFileName
+
+    # running pelican
+    echo pelicon output to osdf:///jlab-osdf/clas12/volatile/osg/{2}/$submissionID/$outputFileName
+    /usr/bin/pelican -d object put $outputFileName osdf:///jlab-osdf/clas12/volatile/osg/{2}/$submissionID/$outputFileName
+    if ($? != 0) then
+    	echo pelican failure
+    	echo removing data files and exiting
+        rm -f *.hipo *.evio *.sqlite
+    	exit 211
+    endif
+
+    echo Additional cleanup
+    rm -f core* *.gcard
+    rm -f recon.hipo gemc.hipo gemc.merged.hipo gemc_denoised.hipo 
+    rm -f run.sh nodeScript.sh bg_merge_bk_file.sh condor_exec.exe
+    rm -f RNDMSTATUS random-seeds.txt {1}
+    rm -f gemc.evio
+    rm -f *.hipo 
+
+    echo
+    echo "Final Directory Content:"
+    ls -l
+    echo
+    echo Simulation completed, output is GEMC only. Exiting.
+    exit 0
+    """.format(scard.user_string, inputFileForDenoiser, kwargs['username'])
+
     if scard.gemcv == '4.4.2':
         evio2hipo = """
     
@@ -131,4 +174,4 @@ echo DE-NOISING END:  `date +%s`
 
 """.format(inputFileForDenoiser)
 
-    return evio2hipo + mergeBackground + denoiser
+    return evio2hipo + mergeBackground + exit_after_gemc + denoiser
