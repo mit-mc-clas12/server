@@ -21,12 +21,9 @@ from importlib import import_module
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 import farm_submission_manager
 from utils import fs
-
 from utils import get_args
-
 from utils import lund_helper
-
-import scard_helper
+from utils import scard_helper
 import update_tables
 from utils import utils
 
