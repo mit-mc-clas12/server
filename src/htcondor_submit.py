@@ -11,10 +11,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../../utils')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../../utils/scripts')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../submission_files')
 
-import fs
+from utils import fs
+
 from job_counter import shouldBeSubmitted
 import update_tables
-import utils
+from utils import utils
+
 
 
 def run_condor_and_get_output(cmd, debug_tag="condor_submit"):

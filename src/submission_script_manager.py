@@ -33,14 +33,18 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files/script_generators')
 import database
 import farm_submission_manager
-import fs
-import get_args
-import lund_helper
+from utils import fs
+
+from utils import get_args
+
+from utils import lund_helper
+
 import scard_helper
 import script_factory
 import type_manager
 import update_tables
-import utils
+from utils import utils
+
 
 
 def process_jobs(args, UserSubmissionID, db_conn, sql):

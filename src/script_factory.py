@@ -20,12 +20,16 @@ from importlib import import_module
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
 import farm_submission_manager
-import fs
-import get_args
-import lund_helper
+from utils import fs
+
+from utils import get_args
+
+from utils import lund_helper
+
 import scard_helper
 import update_tables
-import utils
+from utils import utils
+
 
 # Generates a script by appending functions that output strings
 # This function is called by submission_script_manager.py

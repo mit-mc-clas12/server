@@ -22,7 +22,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
 
 import htcondor_submit
 import update_tables
-import utils
+from utils import utils
+
 
 def farm_submission_manager(args, usub_id, file_extension,
                             scard, params, db_conn, sql):

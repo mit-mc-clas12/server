@@ -17,18 +17,19 @@ import time
 
 # this project
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
-                + '/../../utils')
+                + '/../../')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))
                 + '/../submission_files')
-import database
+
+from utils import database
 import farm_submission_manager
-import fs
-import get_args
-import lund_helper
+from utils import fs
+from utils import get_args
+from utils import lund_helper
 import script_factory
 import submission_script_manager
 import update_tables
-import utils
+from utils import utils
 
 
 def server(args):
