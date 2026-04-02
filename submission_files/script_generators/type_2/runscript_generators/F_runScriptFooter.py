@@ -46,6 +46,16 @@ echo DST Successfully created on: `date +%s`
 	strn = """	
 	{0}
 
+# Check file integrity
+hipo-utils -test $outputFileName
+
+if ($? != 0) then
+	echo hipo-utils test failure
+	echo removing data files and exiting
+    rm -f *.hipo *.evio *.sqlite
+	exit 211
+endif
+
 # Running Pelican
 
 

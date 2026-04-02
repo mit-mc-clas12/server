@@ -46,8 +46,19 @@ echo DST Successfully created on: `date +%s`
 
 {0}
 
-# Running Pelican
 
+# Check file integrity
+hipo-utils -test $outputFileName
+
+if ($? != 0) then
+	echo hipo-utils test failure
+	echo removing data files and exiting
+    rm -f *.hipo *.evio *.sqlite
+	exit 211
+endif
+
+
+# Running Pelican
 
 echo " pelican ls /volatile for {2}: "
 pelican object ls osdf:///jlab-osdf/clas12/volatile/osg/{2}
