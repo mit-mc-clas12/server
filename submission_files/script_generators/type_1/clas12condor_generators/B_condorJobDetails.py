@@ -17,7 +17,7 @@ use_oauth_services = jlab_clas12
 # Hardware requirements
 request_cpus   = {0}
 request_memory = {1} GB
-request_disk   = 4 GB
+request_disk   = 2 GB
 
 # script to be executed on the node. The arguments are defined in the FilesHandler
 Executable = {2}
